@@ -62,12 +62,11 @@ async function safeHead(url: string): Promise<boolean> {
 
     try {
         const response = await fetch(url, {
-            method: "GET",
+            method: "HEAD",
             redirect: "follow",
             signal: controller.signal,
             headers: {
                 "User-Agent": SCAN_USER_AGENT,
-                Accept: "text/plain,text/xml,application/xml,*/*",
             },
         });
 

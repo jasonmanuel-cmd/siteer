@@ -2,6 +2,7 @@ import MoneyLeak from "@/components/MoneyLeak";
 import PrintReportButton from "@/components/PrintReportButton";
 import TreatmentPlan from "@/components/TreatmentPlan";
 import VitalSigns from "@/components/VitalSigns";
+import BuyReportButton from "@/components/BuyReportButton";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
@@ -30,10 +31,14 @@ type IssueRow = {
 
 export default async function ReportPage({
     params,
+    searchParams,
 }: {
     params: { token: string };
+    searchParams: { paid?: string };
 }) {
     const token = params.token;
+    const isPaid = searchParams.paid === "true";
+
     let supabaseAdmin: ReturnType<typeof getSupabaseAdmin>;
     try {
         supabaseAdmin = getSupabaseAdmin();
@@ -42,9 +47,7 @@ export default async function ReportPage({
             <main className="mx-auto max-w-3xl px-5 py-10">
                 <h1 className="text-2xl font-semibold">Configuration required</h1>
                 <p className="mt-2 text-black/60">
-                    {error instanceof Error
-                        ? error.message
-                        : "Supabase credentials are missing."}
+                    {error instanceof Error ? error.message : "Supabase credentials are missing."}
                 </p>
             </main>
         );
@@ -60,9 +63,7 @@ export default async function ReportPage({
         return (
             <main className="mx-auto max-w-3xl px-5 py-10">
                 <h1 className="text-2xl font-semibold">Report not found</h1>
-                <p className="mt-2 text-black/60">
-                    This link is invalid or may have expired.
-                </p>
+                <p className="mt-2 text-black/60">This link is invalid or may have expired.</p>
             </main>
         );
     }
@@ -121,29 +122,48 @@ export default async function ReportPage({
                     </p>
                 </div>
                 <div className="rounded-2xl border border-red-200 bg-white/95 px-6 py-4 text-center shadow-sm">
-                    <div className="text-xs uppercase tracking-wider text-black/55">
-                        Overall Grade
-                    </div>
+                    <div className="text-xs uppercase tracking-wider text-black/55">Overall Grade</div>
                     <div className="mt-1 text-5xl font-bold">{scan.overall_grade}</div>
                 </div>
             </section>
 
             <section className="mt-8 grid gap-6 md:grid-cols-2">
                 <MoneyLeak scan={scan} />
+
                 <div className="rounded-2xl border border-black/10 bg-white/95 p-6 shadow-sm">
                     <h2 className="text-xl font-semibold">Need this fixed fast?</h2>
                     <p className="mt-2 text-sm text-black/65">
-                        We implement the top fixes and run a second scan to verify improvement.
+                        The team at{" "}
+                        <a
+                            href="https://coaibakersfield.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-red-600 hover:underline"
+                        >
+                            COAIBAKERSFIELD.COM
+                        </a>{" "}
+                        implements the top fixes and runs a second scan to verify improvement.
                     </p>
                     <a
                         className="mt-4 inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white"
-                        href="/pricing"
+                        href="/get-quote"
                     >
                         Get a Fix Quote
                     </a>
-                    <p className="mt-3 text-xs text-black/50">
-                        Typical turnaround is 3-7 business days.
-                    </p>
+                    <p className="mt-3 text-xs text-black/50">Typical turnaround is 3-7 business days.</p>
+
+                    {isPaid ? (
+                        <a
+                            href={`/scan/${token}/print`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-green-300 bg-green-50 px-4 py-2.5 text-sm font-semibold text-green-800 hover:bg-green-100 transition-colors"
+                        >
+                            Download PDF Report ↗
+                        </a>
+                    ) : (
+                        <BuyReportButton reportToken={token} />
+                    )}
                 </div>
             </section>
 
@@ -154,6 +174,25 @@ export default async function ReportPage({
             <section className="mt-8">
                 <TreatmentPlan issues={issues || []} />
             </section>
+
+            {/* COAIBAKERSFIELD attribution */}
+            <footer className="mt-16 border-t border-slate-100 pt-8">
+                <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-slate-400">
+                    <span>Generated by SiteER</span>
+                    <span>
+                        Professional fixes by{" "}
+                        <a
+                            href="https://coaibakersfield.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-slate-500 hover:text-red-600 transition-colors"
+                        >
+                            COAIBAKERSFIELD.COM
+                        </a>
+                        {" "}— AI-powered web solutions in Bakersfield, CA
+                    </span>
+                </div>
+            </footer>
         </main>
     );
 }
