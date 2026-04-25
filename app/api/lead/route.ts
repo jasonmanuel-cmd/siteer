@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
         const { data: lead, error: leadError } = await supabaseAdmin
             .from("leads")
-            .insert({ email })
+            .upsert({ email }, { onConflict: "email" })
             .select("id,email")
             .single();
 

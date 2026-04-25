@@ -8,13 +8,13 @@ create table if not exists public.profiles (
 
 create table if not exists public.leads (
     id uuid primary key default uuid_generate_v4(),
-    email text not null,
+    email text not null unique,
     created_at timestamptz default now()
 );
 
 create table if not exists public.sites (
     id uuid primary key default uuid_generate_v4(),
-    url text not null,
+    url text not null unique,
     created_at timestamptz default now()
 );
 
@@ -54,6 +54,18 @@ create table if not exists public.reports (
     created_at timestamptz default now()
 );
 
+-- Indexes
 create index if not exists scans_site_id_idx on public.scans(site_id);
 create index if not exists scan_issues_scan_id_idx on public.scan_issues(scan_id);
 create index if not exists reports_public_token_idx on public.reports(public_token);
+create index if not exists reports_lead_id_idx on public.reports(lead_id);
+
+-- Row Level Security
+-- All app operations use the service_role key (which bypasses RLS).
+-- RLS is enabled here to block direct anon-key access to every table.
+alter table public.profiles enable row level security;
+alter table public.leads enable row level security;
+alter table public.sites enable row level security;
+alter table public.scans enable row level security;
+alter table public.scan_issues enable row level security;
+alter table public.reports enable row level security;

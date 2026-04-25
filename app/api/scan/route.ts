@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
         const { data: site, error: siteError } = await supabaseAdmin
             .from("sites")
-            .insert({ url: fetched.finalUrl })
+            .upsert({ url: fetched.finalUrl }, { onConflict: "url" })
             .select("id,url")
             .single();
 

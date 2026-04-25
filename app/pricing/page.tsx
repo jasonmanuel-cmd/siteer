@@ -54,7 +54,7 @@ export default function PricingPage() {
                     </ul>
                     <a
                         className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-red-700"
-                        href="mailto:hello@yourdomain.com?subject=SiteER%20Fix%20Pack%20Quote"
+                        href={`mailto:${process.env.CONTACT_EMAIL ?? "hello@yourdomain.com"}?subject=SiteER%20Fix%20Pack%20Quote`}
                     >
                         Get a quote
                     </a>
@@ -76,7 +76,7 @@ export default function PricingPage() {
                     </ul>
                     <a
                         className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-black/15 bg-white px-4 py-2.5 text-sm font-semibold text-black hover:bg-black/5"
-                        href="mailto:hello@yourdomain.com?subject=Deep%20ER%20Report"
+                        href={`mailto:${process.env.CONTACT_EMAIL ?? "hello@yourdomain.com"}?subject=Deep%20ER%20Report`}
                     >
                         Buy report
                     </a>
