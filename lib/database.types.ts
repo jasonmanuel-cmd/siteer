@@ -195,6 +195,72 @@ export type Database = {
                 };
                 Relationships: [];
             };
+            quotes: {
+                Row: {
+                    id: string;
+                    first_name: string;
+                    last_name: string;
+                    email: string;
+                    phone: string | null;
+                    business_name: string;
+                    website_url: string | null;
+                    created_at: string;
+                };
+                Insert: {
+                    id?: string;
+                    first_name: string;
+                    last_name: string;
+                    email: string;
+                    phone?: string | null;
+                    business_name: string;
+                    website_url?: string | null;
+                    created_at?: string;
+                };
+                Update: {
+                    id?: string;
+                    first_name?: string;
+                    last_name?: string;
+                    email?: string;
+                    phone?: string | null;
+                    business_name?: string;
+                    website_url?: string | null;
+                    created_at?: string;
+                };
+                Relationships: [];
+            };
+            payments: {
+                Row: {
+                    id: string;
+                    scan_id: string | null;
+                    report_token: string | null;
+                    email: string | null;
+                    square_link_id: string | null;
+                    amount_cents: number;
+                    status: string;
+                    created_at: string;
+                };
+                Insert: {
+                    id?: string;
+                    scan_id?: string | null;
+                    report_token?: string | null;
+                    email?: string | null;
+                    square_link_id?: string | null;
+                    amount_cents?: number;
+                    status?: string;
+                    created_at?: string;
+                };
+                Update: {
+                    id?: string;
+                    scan_id?: string | null;
+                    report_token?: string | null;
+                    email?: string | null;
+                    square_link_id?: string | null;
+                    amount_cents?: number;
+                    status?: string;
+                    created_at?: string;
+                };
+                Relationships: [];
+            };
         };
         Views: {
             [_ in never]: never;

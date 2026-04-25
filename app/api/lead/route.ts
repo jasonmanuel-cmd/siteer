@@ -29,15 +29,29 @@ export async function POST(request: Request) {
         const body = LeadSchema.parse(await request.json());
         const email = body.email.trim().toLowerCase();
 
-        const { data: lead, error: leadError } = await supabaseAdmin
+        let lead: { id: string; email: string } | null = null;
+        const { data: inserted, error: insertError } = await supabaseAdmin
             .from("leads")
-            .upsert({ email }, { onConflict: "email" })
+            .insert({ email })
             .select("id,email")
             .single();
 
-        if (leadError || !lead) {
-            throw new Error(leadError?.message || "Failed to capture lead");
+        if (insertError) {
+            if (insertError.code === "23505") {
+                const { data: existing } = await supabaseAdmin
+                    .from("leads")
+                    .select("id,email")
+                    .eq("email", email)
+                    .single();
+                lead = existing;
+            } else {
+                throw new Error(insertError.message || "Failed to capture lead");
+            }
+        } else {
+            lead = inserted;
         }
+
+        if (!lead) throw new Error("Failed to capture lead");
 
         const token = crypto.randomBytes(16).toString("hex");
 

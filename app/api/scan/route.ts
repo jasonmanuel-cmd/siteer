@@ -52,15 +52,29 @@ export async function POST(request: Request) {
             overallScore: scores.overall,
         });
 
-        const { data: site, error: siteError } = await supabaseAdmin
+        let site: { id: string; url: string } | null = null;
+        const { data: insertedSite, error: siteInsertError } = await supabaseAdmin
             .from("sites")
-            .upsert({ url: fetched.finalUrl }, { onConflict: "url" })
+            .insert({ url: fetched.finalUrl })
             .select("id,url")
             .single();
 
-        if (siteError || !site) {
-            throw new Error(siteError?.message || "Failed to store site");
+        if (siteInsertError) {
+            if (siteInsertError.code === "23505") {
+                const { data: existingSite } = await supabaseAdmin
+                    .from("sites")
+                    .select("id,url")
+                    .eq("url", fetched.finalUrl)
+                    .single();
+                site = existingSite;
+            } else {
+                throw new Error(siteInsertError.message || "Failed to store site");
+            }
+        } else {
+            site = insertedSite;
         }
+
+        if (!site) throw new Error("Failed to store site");
 
         const { data: scan, error: scanError } = await supabaseAdmin
             .from("scans")
