@@ -20,6 +20,23 @@ const STEPS = [
     "Estimating revenue leak and preparing report",
 ];
 
+function normalizeInputUrl(input: string): string {
+    const trimmed = input.trim();
+    if (!trimmed) return "";
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    return `https://${trimmed}`;
+}
+
+function getSiteLabel(input: string): string {
+    const normalized = normalizeInputUrl(input);
+    if (!normalized) return "your site";
+    try {
+        return new URL(normalized).hostname.replace(/^www\./, "");
+    } catch {
+        return input.trim() || "your site";
+    }
+}
+
 function gradeColor(grade: string) {
     if (grade === "A") return "var(--er-green)";
     if (grade === "B") return "var(--er-cyan)";
@@ -28,14 +45,14 @@ function gradeColor(grade: string) {
 }
 
 function ScoreBar({ label, value }: { label: string; value: number }) {
-    const color = value >= 70 ? "var(--er-green)" : value >= 55 ? "var(--er-orange)" : "var(--er-red)";
+    const safeValue = Math.max(0, Math.min(100, value));
     return (
         <div style={{ display: "grid", gridTemplateColumns: "72px 1fr 42px", alignItems: "center", gap: 11, color: "var(--er-muted)", fontSize: "0.9rem" }}>
             <span>{label}</span>
-            <div style={{ height: 10, borderRadius: 999, background: "rgba(255,255,255,.08)", overflow: "hidden" }}>
-                <div className="bar-fill" style={{ height: "100%", borderRadius: 999, background: `linear-gradient(90deg, ${color}, ${color}cc)`, width: `${value}%` }} />
+            <div style={{ height: 10, borderRadius: 999, background: "rgba(255,255,255,.08)", overflow: "hidden", position: "relative" }}>
+                <div className="bar-fill" style={{ height: "100%", borderRadius: 999, background: "linear-gradient(90deg, #ff4d5e, #ffb15c)", width: `${safeValue}%`, boxShadow: "0 0 18px rgba(255,77,94,.32)" }} />
             </div>
-            <span>{value}</span>
+            <span>{safeValue}</span>
         </div>
     );
 }
@@ -81,7 +98,8 @@ export default function UrlScanForm() {
         }, 1600);
 
         try {
-            const body: Record<string, unknown> = { url };
+            const sanitizedUrl = normalizeInputUrl(url);
+            const body: Record<string, unknown> = { url: sanitizedUrl };
             if (visitors) body.estMonthlyVisitors = Number(visitors);
             if (conv) body.estConvRate = Number(conv) / 100;
             if (avgVal) body.estAvgValue = Number(avgVal);
@@ -139,14 +157,27 @@ export default function UrlScanForm() {
                 <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Patient intake</h3>
                 <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>Enter a website URL and optional business numbers to estimate the monthly revenue leak.</p>
 
+                <div style={{ display: "grid", gap: 9, marginBottom: 14 }}>
+                    <div style={{ borderRadius: 14, padding: "10px 12px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.84rem" }}>
+                        <strong style={{ color: "white" }}>Step 1:</strong> Enter any domain like <span style={{ color: "#ffd0d5" }}>coaibakersfield.com</span>. No need to include <span style={{ color: "#ffd0d5" }}>http://</span> or <span style={{ color: "#ffd0d5" }}>www</span>.
+                    </div>
+                    <div style={{ borderRadius: 14, padding: "10px 12px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.84rem" }}>
+                        <strong style={{ color: "white" }}>Step 2:</strong> Optional business inputs make your money-leak estimate more accurate.
+                    </div>
+                    <div style={{ borderRadius: 14, padding: "10px 12px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.84rem" }}>
+                        <strong style={{ color: "white" }}>Step 3:</strong> Click <span style={{ color: "#ffd0d5" }}>Start ER scan</span> to generate live issue scores and graph bars.
+                    </div>
+                </div>
+
                 <form id="demoForm" onSubmit={runScan}>
                     <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Website URL</label>
                     <input
                         id="demoUrl"
-                        type="url"
+                        type="text"
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
-                        placeholder="https://example.com"
+                        onBlur={(e) => setUrl(normalizeInputUrl(e.target.value))}
+                        placeholder="coaibakersfield.com"
                         required
                         style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(0,0,0,.2)", color: "white", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
                     />
@@ -265,7 +296,7 @@ export default function UrlScanForm() {
                         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 18, marginBottom: 18 }}>
                             <div>
                                 <h3 style={{ fontSize: "1.2rem", letterSpacing: "-.03em" }}>
-                                    {url ? new URL(url.startsWith("http") ? url : `https://${url}`).hostname.replace(/^www\./, "") : "your site"}
+                                    {getSiteLabel(url)}
                                 </h3>
                                 <p style={{ color: "var(--er-muted)", fontSize: "0.9rem", marginTop: 4 }}>Automated scan complete · 20+ checks performed</p>
                             </div>

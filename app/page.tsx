@@ -1,11 +1,13 @@
 import HeroUrlInput from "@/components/HeroUrlInput";
 import UrlScanForm from "@/components/UrlScanForm";
 import FaqAccordion from "@/components/FaqAccordion";
+import SplashIntro from "@/components/SplashIntro";
 import Image from "next/image";
 
 export default function HomePage() {
     return (
         <>
+            <SplashIntro />
             {/* ── NAV ── */}
             <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
                 <div className="er-container">
@@ -28,10 +30,10 @@ export default function HomePage() {
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                             <a href="#pricing" style={{ border: "1px solid rgba(255,255,255,.13)", borderRadius: 999, padding: "13px 19px", fontWeight: 800, color: "white", background: "rgba(255,255,255,.08)", fontSize: "0.9rem" }}>
-                                See pricing
+                                See <span className="cta-word">pricing</span>
                             </a>
                             <a href="#scan" style={{ border: 0, borderRadius: 999, padding: "13px 19px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "0.9rem" }}>
-                                Scan a site
+                                <span className="cta-word-dark">Scan</span> a site
                             </a>
                         </div>
                     </nav>
@@ -48,7 +50,7 @@ export default function HomePage() {
                                 Automated website triage in under 60 seconds
                             </div>
                             <h1 style={{ fontSize: "clamp(3rem, 7vw, 6.45rem)", lineHeight: 0.92, letterSpacing: "-.075em", maxWidth: 850 }}>
-                                The emergency room for{" "}
+                                The <span className="cta-word">emergency room</span> for{" "}
                                 <span style={{ background: "linear-gradient(135deg, #ffffff 15%, #ffb6bf 48%, #ffb15c 78%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
                                     sick websites.
                                 </span>
@@ -157,7 +159,7 @@ export default function HomePage() {
                         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginBottom: 34, flexWrap: "wrap" }}>
                             <div>
                                 <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Try the flow</div>
-                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Run a real ER scan.</h2>
+                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Run a real <span className="cta-word">ER scan</span>.</h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
                                 This is the live product: URL in, triage checks, teaser report, then an email gate for the full shareable report.
@@ -251,7 +253,7 @@ export default function HomePage() {
                         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginBottom: 34, flexWrap: "wrap" }}>
                             <div>
                                 <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Pricing</div>
-                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Start free. Pay when you want expert help.</h2>
+                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}><span className="cta-word">Start free</span>. Pay when you want expert help.</h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
                                 The automated ER scan captures demand. Paid tiers convert the highest-intent leads into manual reviews and implementation work.
@@ -329,7 +331,7 @@ export default function HomePage() {
                                 SiteER should feel like an instant, credible, high-urgency diagnostic tool: simple enough for owners, specific enough to justify paid fixes.
                             </p>
                             <a href="#scan" style={{ border: 0, cursor: "pointer", borderRadius: 999, padding: "15px 28px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "1rem", display: "inline-block" }}>
-                                Run a free ER scan →
+                                <span className="cta-word-dark">Run</span> a free ER scan →
                             </a>
                         </div>
                     </div>
@@ -352,6 +354,9 @@ export default function HomePage() {
                     <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
                         <a href="#diagnose" className="hover:text-white transition-colors">Diagnostics</a>
                         <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
+                        <a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a>
+                        <a href="/privacy" className="hover:text-white transition-colors">Privacy Agreement</a>
+                        <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Powered by COAIBAKERSFIELD.COM</a>
                         <a href="mailto:hello@siteer.app" className="hover:text-white transition-colors">Contact</a>
                     </div>
                 </div>

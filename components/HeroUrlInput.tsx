@@ -2,13 +2,21 @@
 
 import { useState } from "react";
 
+function normalizeInputUrl(input: string): string {
+    const trimmed = input.trim();
+    if (!trimmed) return "";
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    return `https://${trimmed}`;
+}
+
 export default function HeroUrlInput() {
     const [url, setUrl] = useState("");
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
+        const normalized = normalizeInputUrl(url);
         const demoInput = document.getElementById("demoUrl") as HTMLInputElement | null;
-        if (demoInput) demoInput.value = url;
+        if (demoInput) demoInput.value = normalized;
         const scanSection = document.getElementById("scan");
         if (scanSection) {
             scanSection.scrollIntoView({ behavior: "smooth" });
@@ -35,10 +43,11 @@ export default function HeroUrlInput() {
             }}
         >
             <input
-                type="url"
+                type="text"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://yourwebsite.com"
+                onBlur={(e) => setUrl(normalizeInputUrl(e.target.value))}
+                placeholder="yourwebsite.com"
                 required
                 aria-label="Website URL"
                 style={{
