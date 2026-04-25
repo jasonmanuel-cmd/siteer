@@ -60,6 +60,30 @@ create index if not exists scan_issues_scan_id_idx on public.scan_issues(scan_id
 create index if not exists reports_public_token_idx on public.reports(public_token);
 create index if not exists reports_lead_id_idx on public.reports(lead_id);
 
+create table if not exists public.quotes (
+    id uuid primary key default uuid_generate_v4(),
+    first_name text not null,
+    last_name text not null,
+    email text not null,
+    phone text,
+    business_name text not null,
+    website_url text,
+    created_at timestamptz default now()
+);
+
+create table if not exists public.payments (
+    id uuid primary key default uuid_generate_v4(),
+    scan_id uuid references public.scans(id) on delete set null,
+    report_token text,
+    email text,
+    square_link_id text,
+    amount_cents int not null default 4900,
+    status text not null default 'pending',
+    created_at timestamptz default now()
+);
+
+create index if not exists payments_report_token_idx on public.payments(report_token);
+
 -- Row Level Security
 -- All app operations use the service_role key (which bypasses RLS).
 -- RLS is enabled here to block direct anon-key access to every table.
@@ -69,3 +93,5 @@ alter table public.sites enable row level security;
 alter table public.scans enable row level security;
 alter table public.scan_issues enable row level security;
 alter table public.reports enable row level security;
+alter table public.quotes enable row level security;
+alter table public.payments enable row level security;

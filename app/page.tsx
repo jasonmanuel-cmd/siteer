@@ -104,8 +104,19 @@ export default function HomePage() {
                 ))}
             </section>
 
-            <footer className="mx-auto mt-20 max-w-6xl border-t border-slate-100 pt-8 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                © {new Date().getFullYear()} SiteER. Surgical Precision for Web Design.
+            <footer className="mx-auto mt-20 max-w-6xl border-t border-slate-100 pt-8 flex flex-wrap items-center justify-between gap-4 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                <span>© {new Date().getFullYear()} SiteER. Surgical Precision for Web Design.</span>
+                <span>
+                    Fixes by{" "}
+                    <a
+                        href="https://coaibakersfield.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-slate-500 hover:text-red-600 transition-colors"
+                    >
+                        COAIBAKERSFIELD.COM
+                    </a>
+                </span>
             </footer>
         </main>
     );
