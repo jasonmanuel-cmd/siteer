@@ -101,7 +101,7 @@ export default async function ReportPage({
         .returns<IssueRow[]>();
 
     return (
-        <main className="mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
+        <main className="light-page mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
             <header className="flex flex-wrap items-center justify-between gap-3">
                 <a className="text-sm font-semibold tracking-tight" href="/">
                     SiteER <span className="text-black/45">/ Report</span>

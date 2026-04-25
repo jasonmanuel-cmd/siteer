@@ -1,23 +1,14 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
 
-const fontSans = Space_Grotesk({
-    subsets: ["latin"],
-    variable: "--font-sans",
-});
-
-const fontMono = IBM_Plex_Mono({
-    subsets: ["latin"],
-    variable: "--font-mono",
-    weight: ["400", "500", "600"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "SiteER - Emergency Room for Sick Websites",
+    title: "SiteER — The Emergency Room for Sick Websites",
     description:
-        "Paste your URL. In 60 seconds, SiteER shows how much money your website is losing and the fixes to stop the bleeding.",
+        "Paste any URL and SiteER instantly finds broken performance, mobile, SEO, and trust signals — then translates the damage into a plain-English grade and estimated monthly revenue leak.",
 };
 
 export default function RootLayout({
@@ -27,7 +18,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${fontSans.variable} ${fontMono.variable} min-h-screen text-black`}>
+            <body className={inter.className}>
+                <div className="noise" aria-hidden="true" />
                 {children}
                 <Analytics />
             </body>
