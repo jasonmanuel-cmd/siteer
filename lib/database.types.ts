@@ -195,7 +195,6 @@ export type Database = {
                 };
                 Relationships: [];
             };
-        };
             quotes: {
                 Row: {
                     id: string;
