@@ -18,29 +18,29 @@ export default function MoneyLeak({ scan }: { scan: MoneyScan }) {
 
     return (
         <section className="rounded-2xl border border-black/10 bg-white/95 p-6 shadow-sm">
-            <h2 className="text-xl font-semibold">Emergency Summary</h2>
+            <h2 className="text-xl font-semibold">Your Site's Financial Impact</h2>
             <p className="mt-2 text-sm text-black/65">
-                Based on speed, mobile, SEO, and trust signals, your site likely leaks:
+                Based on website speed, mobile experience, and customer trust, here's what your site is likely costing you each month:
             </p>
             <div className="mt-4 rounded-2xl border border-red-200 bg-gradient-to-br from-red-50 to-amber-50 p-4">
                 <div className="text-xs uppercase tracking-wider text-black/55">
-                    Estimated monthly revenue loss
+                    Estimated Monthly Sales at Risk
                 </div>
                 <div className="mt-1 text-3xl font-semibold">
                     ${toCurrency(scan.est_monthly_loss_low)} - $
                     {toCurrency(scan.est_monthly_loss_high)}
                 </div>
                 <div className="mt-2 text-sm text-black/65">
-                    Risk band: about {pct}% conversion drag
+                    That's about {pct}% of your potential sales being lost
                 </div>
                 {visitorsLost > 0 ? (
                     <div className="mt-1 text-sm text-black/65">
-                        Estimated visitors at risk monthly: {visitorsLost}
+                        Affected visitors per month: ~{visitorsLost}
                     </div>
                 ) : null}
             </div>
             <p className="mt-4 text-xs text-black/55">
-                Estimates are directional and used for prioritization.
+                These estimates are directional and based on standard industry conversion rates.
             </p>
         </section>
     );

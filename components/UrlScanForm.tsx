@@ -18,10 +18,10 @@ type TeaserPayload = {
 };
 
 const STEPS = [
-    "Fetching HTML with redirects and timeout",
-    "Running speed, mobile, SEO, and trust checks",
-    "Weighting severity and calculating grade",
-    "Estimating revenue leak and preparing report",
+    "🔍 Checking your website...",
+    "⚡ Running speed tests...",
+    "🎯 Analyzing SEO & trust...",
+    "✅ Creating your report...",
 ];
 
 function normalizeInputUrl(input: string): string {
@@ -77,6 +77,7 @@ export default function UrlScanForm() {
     const [submitting, setSubmitting] = useState(false);
     const [reportUrl, setReportUrl] = useState<string | null>(null);
     const [leadError, setLeadError] = useState<string | null>(null);
+    const [showAdvanced, setShowAdvanced] = useState(false);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     async function runScan(e: React.FormEvent) {
@@ -162,43 +163,45 @@ export default function UrlScanForm() {
         <div style={{ display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: 22, alignItems: "stretch" }} className="!grid-cols-1 md:!grid-cols-[0.9fr_1.1fr]">
             {/* Left: Intake panel */}
             <div style={{ borderRadius: 30, background: "rgba(255,255,255,.075)", border: "1px solid rgba(255,255,255,.14)", boxShadow: "0 24px 80px rgba(0,0,0,.38)", padding: 26, overflow: "hidden" }}>
-                <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Patient intake</h3>
-                <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>Enter your name, email, and website so the diagnosis can be personalized before the scan starts.</p>
+                <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Your Information</h3>
+                <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>We'll scan your website and email you the results. This takes about 60 seconds.</p>
 
-                <div style={{ display: "grid", gap: 9, marginBottom: 14 }}>
-                    <div style={{ borderRadius: 14, padding: "10px 12px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.84rem" }}>
-                        <strong style={{ color: "white" }}>Step 1:</strong> Enter any domain like <span style={{ color: "#ffd0d5" }}>coaibakersfield.com</span>. No need to include <span style={{ color: "#ffd0d5" }}>http://</span> or <span style={{ color: "#ffd0d5" }}>www</span>.
+                <div style={{ display: "grid", gap: 9, marginBottom: 20 }}>
+                    <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
+                        <strong style={{ color: "white" }}>1.</strong> Fill in your name and email below
                     </div>
-                    <div style={{ borderRadius: 14, padding: "10px 12px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.84rem" }}>
-                        <strong style={{ color: "white" }}>Step 2:</strong> Optional business inputs make your money-leak estimate more accurate.
+                    <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
+                        <strong style={{ color: "white" }}>2.</strong> Paste your website URL (like: mywebsite.com)
                     </div>
-                    <div style={{ borderRadius: 14, padding: "10px 12px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.84rem" }}>
-                        <strong style={{ color: "white" }}>Step 3:</strong> Click <span style={{ color: "#ffd0d5" }}>Start ER scan</span> to generate live issue scores and graph bars.
+                    <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
+                        <strong style={{ color: "white" }}>3.</strong> Click "Scan Your Website Now" to start
                     </div>
                 </div>
 
                 <form id="demoForm" onSubmit={runScan}>
-                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Name</label>
+                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Name <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span></label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Jane Smith"
                         required
-                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
+                        maxLength={100}
+                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 16, fontSize: "1rem" }}
                     />
 
-                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Email</label>
+                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Email <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span></label>
                     <input
                         type="email"
                         value={leadEmail}
                         onChange={(e) => setLeadEmail(e.target.value)}
                         placeholder="you@company.com"
                         required
-                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
+                        maxLength={254}
+                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 16, fontSize: "1rem" }}
                     />
 
-                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Website URL</label>
+                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Website URL <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span></label>
                     <input
                         id="demoUrl"
                         type="text"
@@ -207,51 +210,81 @@ export default function UrlScanForm() {
                         onBlur={(e) => setUrl(normalizeInputUrl(e.target.value))}
                         placeholder="coaibakersfield.com"
                         required
-                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
+                        maxLength={2048}
+                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 16, fontSize: "1rem" }}
                     />
 
-                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Monthly visitors <span style={{ color: "var(--er-muted-2)", fontWeight: 400 }}>(optional)</span></label>
-                    <input
-                        type="number"
-                        min="0"
-                        value={visitors}
-                        onChange={(e) => setVisitors(e.target.value)}
-                        placeholder="e.g. 5000"
-                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
-                    />
+                    {/* Advanced Options Toggle */}
+                    {!showAdvanced && (
+                        <button
+                            type="button"
+                            onClick={() => setShowAdvanced(true)}
+                            style={{ width: "100%", marginBottom: 16, border: "1px dashed rgba(255,255,255,.25)", background: "transparent", color: "#ffb6bf", borderRadius: 14, padding: 12, fontSize: "0.95rem", fontWeight: 600, cursor: "pointer", transition: "all .3s" }}
+                        >
+                            ⚙️ Want a more accurate estimate? Show advanced options
+                        </button>
+                    )}
 
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                        <div>
-                            <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Conv. rate %</label>
+                    {showAdvanced && (
+                        <div style={{ borderRadius: 16, background: "rgba(255,77,94,.1)", border: "1px solid rgba(255,77,94,.2)", padding: 14, marginBottom: 16 }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                                <label style={{ color: "#ccdae7", fontWeight: 700, fontSize: "0.95rem" }}>Advanced Options</label>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowAdvanced(false)}
+                                    style={{ background: "transparent", border: "none", color: "var(--er-muted)", cursor: "pointer", fontSize: "1.2rem" }}
+                                >
+                                    ✕
+                                </button>
+                            </div>
+
+                            <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Monthly website visitors (optional)</label>
                             <input
                                 type="number"
                                 min="0"
-                                step="0.1"
-                                value={conv}
-                                onChange={(e) => setConv(e.target.value)}
-                                placeholder="e.g. 2.4"
-                                style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px" }}
+                                value={visitors}
+                                onChange={(e) => setVisitors(e.target.value)}
+                                placeholder="e.g. 5000"
+                                maxLength={10}
+                                style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 12, fontSize: "1rem" }}
                             />
+
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                                <div>
+                                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Conversion rate % (optional)</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="0.1"
+                                        value={conv}
+                                        onChange={(e) => setConv(e.target.value)}
+                                        placeholder="e.g. 2.4"
+                                        maxLength={6}
+                                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, fontSize: "1rem" }}
+                                    />
+                                </div>
+                                <div>
+                                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Avg. order value $ (optional)</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={avgVal}
+                                        onChange={(e) => setAvgVal(e.target.value)}
+                                        placeholder="e.g. 85"
+                                        maxLength={10}
+                                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, fontSize: "1rem" }}
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Avg. value $</label>
-                            <input
-                                type="number"
-                                min="0"
-                                value={avgVal}
-                                onChange={(e) => setAvgVal(e.target.value)}
-                                placeholder="e.g. 85"
-                                style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px" }}
-                            />
-                        </div>
-                    </div>
+                    )}
 
                     <button
                         type="submit"
                         disabled={loading || !url || !name.trim() || !leadEmail.trim()}
-                        style={{ width: "100%", marginTop: 16, border: 0, cursor: loading || !url || !name.trim() || !leadEmail.trim() ? "not-allowed" : "pointer", borderRadius: 999, padding: "15px 19px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", opacity: loading || !url || !name.trim() || !leadEmail.trim() ? 0.7 : 1 }}
+                        style={{ width: "100%", marginTop: 18, border: 0, cursor: loading || !url || !name.trim() || !leadEmail.trim() ? "not-allowed" : "pointer", borderRadius: 999, padding: "20px 24px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", opacity: loading || !url || !name.trim() || !leadEmail.trim() ? 0.7 : 1, fontSize: "1.05rem", minHeight: 60, transition: "transform .2s, box-shadow .2s" }}
                     >
-                        {loading ? "Scanning…" : "Start ER scan"}
+                        {loading ? "Scanning…" : "Scan Your Website Now"}
                     </button>
                 </form>
 

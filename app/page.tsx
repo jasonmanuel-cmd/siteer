@@ -108,11 +108,11 @@ export default function HomePage() {
                                 style={{ width: "auto", height: 42 }}
                             />
                         </a>
-                        <div style={{ display: "flex", gap: 28, alignItems: "center", color: "var(--er-muted)", fontSize: "0.95rem" }}>
-                            <a href="#diagnose" className="hover:text-white transition-colors">Diagnostics</a>
-                            <a href="/reports" className="hover:text-white transition-colors">Reports</a>
-                            <a href="/pricing" className="hover:text-white transition-colors">Pricing</a>
-                            <a href="/faq" className="hover:text-white transition-colors">FAQ</a>
+                        <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
+                            <a href="#diagnose" className="nav-link" style={{ fontWeight: 700 }}>Diagnostics</a>
+                            <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
+                            <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
+                            <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                             <a href="/pricing" style={{ border: "1px solid rgba(255,255,255,.13)", borderRadius: 999, padding: "13px 19px", fontWeight: 800, color: "white", background: "rgba(255,255,255,.08)", fontSize: "0.9rem" }}>

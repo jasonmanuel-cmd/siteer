@@ -55,6 +55,26 @@
         color: #5b6572;
         opacity: 1;
     }
+
+    /* Accessibility: Focus outlines for keyboard navigation */
+    input:focus,
+    button:focus,
+    select:focus,
+    textarea:focus {
+        outline: 3px solid var(--er-red);
+        outline-offset: 2px;
+    }
+
+    /* Larger text for readability */
+    body {
+        font-size: 1.05rem;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            font-size: 1.02rem;
+        }
+    }
 }
 
 @layer utilities {
@@ -72,6 +92,19 @@
         margin: 0 auto;
         position: relative;
         z-index: 1;
+    }
+
+    /* Navigation link styling */
+    .nav-link {
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        text-underline-offset: 6px;
+        transition: all 0.3s ease, text-decoration-color 0.3s;
+    }
+
+    .nav-link:hover {
+        color: white;
+        text-decoration-color: currentColor;
     }
 
     /* Light override for inner pages (report, pricing, etc.) */
