@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Issue } from "@/lib/scan/analyzeHtml";
 import { Button, Card, Input } from "@/components/ui";
 
@@ -31,15 +31,22 @@ function severityBadge(severity: string): string {
 
 export default function ReportTeaser({
     teaser,
+    customerName,
+    initialEmail,
     onClose,
 }: {
     teaser: Teaser;
+    customerName?: string;
+    initialEmail?: string;
     onClose: () => void;
 }) {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(initialEmail || "");
     const [submitting, setSubmitting] = useState(false);
     const [reportUrl, setReportUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const dialogRef = useRef<HTMLDivElement | null>(null);
+    const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+    const emailInputId = "report-teaser-email";
 
     const lossLow = useMemo(() => Number(teaser.money.lossLow) || 0, [teaser.money.lossLow]);
     const lossHigh = useMemo(
@@ -50,6 +57,51 @@ export default function ReportTeaser({
     const estVisitorsLost = Math.round(
         (Number(teaser.money.visitors) || 0) * (Number(teaser.money.lossPct) || 0),
     );
+
+    useEffect(() => {
+        if (initialEmail) {
+            setEmail(initialEmail);
+        }
+    }, [initialEmail]);
+
+    useEffect(() => {
+        closeButtonRef.current?.focus();
+
+        function handleKeyDown(event: KeyboardEvent) {
+            if (event.key === "Escape") {
+                event.preventDefault();
+                onClose();
+                return;
+            }
+
+            if (event.key !== "Tab") return;
+
+            const dialog = dialogRef.current;
+            if (!dialog) return;
+
+            const focusable = Array.from(
+                dialog.querySelectorAll<HTMLElement>(
+                    'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+                ),
+            ).filter((element) => !element.hasAttribute("disabled"));
+
+            if (!focusable.length) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [onClose]);
 
     async function captureLead() {
         setSubmitting(true);
@@ -82,18 +134,34 @@ export default function ReportTeaser({
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
-            <Card className="w-full max-w-3xl border-red-200/70">
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4"
+            onMouseDown={(event) => {
+                if (event.target === event.currentTarget) {
+                    onClose();
+                }
+            }}
+        >
+            <Card
+                ref={dialogRef}
+                className="w-full max-w-3xl border-red-200/70"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="report-teaser-title"
+                aria-describedby="report-teaser-description"
+                tabIndex={-1}
+            >
                 <div className="flex items-start justify-between gap-4">
                     <div>
                         <div className="text-xs font-mono uppercase tracking-[0.16em] text-red-600">
                             Emergency Summary
                         </div>
-                        <h3 className="mt-1 text-2xl font-semibold text-balance">
-                            Your website is likely leaking customers right now.
+                        <h3 id="report-teaser-title" className="mt-1 text-2xl font-semibold text-balance">
+                            {customerName ? `${customerName}, your website is likely leaking customers right now.` : "Your website is likely leaking customers right now."}
                         </h3>
                     </div>
                     <button
+                        ref={closeButtonRef}
                         className="rounded-lg p-2 text-black/50 hover:bg-black/5"
                         onClick={onClose}
                         type="button"
@@ -151,6 +219,9 @@ export default function ReportTeaser({
                 </div>
 
                 <div className="mt-6 rounded-2xl border border-black/10 bg-black/[0.03] p-4">
+                    <p id="report-teaser-description" className="sr-only">
+                        Summary of your scan results with a field to unlock the full report by email.
+                    </p>
                     {!reportUrl ? (
                         <>
                             <div className="text-sm font-semibold">Unlock the full ER report</div>
@@ -159,11 +230,17 @@ export default function ReportTeaser({
                                 report link.
                             </p>
                             <div className="mt-4 flex flex-col gap-3 md:flex-row">
+                                <label className="sr-only" htmlFor={emailInputId}>
+                                    Email address
+                                </label>
                                 <Input
+                                    id={emailInputId}
                                     type="email"
                                     placeholder="you@business.com"
                                     value={email}
                                     onChange={(event) => setEmail(event.target.value)}
+                                    autoComplete="email"
+                                    autoFocus
                                 />
                                 <Button
                                     type="button"

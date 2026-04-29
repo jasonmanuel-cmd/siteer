@@ -1,3 +1,37 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Pricing",
+    description:
+        "See SiteER pricing for free website diagnosis, ER Fix Pack implementation, and deep manual reports powered by COAIBAKERSFIELD.COM.",
+    alternates: {
+        canonical: "/pricing",
+    },
+    openGraph: {
+        title: "Pricing | SiteER",
+        description:
+            "Compare the free scan, ER Fix Pack, and Deep ER Report options.",
+        url: "https://siteer.dev/pricing",
+        siteName: "SiteER",
+        type: "website",
+        images: [
+            {
+                url: "/og-image.png",
+                width: 1200,
+                height: 630,
+                alt: "SiteER pricing preview",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Pricing | SiteER",
+        description:
+            "Compare the free scan, ER Fix Pack, and Deep ER Report options.",
+        images: ["/og-image.png"],
+    },
+};
+
 export default function PricingPage() {
     return (
         <main className="mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
@@ -22,12 +56,12 @@ export default function PricingPage() {
                         className="font-semibold text-red-600 hover:underline"
                     >
                         COAIBAKERSFIELD.COM
-                    </a>.
+                    </a>
+                    .
                 </p>
             </section>
 
             <section className="mt-10 grid gap-5 md:grid-cols-3">
-                {/* Free */}
                 <article className="rounded-2xl border border-black/10 bg-white/90 p-6 shadow-sm">
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-black/55">
                         Free ER Scan
@@ -47,7 +81,6 @@ export default function PricingPage() {
                     </a>
                 </article>
 
-                {/* Fix Pack */}
                 <article className="rounded-2xl border border-red-300 bg-gradient-to-b from-red-700 to-red-800 p-6 text-white shadow-[0_18px_45px_-22px_rgba(153,27,27,0.75)]">
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-red-100">
                         ER Fix Pack
@@ -79,7 +112,6 @@ export default function PricingPage() {
                     </a>
                 </article>
 
-                {/* Deep ER Report */}
                 <article className="rounded-2xl border border-black/10 bg-white/90 p-6 shadow-sm">
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-black/55">
                         Deep ER Report
@@ -115,16 +147,17 @@ export default function PricingPage() {
                 </article>
             </section>
 
-            {/* COAIBAKERSFIELD banner */}
             <section className="mt-12 rounded-2xl border border-slate-100 bg-slate-50 p-8">
                 <div className="flex flex-wrap items-center justify-between gap-6">
                     <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-red-600">Implemented by</div>
+                        <div className="text-xs font-bold uppercase tracking-wider text-red-600">
+                            Implemented by
+                        </div>
                         <h2 className="mt-2 text-2xl font-bold text-slate-900">COAIBAKERSFIELD.COM</h2>
                         <p className="mt-2 max-w-lg text-sm text-slate-600">
-                            AI-powered web solutions based in Bakersfield, CA. We don't just diagnose — we fix,
-                            verify, and report back. Every ER Fix Pack comes with a before/after re-scan so you
-                            can see the improvement in real numbers.
+                            AI-powered web solutions based in Bakersfield, CA. We do not just diagnose
+                            — we fix, verify, and report back. Every ER Fix Pack comes with a before/after
+                            re-scan so you can see the improvement in real numbers.
                         </p>
                     </div>
                     <a
@@ -134,6 +167,39 @@ export default function PricingPage() {
                         className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
                     >
                         Visit COAIBAKERSFIELD.COM →
+                    </a>
+                </div>
+            </section>
+
+            <section className="mt-12 rounded-2xl border border-black/10 bg-white/90 p-8 shadow-sm">
+                <div className="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <div className="text-xs font-bold uppercase tracking-wider text-red-600">
+                            SEO cluster
+                        </div>
+                        <h2 className="mt-2 text-2xl font-bold text-slate-900">
+                            Learn the fixes before you buy them
+                        </h2>
+                    </div>
+                    <a
+                        className="text-sm font-semibold text-red-700 underline decoration-red-300 underline-offset-2"
+                        href="/blog"
+                    >
+                        Browse the guides
+                    </a>
+                </div>
+                <div className="mt-5 grid gap-4 md:grid-cols-3">
+                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/local-business-website-mistakes">
+                        <div className="text-sm font-semibold">Local business mistakes</div>
+                        <p className="mt-1 text-sm text-black/60">What leaks leads on service sites.</p>
+                    </a>
+                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/mobile-page-speed-fixes">
+                        <div className="text-sm font-semibold">Mobile speed fixes</div>
+                        <p className="mt-1 text-sm text-black/60">Fast wins for users on phones.</p>
+                    </a>
+                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/website-not-bringing-customers">
+                        <div className="text-sm font-semibold">Customer conversion leaks</div>
+                        <p className="mt-1 text-sm text-black/60">How to turn visits into calls.</p>
                     </a>
                 </div>
             </section>

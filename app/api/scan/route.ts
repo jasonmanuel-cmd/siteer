@@ -158,6 +158,17 @@ export async function POST(request: Request) {
         });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Scan failed";
-        return NextResponse.json({ ok: false, error: message }, { status: 400 });
+        
+        // Sanitize error message to not expose internal implementation
+        const sanitizedError = message.includes("Supabase") || 
+                               message.includes("connection") ||
+                               message.includes("timeout") ||
+                               message.includes("Cheerio") ||
+                               message.includes("Failed to store")
+            ? "Failed to process your URL. Please try again or contact support."
+            : message;
+        
+        console.error("[/api/scan] Error:", message);
+        return NextResponse.json({ ok: false, error: sanitizedError }, { status: 400 });
     }
 }

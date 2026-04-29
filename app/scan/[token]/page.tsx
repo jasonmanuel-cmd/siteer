@@ -1,11 +1,15 @@
-import MoneyLeak from "@/components/MoneyLeak";
-import PrintReportButton from "@/components/PrintReportButton";
+import nextDynamic from "next/dynamic";
+const PrintReportButton = nextDynamic(() => import("@/components/PrintReportButton"), { ssr: false, loading: () => null });
+const BuyReportButton = nextDynamic(() => import("@/components/BuyReportButton"), { ssr: false, loading: () => null });
+const MoneyLeak = nextDynamic(() => import("@/components/MoneyLeak"), { ssr: false, loading: () => null });
+const VitalSigns = nextDynamic(() => import("@/components/VitalSigns"), { ssr: false, loading: () => null });
 import TreatmentPlan from "@/components/TreatmentPlan";
-import VitalSigns from "@/components/VitalSigns";
-import BuyReportButton from "@/components/BuyReportButton";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+const BASE_URL = "https://siteer.dev";
 
 type ScanRow = {
     id: string;
@@ -28,6 +32,70 @@ type IssueRow = {
     description: string;
     recommendation: string;
 };
+
+async function loadReportSummary(token: string) {
+    const supabaseAdmin = getSupabaseAdmin();
+
+    const { data: report } = await supabaseAdmin
+        .from("reports")
+        .select("scan_id,public_token")
+        .eq("public_token", token)
+        .single();
+
+    if (!report?.scan_id) return null;
+
+    const { data: scan } = await supabaseAdmin
+        .from("scans")
+        .select("id,created_at,overall_grade,speed_score,mobile_score,seo_score,trust_score")
+        .eq("id", report.scan_id)
+        .single<ScanRow>();
+
+    if (!scan) return null;
+
+    return scan;
+}
+
+export async function generateMetadata({ params }: { params: { token: string } }): Promise<Metadata> {
+    try {
+        const scan = await loadReportSummary(params.token);
+
+        if (!scan) {
+            return {
+                title: "SiteER Report",
+                description: "View your SiteER scan results and treatment plan.",
+                robots: {
+                    index: false,
+                    follow: false,
+                },
+            };
+        }
+
+        return {
+            title: `SiteER Report - Grade ${scan.overall_grade}`,
+            description: `View the SiteER scan for this site. Grade ${scan.overall_grade} across speed, mobile, SEO, and trust with a prioritized treatment plan.`,
+            robots: {
+                index: false,
+                follow: false,
+            },
+            openGraph: {
+                title: `SiteER Report - Grade ${scan.overall_grade}`,
+                description: `Scan results for this site with a prioritized treatment plan.`,
+                url: `${BASE_URL}/scan/${params.token}`,
+                siteName: "SiteER",
+                type: "website",
+            },
+        };
+    } catch {
+        return {
+            title: "SiteER Report",
+            description: "View your SiteER scan results and treatment plan.",
+            robots: {
+                index: false,
+                follow: false,
+            },
+        };
+    }
+}
 
 export default async function ReportPage({
     params,

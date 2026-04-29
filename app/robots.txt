@@ -2,6 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /scan/*
-Allow: /scan/
 
-Sitemap: https://siteer.com/sitemap.xml
+Sitemap: https://siteer.app/sitemap.xml

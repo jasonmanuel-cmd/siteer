@@ -1,5 +1,11 @@
 export const metadata = {
     title: "Privacy Agreement | SiteER",
+    description:
+        "How SiteER stores and uses scan results, lead details, and support requests.",
+    robots: {
+        index: false,
+        follow: false,
+    },
 };
 
 export default function PrivacyPage() {
@@ -9,7 +15,7 @@ export default function PrivacyPage() {
                 Privacy Agreement
             </h1>
             <p style={{ color: "var(--er-muted)", lineHeight: 1.75, maxWidth: 850 }}>
-                SiteER stores scan and lead data to generate report links, improve diagnostics, and communicate requested results. We do not sell your personal information. Contact hello@siteer.app for deletion or data access requests.
+                SiteER stores scan and lead data to generate report links, improve diagnostics, and communicate requested results. We do not sell your personal information. Contact hello@siteer.dev for deletion or data access requests.
             </p>
         </main>
     );

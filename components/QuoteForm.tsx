@@ -72,8 +72,9 @@ export default function QuoteForm() {
         <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid gap-5 md:grid-cols-2">
                 <div>
-                    <label className={labelClass}>First Name <span className="text-red-500">*</span></label>
+                    <label htmlFor="quote-first-name" className={labelClass}>First Name <span className="text-red-500">*</span></label>
                     <input
+                        id="quote-first-name"
                         required
                         className={inputClass}
                         placeholder="Jane"
@@ -82,8 +83,9 @@ export default function QuoteForm() {
                     />
                 </div>
                 <div>
-                    <label className={labelClass}>Last Name <span className="text-red-500">*</span></label>
+                    <label htmlFor="quote-last-name" className={labelClass}>Last Name <span className="text-red-500">*</span></label>
                     <input
+                        id="quote-last-name"
                         required
                         className={inputClass}
                         placeholder="Smith"
@@ -94,8 +96,9 @@ export default function QuoteForm() {
             </div>
 
             <div>
-                <label className={labelClass}>Email <span className="text-red-500">*</span></label>
+                <label htmlFor="quote-email" className={labelClass}>Email <span className="text-red-500">*</span></label>
                 <input
+                    id="quote-email"
                     required
                     type="email"
                     className={inputClass}
@@ -106,8 +109,9 @@ export default function QuoteForm() {
             </div>
 
             <div>
-                <label className={labelClass}>Phone Number</label>
+                <label htmlFor="quote-phone" className={labelClass}>Phone Number</label>
                 <input
+                    id="quote-phone"
                     type="tel"
                     className={inputClass}
                     placeholder="(661) 555-0100"
@@ -117,8 +121,9 @@ export default function QuoteForm() {
             </div>
 
             <div>
-                <label className={labelClass}>Business Name <span className="text-red-500">*</span></label>
+                <label htmlFor="quote-business-name" className={labelClass}>Business Name <span className="text-red-500">*</span></label>
                 <input
+                    id="quote-business-name"
                     required
                     className={inputClass}
                     placeholder="Acme Co."
@@ -128,8 +133,9 @@ export default function QuoteForm() {
             </div>
 
             <div>
-                <label className={labelClass}>Website URL</label>
+                <label htmlFor="quote-website-url" className={labelClass}>Website URL</label>
                 <input
+                    id="quote-website-url"
                     type="url"
                     className={inputClass}
                     placeholder="https://yourbusiness.com"

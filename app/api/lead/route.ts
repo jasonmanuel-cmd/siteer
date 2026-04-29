@@ -75,8 +75,16 @@ export async function POST(request: Request) {
             reportUrl: `${appUrl}/scan/${report.public_token}`,
         });
     } catch (error) {
-        const message =
-            error instanceof Error ? error.message : "Lead capture failed";
-        return NextResponse.json({ ok: false, error: message }, { status: 400 });
+        const message = error instanceof Error ? error.message : "Lead capture failed";
+        
+        // Sanitize error message to not expose internal implementation
+        const sanitizedError = message.includes("Supabase") ||
+                               message.includes("connection") ||
+                               message.includes("timeout")
+            ? "Failed to capture your email. Please try again."
+            : message;
+        
+        console.error("[/api/lead] Error:", message);
+        return NextResponse.json({ ok: false, error: sanitizedError }, { status: 400 });
     }
 }

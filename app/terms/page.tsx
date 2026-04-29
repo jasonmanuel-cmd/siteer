@@ -1,5 +1,11 @@
 export const metadata = {
     title: "Terms & Conditions | SiteER",
+    description:
+        "Terms for using SiteER scans, estimates, and implementation services.",
+    robots: {
+        index: false,
+        follow: false,
+    },
 };
 
 export default function TermsPage() {

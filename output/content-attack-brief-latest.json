@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-04-25T15:55:13Z",
+  "week_of": "April 25, 2026",
+  "domain": "example.com",
+  "topic_fingerprint": {},
+  "all_keywords": [],
+  "competitor_gaps": [],
+  "decaying_pages": [],
+  "summary": {
+    "total_keywords": 0,
+    "competitor_gaps": 0,
+    "decaying_pages": 0,
+    "bofu": 0,
+    "mofu": 0,
+    "tofu": 0,
+    "auto_create": 0,
+    "auto_refresh": 0,
+    "surging": 0
+  }
+}

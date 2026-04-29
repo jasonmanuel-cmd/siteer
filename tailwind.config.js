@@ -5,6 +5,14 @@ module.exports = {
         './components/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
+        container: {
+            center: true,
+            padding: {
+                DEFAULT: "1rem",
+                sm: "1rem",
+                lg: "2rem",
+            },
+        },
         extend: {
             fontFamily: {
                 sans: [

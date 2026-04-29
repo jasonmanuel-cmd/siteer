@@ -70,6 +70,16 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Quote submission failed";
-        return NextResponse.json({ ok: false, error: message }, { status: 400 });
+        
+        // Sanitize error message to not expose internal implementation
+        const sanitizedError = message.includes("Supabase") ||
+                               message.includes("connection") ||
+                               message.includes("Resend") ||
+                               message.includes("timeout")
+            ? "Failed to submit your quote. Please try again or contact support."
+            : message;
+        
+        console.error("[/api/quote] Error:", message);
+        return NextResponse.json({ ok: false, error: sanitizedError }, { status: 400 });
     }
 }

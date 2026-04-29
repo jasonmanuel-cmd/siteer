@@ -88,6 +88,16 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true, checkoutUrl: squareData.payment_link.url });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Payment setup failed";
-        return NextResponse.json({ ok: false, error: message }, { status: 400 });
+        
+        // Sanitize error message to not expose internal implementation
+        const sanitizedError = message.includes("Square") ||
+                               message.includes("Supabase") ||
+                               message.includes("connection") ||
+                               message.includes("timeout")
+            ? "Failed to set up payment. Please try again."
+            : message;
+        
+        console.error("[/api/square] Error:", message);
+        return NextResponse.json({ ok: false, error: sanitizedError }, { status: 400 });
     }
 }

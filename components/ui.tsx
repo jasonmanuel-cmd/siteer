@@ -42,17 +42,17 @@ export function Input({
     );
 }
 
-export function Card({
-    className,
-    ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-    return (
-        <div
-            className={cn(
-                "rounded-2xl border border-black/10 bg-white/95 p-6 shadow-[0_14px_40px_-28px_rgba(0,0,0,0.6)]",
-                className,
-            )}
-            {...props}
-        />
-    );
-}
+export const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+    function Card({ className, ...props }, ref) {
+        return (
+            <div
+                ref={ref}
+                className={cn(
+                    "rounded-2xl border border-black/10 bg-white/95 p-6 shadow-[0_14px_40px_-28px_rgba(0,0,0,0.6)]",
+                    className,
+                )}
+                {...props}
+            />
+        );
+    },
+);

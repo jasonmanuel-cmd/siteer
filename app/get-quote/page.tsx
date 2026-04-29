@@ -1,6 +1,38 @@
-import QuoteForm from "@/components/QuoteForm";
+import type { Metadata } from "next";
+import dynamic from "next/dynamic";
+const QuoteForm = dynamic(() => import("@/components/QuoteForm"), { ssr: false, loading: () => null });
 
-export const metadata = { title: "Get a Fix Quote — SiteER" };
+export const metadata: Metadata = {
+    title: "Get a Fix Quote",
+    description:
+        "Request a custom SiteER fix quote and get implementation support for your highest-impact SEO, speed, and conversion issues.",
+    alternates: {
+        canonical: "/get-quote",
+    },
+    openGraph: {
+        title: "Get a Fix Quote | SiteER",
+        description:
+            "Request a custom fix quote for your highest-impact website issues.",
+        url: "https://siteer.dev/get-quote",
+        siteName: "SiteER",
+        type: "website",
+        images: [
+            {
+                url: "/og-image.png",
+                width: 1200,
+                height: 630,
+                alt: "SiteER quote preview",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Get a Fix Quote | SiteER",
+        description:
+            "Request a custom fix quote for your highest-impact website issues.",
+        images: ["/og-image.png"],
+    },
+};
 
 export default function GetQuotePage() {
     return (

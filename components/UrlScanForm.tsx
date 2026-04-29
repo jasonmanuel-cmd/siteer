@@ -1,6 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState, useRef } from "react";
+
+const ReportTeaser = dynamic(() => import("./ReportTeaser"), { ssr: false, loading: () => null });
+const ScanningOverlay = dynamic(() => import("./ScanningOverlay"), { ssr: false, loading: () => null });
 import type { Issue } from "@/lib/scan/analyzeHtml";
 
 type TeaserPayload = {
@@ -58,7 +62,9 @@ function ScoreBar({ label, value }: { label: string; value: number }) {
 }
 
 export default function UrlScanForm() {
+    const [name, setName] = useState("");
     const [url, setUrl] = useState("");
+    const [leadEmail, setLeadEmail] = useState("");
     const [visitors, setVisitors] = useState("");
     const [conv, setConv] = useState("");
     const [avgVal, setAvgVal] = useState("");
@@ -100,6 +106,8 @@ export default function UrlScanForm() {
         try {
             const sanitizedUrl = normalizeInputUrl(url);
             const body: Record<string, unknown> = { url: sanitizedUrl };
+            if (name.trim()) body.name = name.trim();
+            if (leadEmail.trim()) body.email = leadEmail.trim();
             if (visitors) body.estMonthlyVisitors = Number(visitors);
             if (conv) body.estConvRate = Number(conv) / 100;
             if (avgVal) body.estAvgValue = Number(avgVal);
@@ -135,7 +143,7 @@ export default function UrlScanForm() {
             const res = await fetch("/api/lead", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify({ email, scanId: teaser.scanId }),
+                body: JSON.stringify({ email: leadEmail, scanId: teaser.scanId }),
             });
             const data = (await res.json()) as { ok?: boolean; reportUrl?: string; error?: string };
             if (!res.ok || !data.ok || !data.reportUrl) throw new Error(data.error || "Unable to unlock report");
@@ -155,7 +163,7 @@ export default function UrlScanForm() {
             {/* Left: Intake panel */}
             <div style={{ borderRadius: 30, background: "rgba(255,255,255,.075)", border: "1px solid rgba(255,255,255,.14)", boxShadow: "0 24px 80px rgba(0,0,0,.38)", padding: 26, overflow: "hidden" }}>
                 <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Patient intake</h3>
-                <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>Enter a website URL and optional business numbers to estimate the monthly revenue leak.</p>
+                <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>Enter your name, email, and website so the diagnosis can be personalized before the scan starts.</p>
 
                 <div style={{ display: "grid", gap: 9, marginBottom: 14 }}>
                     <div style={{ borderRadius: 14, padding: "10px 12px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.84rem" }}>
@@ -170,6 +178,26 @@ export default function UrlScanForm() {
                 </div>
 
                 <form id="demoForm" onSubmit={runScan}>
+                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Name</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Jane Smith"
+                        required
+                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
+                    />
+
+                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Email</label>
+                    <input
+                        type="email"
+                        value={leadEmail}
+                        onChange={(e) => setLeadEmail(e.target.value)}
+                        placeholder="you@company.com"
+                        required
+                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
+                    />
+
                     <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Website URL</label>
                     <input
                         id="demoUrl"
@@ -179,7 +207,7 @@ export default function UrlScanForm() {
                         onBlur={(e) => setUrl(normalizeInputUrl(e.target.value))}
                         placeholder="coaibakersfield.com"
                         required
-                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(0,0,0,.2)", color: "white", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
+                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
                     />
 
                     <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Monthly visitors <span style={{ color: "var(--er-muted-2)", fontWeight: 400 }}>(optional)</span></label>
@@ -189,7 +217,7 @@ export default function UrlScanForm() {
                         value={visitors}
                         onChange={(e) => setVisitors(e.target.value)}
                         placeholder="e.g. 5000"
-                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(0,0,0,.2)", color: "white", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
+                        style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px", marginBottom: 13 }}
                     />
 
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
@@ -202,7 +230,7 @@ export default function UrlScanForm() {
                                 value={conv}
                                 onChange={(e) => setConv(e.target.value)}
                                 placeholder="e.g. 2.4"
-                                style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(0,0,0,.2)", color: "white", borderRadius: 16, padding: "15px 16px" }}
+                                style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px" }}
                             />
                         </div>
                         <div>
@@ -213,15 +241,15 @@ export default function UrlScanForm() {
                                 value={avgVal}
                                 onChange={(e) => setAvgVal(e.target.value)}
                                 placeholder="e.g. 85"
-                                style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(0,0,0,.2)", color: "white", borderRadius: 16, padding: "15px 16px" }}
+                                style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "15px 16px" }}
                             />
                         </div>
                     </div>
 
                     <button
                         type="submit"
-                        disabled={loading || !url}
-                        style={{ width: "100%", marginTop: 16, border: 0, cursor: loading || !url ? "not-allowed" : "pointer", borderRadius: 999, padding: "15px 19px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", opacity: loading || !url ? 0.7 : 1 }}
+                        disabled={loading || !url || !name.trim() || !leadEmail.trim()}
+                        style={{ width: "100%", marginTop: 16, border: 0, cursor: loading || !url || !name.trim() || !leadEmail.trim() ? "not-allowed" : "pointer", borderRadius: 999, padding: "15px 19px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", opacity: loading || !url || !name.trim() || !leadEmail.trim() ? 0.7 : 1 }}
                     >
                         {loading ? "Scanning…" : "Start ER scan"}
                     </button>
@@ -296,7 +324,7 @@ export default function UrlScanForm() {
                         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 18, marginBottom: 18 }}>
                             <div>
                                 <h3 style={{ fontSize: "1.2rem", letterSpacing: "-.03em" }}>
-                                    {getSiteLabel(url)}
+                                    {name.trim() ? `${name.trim()}, ` : ""}{getSiteLabel(url)}
                                 </h3>
                                 <p style={{ color: "var(--er-muted)", fontSize: "0.9rem", marginTop: 4 }}>Automated scan complete · 20+ checks performed</p>
                             </div>
@@ -358,16 +386,16 @@ export default function UrlScanForm() {
                                     <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                                         <input
                                             type="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
+                                            value={leadEmail}
+                                            onChange={(e) => setLeadEmail(e.target.value)}
                                             placeholder="you@company.com"
                                             required
-                                            style={{ flex: 1, minWidth: 180, border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(0,0,0,.2)", color: "white", borderRadius: 16, padding: "13px 16px" }}
+                                            style={{ flex: 1, minWidth: 180, border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "13px 16px" }}
                                         />
                                         <button
                                             type="submit"
-                                            disabled={submitting || !email}
-                                            style={{ border: 0, cursor: submitting || !email ? "not-allowed" : "pointer", borderRadius: 999, padding: "13px 18px", fontWeight: 800, fontSize: "0.88rem", color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", opacity: submitting || !email ? 0.7 : 1 }}
+                                            disabled={submitting || !leadEmail}
+                                            style={{ border: 0, cursor: submitting || !leadEmail ? "not-allowed" : "pointer", borderRadius: 999, padding: "13px 18px", fontWeight: 800, fontSize: "0.88rem", color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", opacity: submitting || !leadEmail ? 0.7 : 1 }}
                                         >
                                             {submitting ? "Sending…" : "Send report"}
                                         </button>
@@ -392,6 +420,10 @@ export default function UrlScanForm() {
                     </div>
                 )}
             </div>
+            {/* Lazy-loaded overlays (only load when needed) */}
+            {loading && (
+                <ScanningOverlay />
+            )}
         </div>
     );
 }
