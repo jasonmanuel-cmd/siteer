@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { consumeRateLimit, getClientIp } from "@/lib/rateLimit";
+import { generateCsrfToken } from "@/lib/csrf";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const runtime = "nodejs";
@@ -13,12 +14,12 @@ const LeadSchema = z.object({
 
 export async function POST(request: Request) {
     const ip = getClientIp(request);
-    const limiter = consumeRateLimit(`lead:${ip}`, 20, 60_000);
+    const limiter = consumeRateLimit(`lead:${ip}`, 5, 60_000);
     if (!limiter.ok) {
         return NextResponse.json(
             {
                 ok: false,
-                error: "Too many submissions. Please wait and try again.",
+                error: "Too many submissions. Please wait a moment and try again.",
             },
             { status: 429 },
         );
@@ -70,9 +71,12 @@ export async function POST(request: Request) {
         }
 
         const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+        const csrfToken = generateCsrfToken();
+        
         return NextResponse.json({
             ok: true,
             reportUrl: `${appUrl}/scan/${report.public_token}`,
+            csrfToken: csrfToken,
         });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Lead capture failed";

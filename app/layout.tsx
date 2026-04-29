@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import dynamic from "next/dynamic";
 import "@/app/globals.css";
+
+const TextSizeToggle = dynamic(() => import("@/components/TextSizeToggle"), { ssr: false });
 
 export const metadata: Metadata = {
     metadataBase: new URL("https://siteer.dev"),
@@ -116,6 +119,7 @@ export default function RootLayout({
             <body>
                 <div className="noise" aria-hidden="true" />
                 {children}
+                <TextSizeToggle />
                 <Analytics />
             </body>
         </html>

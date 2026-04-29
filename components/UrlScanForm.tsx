@@ -82,6 +82,14 @@ export default function UrlScanForm() {
 
     async function runScan(e: React.FormEvent) {
         e.preventDefault();
+        
+        // Honeypot validation: if this hidden field has a value, reject (it's a bot)
+        const form = e.currentTarget as HTMLFormElement;
+        const honeypot = (form.querySelector('input[name="website_url"]') as HTMLInputElement)?.value;
+        if (honeypot) {
+            return; // Silently reject bot submissions
+        }
+
         setLoading(true);
         setError(null);
         setTeaser(null);
@@ -179,6 +187,15 @@ export default function UrlScanForm() {
                 </div>
 
                 <form id="demoForm" onSubmit={runScan}>
+                    {/* Honeypot field to prevent bot submissions */}
+                    <input
+                        type="hidden"
+                        name="website_url"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        style={{ display: "none" }}
+                    />
+
                     <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Name <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span></label>
                     <input
                         type="text"
