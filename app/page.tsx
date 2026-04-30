@@ -6,7 +6,7 @@ const UrlScanForm = dynamic(() => import("@/components/UrlScanForm"), { ssr: fal
 const ExitIntentPopup = dynamic(() => import("@/components/ExitIntentPopup"), { ssr: false, loading: () => null });
 const LiveChatButton = dynamic(() => import("@/components/LiveChatButton"), { ssr: false, loading: () => null });
 const LiveScanCounter = dynamic(() => import("@/components/LiveScanCounter"), { ssr: false, loading: () => null });
-const VideoDemo = dynamic(() => import("@/components/VideoDemo"), { ssr: false, loading: () => null });
+// Video demo intentionally removed from homepage per design request
 import Image from "next/image";
 
 const BASE_URL = "https://siteer.dev";
@@ -260,7 +260,6 @@ export default function HomePage() {
                             </p>
                         </div>
                         <UrlScanForm />
-                        <VideoDemo title="See the SiteER Scan in Action" loomUrl="https://www.loom.com/embed/your-video-id" />
                     </div>
                 </section>
 

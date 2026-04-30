@@ -111,6 +111,15 @@
         z-index: 1;
     }
 
+    /* Dark card style used on homepage for consistent site look */
+    .card-dark {
+        border-radius: 24px;
+        padding: 22px;
+        background: var(--er-card);
+        border: 1px solid var(--er-stroke);
+        box-shadow: 0 20px 60px rgba(0,0,0,.16);
+    }
+
     /* Navigation link styling */
     .nav-link {
         text-decoration: underline;
