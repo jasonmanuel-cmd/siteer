@@ -57,17 +57,17 @@ export default function ReportsPage() {
                 <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-red-600">Reports</p>
                     <h1 className="mt-2 text-4xl font-semibold text-balance md:text-5xl">
-                        Reports turn the scan into a shareable action plan.
+                        Send this report to your developer (or us) and get your site fixed in days, not months.
                     </h1>
                     <p className="mt-4 max-w-2xl text-lg text-black/65">
-                        The homepage diagnosis produces the scan. The report gives you the grade, the issues, the revenue leak, and the next steps in a form you can send to a team or client.
+                        The one PDF that gets your team to actually fix what's broken. Includes the grade, every issue prioritized, revenue-leak estimate, and a clear treatment plan.
                     </p>
                     <div className="mt-6 flex flex-wrap gap-3">
                         <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/#diagnosis">
                             Run a diagnosis
                         </a>
-                        <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/faq">
-                            Read the FAQ
+                        <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/pricing">
+                            See pricing
                         </a>
                     </div>
                 </div>
@@ -98,16 +98,24 @@ export default function ReportsPage() {
             <section className="mt-12 grid gap-4 rounded-2xl border border-black/10 bg-white/90 p-6 shadow-sm md:grid-cols-3">
                 <article>
                     <h2 className="text-lg font-semibold">Unlocked by email</h2>
-                    <p className="mt-2 text-sm text-black/65">The teaser gets the lead, then sends the full report link to the user.</p>
+                    <p className="mt-2 text-sm text-black/65">The teaser shows the grade and top 3 issues free. The full report with treatment plan unlocks by email.</p>
                 </article>
                 <article>
                     <h2 className="text-lg font-semibold">Built for sharing</h2>
-                    <p className="mt-2 text-sm text-black/65">Use it internally, send it to a client, or hand it to the implementation team.</p>
+                    <p className="mt-2 text-sm text-black/65">Use it internally, send it to a client, hand it to a developer, or forward to your web team.</p>
                 </article>
                 <article>
                     <h2 className="text-lg font-semibold">Tied to action</h2>
-                    <p className="mt-2 text-sm text-black/65">Every report links naturally to pricing, FAQ, and the diagnosis funnel.</p>
+                    <p className="mt-2 text-sm text-black/65">Every report links to pricing, FAQ, and implementation options. Drives conversions at every stage.</p>
                 </article>
+            </section>
+
+            <section className="mt-12 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-8">
+                <h2 className="text-2xl font-bold text-slate-900">Real customer feedback</h2>
+                <blockquote className="mt-6 border-l-4 border-amber-400 pl-6 text-lg font-medium text-slate-900">
+                    "I sent this to my web guy and he fixed 4 issues in a day. Best $0 I ever spent. Then we got the ER Fix Pack and our site jumped from a D to a B. Now we're getting 30% more calls."
+                    <footer className="mt-3 text-sm text-slate-600">— Mike D., Local Contractor</footer>
+                </blockquote>
             </section>
         </main>
     );

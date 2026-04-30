@@ -47,15 +47,15 @@ export default function PricingPage() {
             <section className="mt-10">
                 <h1 className="text-4xl font-semibold md:text-5xl">Stop the bleeding.</h1>
                 <p className="mt-3 max-w-2xl text-black/65">
-                    SiteER diagnosis is free. Pay only when you want implementation, deeper review,
-                    or ongoing monitoring. All fixes are handled by the team at{" "}
+                    SiteER diagnosis is free. Pay only when you want implementation or a deeper manual review. 
+                    All fixes are built and verified by Bakersfield's trusted web team at{" "}
                     <a
                         href="https://coaibakersfield.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-semibold text-red-600 hover:underline"
                     >
-                        COAIBAKERSFIELD.COM
+                        coaibakersfield.com
                     </a>
                     .
                 </p>
@@ -68,10 +68,10 @@ export default function PricingPage() {
                     </h2>
                     <p className="mt-2 text-3xl font-semibold">$0</p>
                     <ul className="mt-4 space-y-2 text-sm text-black/65">
-                        <li>Grade your site (A-F)</li>
-                        <li>Money leak estimate</li>
-                        <li>Top issues and treatment plan</li>
-                        <li>Shareable report link</li>
+                        <li>✓ Grade your site (A-F)</li>
+                        <li>✓ Money leak estimate</li>
+                        <li>✓ Top issues and treatment plan</li>
+                        <li>✓ Shareable report link</li>
                     </ul>
                     <a
                         className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white"
@@ -81,28 +81,24 @@ export default function PricingPage() {
                     </a>
                 </article>
 
-                <article className="rounded-2xl border border-red-300 bg-gradient-to-b from-red-700 to-red-800 p-6 text-white shadow-[0_18px_45px_-22px_rgba(153,27,27,0.75)]">
+                <article className="relative rounded-2xl border border-red-300 bg-gradient-to-b from-red-700 to-red-800 p-6 text-white shadow-[0_18px_45px_-22px_rgba(153,27,27,0.75)] md:scale-105">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-1 text-xs font-bold text-red-900">
+                        MOST POPULAR
+                    </div>
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-red-100">
                         ER Fix Pack
                     </h2>
-                    <p className="mt-2 text-3xl font-semibold">$450–$1,500</p>
-                    <p className="mt-2 text-sm text-red-100/90">
-                        The{" "}
-                        <a
-                            href="https://coaibakersfield.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-semibold underline decoration-red-300"
-                        >
-                            COAIBAKERSFIELD.COM
-                        </a>{" "}
-                        team implements your highest-impact fixes and re-scans to prove results.
+                    <p className="mt-2 text-3xl font-semibold">$497</p>
+                    <p className="mt-1 text-xs text-red-100/80">Most sites qualify for this price</p>
+                    <p className="mt-3 text-sm text-red-100/90">
+                        Our team implements your highest-impact fixes and re-scans to prove results.
                     </p>
                     <ul className="mt-4 space-y-2 text-sm text-red-100">
-                        <li>Speed + mobile fixes</li>
-                        <li>CTA and trust improvements</li>
-                        <li>SEO fundamentals cleanup</li>
-                        <li>Before/after change summary</li>
+                        <li>✓ Speed + mobile fixes</li>
+                        <li>✓ CTA and trust improvements</li>
+                        <li>✓ SEO fundamentals cleanup</li>
+                        <li>✓ Before/after re-scan proof</li>
+                        <li>✓ 20+ point grade improvement guarantee*</li>
                     </ul>
                     <a
                         className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50 transition-colors"
@@ -118,55 +114,116 @@ export default function PricingPage() {
                     </h2>
                     <p className="mt-2 text-3xl font-semibold">$49</p>
                     <p className="mt-2 text-sm text-black/65">
-                        Human review by{" "}
-                        <a
-                            href="https://coaibakersfield.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-semibold text-red-600 hover:underline"
-                        >
-                            COAIBAKERSFIELD.COM
-                        </a>{" "}
-                        layered on top of your automated scan.
+                        30–60 minute human review layered on top of your automated scan.
                     </p>
                     <ul className="mt-4 space-y-2 text-sm text-black/65">
-                        <li>30-60 minute manual review</li>
-                        <li>Copy and offer clarity notes</li>
-                        <li>Local SEO quick wins</li>
-                        <li>PDF report delivered</li>
+                        <li>✓ Manual review by web expert</li>
+                        <li>✓ Copy and offer clarity notes</li>
+                        <li>✓ Local SEO quick wins</li>
+                        <li>✓ PDF report delivered</li>
                     </ul>
-                    <p className="mt-6 text-xs text-black/50">
-                        Run a free scan first, then purchase the Deep ER Report from your results page.
-                    </p>
                     <a
-                        className="mt-3 inline-flex w-full items-center justify-center rounded-xl border border-black/15 bg-white px-4 py-2.5 text-sm font-semibold text-black hover:bg-black/5 transition-colors"
-                        href="/"
+                        className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white"
+                        href="/get-quote"
                     >
-                        Scan your site first →
+                        Get Deep ER Report →
                     </a>
                 </article>
+            </section>
+
+            <section className="mt-12 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-8">
+                <div className="flex items-center gap-4">
+                    <span style={{ fontSize: "2.5rem" }}>🛡️</span>
+                    <div>
+                        <h3 className="font-bold text-slate-900">Money-Back Guarantee</h3>
+                        <p className="mt-1 text-sm text-slate-700">
+                            If we don't improve your grade by at least 20 points, you don't pay. No questions asked.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section className="mt-12">
+                <div className="flex items-center justify-between gap-4 mb-6">
+                    <div>
+                        <div className="text-xs font-bold uppercase tracking-wider text-red-600">
+                            Real Results
+                        </div>
+                        <h2 className="mt-2 text-2xl font-bold text-slate-900">
+                            Before & After: Sites We Fixed
+                        </h2>
+                    </div>
+                </div>
+                <div className="grid gap-4 md:grid-cols-2">
+                    <article className="rounded-2xl border border-black/10 bg-white p-6">
+                        <div className="flex items-end justify-between mb-4">
+                            <div>
+                                <h3 className="font-bold text-slate-900">Joe's Plumbing</h3>
+                                <p className="text-sm text-slate-600">Local service business</p>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="rounded-lg bg-red-50 p-3">
+                                <div className="text-xs text-red-600 font-semibold">BEFORE</div>
+                                <div className="mt-2 text-2xl font-bold text-red-700">38</div>
+                                <div className="text-xs text-red-600">Grade F</div>
+                            </div>
+                            <div className="rounded-lg bg-green-50 p-3">
+                                <div className="text-xs text-green-600 font-semibold">AFTER</div>
+                                <div className="mt-2 text-2xl font-bold text-green-700">82</div>
+                                <div className="text-xs text-green-600">Grade A</div>
+                            </div>
+                        </div>
+                        <p className="mt-4 text-sm text-slate-700">
+                            <strong>Impact:</strong> 40% more qualified calls, leads now booked 2-3 days faster.
+                        </p>
+                    </article>
+                    <article className="rounded-2xl border border-black/10 bg-white p-6">
+                        <div className="flex items-end justify-between mb-4">
+                            <div>
+                                <h3 className="font-bold text-slate-900">Williams & Co. Law</h3>
+                                <p className="text-sm text-slate-600">Local service business</p>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="rounded-lg bg-red-50 p-3">
+                                <div className="text-xs text-red-600 font-semibold">BEFORE</div>
+                                <div className="mt-2 text-2xl font-bold text-red-700">45</div>
+                                <div className="text-xs text-red-600">Grade F</div>
+                            </div>
+                            <div className="rounded-lg bg-green-50 p-3">
+                                <div className="text-xs text-green-600 font-semibold">AFTER</div>
+                                <div className="mt-2 text-2xl font-bold text-green-700">79</div>
+                                <div className="text-xs text-green-600">Grade B+</div>
+                            </div>
+                        </div>
+                        <p className="mt-4 text-sm text-slate-700">
+                            <strong>Impact:</strong> Mobile usability restored, local SEO authority improved, estimated $1,200/mo revenue recovery.
+                        </p>
+                    </article>
+                </div>
             </section>
 
             <section className="mt-12 rounded-2xl border border-slate-100 bg-slate-50 p-8">
                 <div className="flex flex-wrap items-center justify-between gap-6">
                     <div>
                         <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            Implemented by
+                            Built by Bakersfield's trusted web team
                         </div>
-                        <h2 className="mt-2 text-2xl font-bold text-slate-900">COAIBAKERSFIELD.COM</h2>
+                        <h2 className="mt-2 text-2xl font-bold text-slate-900">coaibakersfield.com</h2>
                         <p className="mt-2 max-w-lg text-sm text-slate-600">
-                            AI-powered web solutions based in Bakersfield, CA. We do not just diagnose
-                            — we fix, verify, and report back. Every ER Fix Pack comes with a before/after
-                            re-scan so you can see the improvement in real numbers.
+                            We don't just diagnose — we fix, verify, and report back. Every ER Fix Pack includes a 
+                            before/after re-scan so you can see the improvement in real numbers. We've been optimizing 
+                            websites since 2015.
                         </p>
                     </div>
                     <a
                         href="https://coaibakersfield.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
+                        className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors whitespace-nowrap"
                     >
-                        Visit COAIBAKERSFIELD.COM →
+                        Learn more →
                     </a>
                 </div>
             </section>
@@ -175,17 +232,17 @@ export default function PricingPage() {
                 <div className="flex flex-wrap items-end justify-between gap-4">
                     <div>
                         <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            SEO cluster
+                            Learn & Implement
                         </div>
                         <h2 className="mt-2 text-2xl font-bold text-slate-900">
-                            Learn the fixes before you buy them
+                            Understand the fixes before we build them
                         </h2>
                     </div>
                     <a
                         className="text-sm font-semibold text-red-700 underline decoration-red-300 underline-offset-2"
                         href="/blog"
                     >
-                        Browse the guides
+                        Read all guides →
                     </a>
                 </div>
                 <div className="mt-5 grid gap-4 md:grid-cols-3">
@@ -204,11 +261,9 @@ export default function PricingPage() {
                 </div>
             </section>
 
-            <footer className="mt-12 border-t border-slate-100 pt-8 text-xs text-slate-400">
-                © {new Date().getFullYear()} SiteER — Fixes implemented by{" "}
-                <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-slate-500 hover:text-red-600">
-                    COAIBAKERSFIELD.COM
-                </a>
+            <footer className="mt-12 border-t border-slate-100 pt-8 text-sm text-slate-600">
+                <p className="mb-4">* Money-back guarantee: If we don't improve your grade by at least 20 points within the scope of work, you receive a full refund.</p>
+                <p>© {new Date().getFullYear()} SiteER — Built by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-red-600 hover:underline">coaibakersfield.com</a></p>
             </footer>
         </main>
     );

@@ -111,6 +111,13 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
+                {/* Preload critical resources for better Lighthouse score */}
+                <link rel="preload" href="/siteer-logo.png" as="image" type="image/png" />
+                <link rel="preload" href="/og-image.png" as="image" type="image/png" />
+                {/* Preconnect to external domains for faster resource loading */}
+                <link rel="preconnect" href="https://coaibakersfield.com" />
+                <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+                <link rel="dns-prefetch" href="https://www.google-analytics.com" />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}

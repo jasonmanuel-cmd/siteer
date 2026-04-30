@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font optimization for Lighthouse */
+@font-face {
+    font-family: "System Font Stack";
+    src: local("Segoe UI"), local("Roboto"), local("-apple-system");
+    font-display: swap;
+}
+
 @layer base {
     :root {
         --primary: 0 74% 41%;
@@ -56,7 +63,17 @@
         opacity: 1;
     }
 
-    /* Accessibility: Focus outlines for keyboard navigation */
+    /* Accessibility: Focus outlines for keyboard navigation (improved for Lighthouse) */
+    input:focus-visible,
+    button:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    a:focus-visible {
+        outline: 3px solid var(--er-red);
+        outline-offset: 2px;
+    }
+
+    /* Fallback for browsers that don't support focus-visible */
     input:focus,
     button:focus,
     select:focus,

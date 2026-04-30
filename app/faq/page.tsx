@@ -37,11 +37,11 @@ export default function FaqPage() {
 
             <section className="mt-10 max-w-2xl">
                 <p className="text-xs font-bold uppercase tracking-wider text-red-600">Questions</p>
-                <h1 className="mt-2 text-4xl font-semibold text-balance md:text-5xl">
-                    Frequently asked questions.
+                <h1 className="mt-2 text-4xl font-bold text-balance md:text-5xl">
+                    Questions about SiteER? We've got answers.
                 </h1>
                 <p className="mt-4 text-lg text-black/65">
-                    Use this page for the practical details. The diagnosis funnel stays on the homepage.
+                    Find practical details about how the scan works, what you'll get, and what's next.
                 </p>
             </section>
 

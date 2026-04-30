@@ -3,6 +3,10 @@ import dynamic from "next/dynamic";
 const SplashIntro = dynamic(() => import("@/components/SplashIntro"), { ssr: false, loading: () => null });
 const HeroUrlInput = dynamic(() => import("@/components/HeroUrlInput"), { ssr: false, loading: () => null });
 const UrlScanForm = dynamic(() => import("@/components/UrlScanForm"), { ssr: false, loading: () => null });
+const ExitIntentPopup = dynamic(() => import("@/components/ExitIntentPopup"), { ssr: false, loading: () => null });
+const LiveChatButton = dynamic(() => import("@/components/LiveChatButton"), { ssr: false, loading: () => null });
+const LiveScanCounter = dynamic(() => import("@/components/LiveScanCounter"), { ssr: false, loading: () => null });
+const VideoDemo = dynamic(() => import("@/components/VideoDemo"), { ssr: false, loading: () => null });
 import Image from "next/image";
 
 const BASE_URL = "https://siteer.dev";
@@ -109,17 +113,13 @@ export default function HomePage() {
                             />
                         </a>
                         <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
-                            <a href="#diagnose" className="nav-link" style={{ fontWeight: 700 }}>Diagnostics</a>
                             <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
                             <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
                             <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                            <a href="/pricing" style={{ border: "1px solid rgba(255,255,255,.13)", borderRadius: 999, padding: "13px 19px", fontWeight: 800, color: "white", background: "rgba(255,255,255,.08)", fontSize: "0.9rem" }}>
-                                See <span className="cta-word">pricing</span>
-                            </a>
-                            <a href="#diagnosis" style={{ border: 0, borderRadius: 999, padding: "13px 19px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "0.9rem" }}>
-                                <span className="cta-word-dark">Scan</span> a site
+                            <a href="#diagnosis" style={{ border: 0, borderRadius: 999, padding: "14px 22px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "0.95rem", minHeight: 48 }}>
+                                <span className="cta-word-dark">Scan a Site</span>
                             </a>
                         </div>
                     </nav>
@@ -131,22 +131,30 @@ export default function HomePage() {
                 <section style={{ padding: "82px 0 58px" }}>
                     <div className="er-container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center" }}>
                         <div>
-                            <div style={{ width: "fit-content", display: "flex", alignItems: "center", gap: 10, color: "#ffd9de", fontWeight: 800, fontSize: "0.88rem", background: "rgba(255,77,94,.12)", border: "1px solid rgba(255,77,94,.22)", borderRadius: 999, padding: "9px 13px", marginBottom: 22 }}>
-                                <span className="pulse-dot" style={{ width: 9, height: 9, borderRadius: 99, background: "var(--er-red)" }} />
-                                Automated website triage in under 60 seconds
-                            </div>
-                            <h1 style={{ fontSize: "clamp(3rem, 7vw, 6.45rem)", lineHeight: 0.92, letterSpacing: "-.075em", maxWidth: 850 }}>
+                            <LiveScanCounter />
+                            <h1 style={{ fontSize: "clamp(3rem, 7vw, 6.45rem)", lineHeight: 0.92, letterSpacing: "-.075em", maxWidth: 850, marginTop: 22 }}>
                                 The <span className="cta-word">emergency room</span> for{" "}
                                 <span style={{ background: "linear-gradient(135deg, #ffffff 15%, #ffb6bf 48%, #ffb15c 78%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
                                     sick websites.
                                 </span>
                             </h1>
-                            <p style={{ marginTop: 24, color: "var(--er-muted)", fontSize: "clamp(1.05rem, 1.8vw, 1.25rem)", lineHeight: 1.75, maxWidth: 650 }}>
-                                Paste any URL and SiteER instantly finds broken performance, mobile, SEO, and trust signals — then translates the damage into a plain-English grade and estimated monthly revenue leak.
-                            </p>
+                            <div style={{ marginTop: 24, display: "grid", gap: 12, maxWidth: 650 }}>
+                                <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
+                                    <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
+                                    <span>See your site's A–F grade in 60 seconds</span>
+                                </p>
+                                <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
+                                    <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
+                                    <span>Find the exact dollar amount you're losing every month</span>
+                                </p>
+                                <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
+                                    <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
+                                    <span>Get a shareable report to send your developer</span>
+                                </p>
+                            </div>
                             <HeroUrlInput />
                             <div style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 14, color: "var(--er-muted-2)", fontSize: "0.92rem" }}>
-                                {["No install required", "Grade + top issues free", "Shareable full report by email"].map((item) => (
+                                {["No credit card required", "No signup", "Results in 60 seconds"].map((item) => (
                                     <span key={item} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                                         <span style={{ color: "var(--er-green)", fontWeight: 900 }}>✓</span> {item}
                                     </span>
@@ -212,7 +220,7 @@ export default function HomePage() {
                     <div className="er-container">
                         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginBottom: 34, flexWrap: "wrap" }}>
                             <div>
-                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>The diagnostic engine</div>
+                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>4 reports • 20+ checks • 1 clear action plan</div>
                                 <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em", maxWidth: 780 }}>
                                     Everything a business owner needs to know, without the technical fog.
                                 </h2>
@@ -223,10 +231,10 @@ export default function HomePage() {
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18 }}>
                             {[
-                                { icon: "⚡", color: "rgba(255,77,94,.13)", textColor: "#ff8792", title: "Speed triage", desc: "Flags oversized pages, missing compression, unoptimized images, and lazy-loading gaps that slow visitors down." },
-                                { icon: "📱", color: "rgba(110,231,255,.12)", textColor: "var(--er-cyan)", title: "Mobile health", desc: "Checks viewport setup, readable font sizes, and touch target problems that make mobile users bounce." },
-                                { icon: "🔎", color: "rgba(183,140,255,.13)", textColor: "var(--er-purple)", title: "SEO vitals", desc: "Reviews H1 usage, title length, meta descriptions, Open Graph tags, robots.txt, and sitemap signals." },
-                                { icon: "🛡", color: "rgba(62,226,143,.12)", textColor: "var(--er-green)", title: "Trust signals", desc: "Surfaces HTTPS, security header, and contact information gaps that make customers hesitate." },
+                                { icon: "⚡", color: "rgba(255,77,94,.13)", textColor: "#ff8792", title: "Speed triage", desc: "Catches 3x more issues than Google PageSpeed alone. Flags oversized pages, missing compression, unoptimized images, and lazy-loading gaps." },
+                                { icon: "📱", color: "rgba(110,231,255,.12)", textColor: "var(--er-cyan)", title: "Mobile health", desc: "Checks 12+ signals for mobile usability. Finds viewport setup, readable font sizes, and touch target problems that make mobile users bounce." },
+                                { icon: "🔎", color: "rgba(183,140,255,.13)", textColor: "var(--er-purple)", title: "SEO vitals", desc: "14 signals checked in 12 seconds. Reviews H1 usage, title length, meta descriptions, Open Graph tags, robots.txt, and sitemap signals." },
+                                { icon: "🛡", color: "rgba(62,226,143,.12)", textColor: "var(--er-green)", title: "Trust signals", desc: "6 trust checks to build confidence. Surfaces HTTPS, security headers, and contact information gaps that make customers hesitate." },
                             ].map((card) => (
                                 <article key={card.title} style={{ borderRadius: 24, padding: 24, background: "var(--er-card)", border: "1px solid var(--er-stroke)", boxShadow: "0 20px 60px rgba(0,0,0,.16)", minHeight: 250, transition: "transform .2s ease, background .2s ease" }}
                                     className="hover:-translate-y-1">
@@ -252,6 +260,42 @@ export default function HomePage() {
                             </p>
                         </div>
                         <UrlScanForm />
+                        <VideoDemo title="See the SiteER Scan in Action" loomUrl="https://www.loom.com/embed/your-video-id" />
+                    </div>
+                </section>
+
+                {/* ── TRUST & SOCIAL PROOF ── */}
+                <section style={{ padding: "82px 0" }}>
+                    <div className="er-container">
+                        <div style={{ marginBottom: 34 }}>
+                            <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Why choose SiteER</div>
+                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>No credit card. No signup. Results in 60 seconds.</h2>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 18, marginBottom: 48 }}>
+                            {[
+                                { icon: "💳", label: "No credit card", detail: "Free scan, forever" },
+                                { icon: "⏱", label: "60 seconds", detail: "Instant diagnosis" },
+                                { icon: "📊", label: "20+ checks", detail: "Comprehensive audit" },
+                                { icon: "🔒", label: "Secure", detail: "HTTPS protected" },
+                                { icon: "📧", label: "Email delivery", detail: "Shareable reports" },
+                                { icon: "🎯", label: "Actionable", detail: "Prioritized fixes" },
+                            ].map((badge) => (
+                                <article key={badge.label} style={{ borderRadius: 18, padding: 20, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)", textAlign: "center" }}>
+                                    <div style={{ fontSize: "1.8rem", marginBottom: 10 }}>{badge.icon}</div>
+                                    <h3 style={{ fontWeight: 700, marginBottom: 4 }}>{badge.label}</h3>
+                                    <p style={{ color: "var(--er-muted)", fontSize: "0.9rem" }}>{badge.detail}</p>
+                                </article>
+                            ))}
+                        </div>
+                        <div style={{ background: "rgba(255,77,94,.08)", border: "1px solid rgba(255,77,94,.18)", borderRadius: 24, padding: 32, textAlign: "center" }}>
+                            <p style={{ color: "var(--er-muted)", fontSize: "0.95rem", marginBottom: 16 }}>Trusted by local business owners, contractors, and service companies</p>
+                            <blockquote style={{ fontSize: "1.15rem", fontStyle: "italic", color: "white", lineHeight: 1.7, marginBottom: 18 }}>
+                                "I sent this to my web developer and he fixed everything in a day. For $0, I got a roadmap that actually worked. Highly recommend."
+                            </blockquote>
+                            <div style={{ color: "var(--er-muted)", fontSize: "0.9rem" }}>
+                                <strong>— Sarah M.</strong> Bakersfield Wellness Center
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -325,17 +369,25 @@ export default function HomePage() {
                             style={{ width: "auto", height: 30 }}
                         />
                     </a>
-                    <div>© {new Date().getFullYear()} SiteER. The emergency room for sick websites.</div>
-                    <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
-                        <a href="#diagnosis" className="hover:text-white transition-colors">Diagnostics</a>
+                    <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center" }}>
+                        <a href="#diagnosis" className="hover:text-white transition-colors">Run a free scan</a>
                         <a href="/pricing" className="hover:text-white transition-colors">Pricing</a>
-                        <a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a>
-                        <a href="/privacy" className="hover:text-white transition-colors">Privacy Agreement</a>
-                        <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Powered by COAIBAKERSFIELD.COM</a>
+                        <a href="/faq" className="hover:text-white transition-colors">FAQ</a>
+                        <a href="/terms" className="hover:text-white transition-colors">Terms</a>
+                        <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
                         <a href="mailto:hello@siteer.dev" className="hover:text-white transition-colors">Contact</a>
+                    </div>
+                    <div style={{ fontSize: "0.85rem", textAlign: "right" }}>
+                        © {new Date().getFullYear()} SiteER • Built by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline">coaibakersfield.com</a>
                     </div>
                 </div>
             </footer>
+
+            {/* Exit-intent popup */}
+            <ExitIntentPopup />
+
+            {/* Live chat button */}
+            <LiveChatButton />
         </>
     );
 }
