@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
-import Script from "next/script";
 import "@/app/globals.css";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-6R0LBYGNCR";
 
 const TextSizeToggle = dynamic(() => import("@/components/TextSizeToggle"), { ssr: false });
 
@@ -114,13 +113,19 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
+                {/* Google tag (gtag.js) — must be immediately after <head> */}
+                {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+                <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`,
+                    }}
+                />
                 {/* Preload critical resources for better Lighthouse score */}
                 <link rel="preload" href="/siteer-logo.png" as="image" type="image/png" />
                 <link rel="preload" href="/og-image.png" as="image" type="image/png" />
                 {/* Preconnect to external domains for faster resource loading */}
                 <link rel="preconnect" href="https://coaibakersfield.com" />
-                <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-                <link rel="dns-prefetch" href="https://www.google-analytics.com" />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
@@ -131,22 +136,6 @@ export default function RootLayout({
                 {children}
                 <TextSizeToggle />
                 <Analytics />
-                {GA_ID && (
-                    <>
-                        <Script
-                            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-                            strategy="afterInteractive"
-                        />
-                        <Script id="ga4-init" strategy="afterInteractive">
-                            {`
-                                window.dataLayer = window.dataLayer || [];
-                                function gtag(){dataLayer.push(arguments);}
-                                gtag('js', new Date());
-                                gtag('config', '${GA_ID}', { page_path: window.location.pathname });
-                            `}
-                        </Script>
-                    </>
-                )}
             </body>
         </html>
     );
