@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Script from "next/script";
 import "@/app/globals.css";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-6R0LBYGNCR";
 
 const TextSizeToggle = dynamic(() => import("@/components/TextSizeToggle"), { ssr: false });
 
