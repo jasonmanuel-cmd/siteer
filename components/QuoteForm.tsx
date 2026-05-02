@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackEvent } from "@/lib/gtag";
 
 type FormState = {
     firstName: string;
@@ -37,6 +38,7 @@ export default function QuoteForm() {
             });
             const data = await res.json();
             if (!res.ok || !data.ok) throw new Error(data.error || "Submission failed");
+            trackEvent("quote_requested");
             setStatus("success");
         } catch (err) {
             setErrorMsg(err instanceof Error ? err.message : "Submission failed");

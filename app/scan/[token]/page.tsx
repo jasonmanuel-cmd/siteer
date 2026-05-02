@@ -105,7 +105,8 @@ export default async function ReportPage({
     searchParams: { paid?: string };
 }) {
     const token = params.token;
-    const isPaid = searchParams.paid === "true";
+    // Never trust ?paid=true from the URL alone — verify against the payments table
+    let isPaid = false;
 
     let supabaseAdmin: ReturnType<typeof getSupabaseAdmin>;
     try {
@@ -119,6 +120,24 @@ export default async function ReportPage({
                 </p>
             </main>
         );
+    }
+
+    // Verify payment status if the redirect claims payment was made
+    if (searchParams.paid === "true") {
+        const { data: payment } = await supabaseAdmin
+            .from("payments")
+            .select("id, status, created_at")
+            .eq("report_token", token)
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+        if (payment) {
+            // Allow if completed, or if pending but created within last 2 hours (webhook hasn't fired yet)
+            const createdAt = new Date(payment.created_at as string).getTime();
+            const twoHoursAgo = Date.now() - 2 * 60 * 60 * 1000;
+            isPaid = payment.status === "completed" || createdAt > twoHoursAgo;
+        }
     }
 
     const { data: report, error: reportError } = await supabaseAdmin
@@ -171,10 +190,15 @@ export default async function ReportPage({
     return (
         <main className="light-page mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
             <header className="flex flex-wrap items-center justify-between gap-3">
-                <a className="text-sm font-semibold tracking-tight" href="/">
-                    SiteER <span className="text-black/45">/ Report</span>
-                </a>
+                <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+                    <a className="font-semibold hover:text-red-600 transition-colors" href="/">SiteER</a>
+                    <span className="text-black/30">/</span>
+                    <span className="text-black/45">Report</span>
+                </nav>
                 <div className="flex flex-wrap items-center gap-3">
+                    <a className="text-sm text-black/60 hover:text-red-600 transition-colors" href="/">
+                        ← New Scan
+                    </a>
                     <PrintReportButton />
                     <a className="text-sm text-black/60 hover:text-black" href="/pricing">
                         Pricing

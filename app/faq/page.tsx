@@ -19,9 +19,98 @@ export const metadata: Metadata = {
     },
 };
 
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+        {
+            "@type": "Question",
+            name: "Who is SiteER for?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Local business owners, contractors, and service companies who are losing leads from a slow or broken website. Perfect for anyone who wants a fast diagnosis without reading a technical audit.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "How long does a scan take?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Under 60 seconds. We fetch your page, run 20+ automated checks, calculate your grade, and estimate your monthly revenue leak in real-time.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Will this work with Shopify, Wix, or Webflow?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Yes. SiteER scans any publicly accessible website, regardless of platform. The fixes may differ by builder, but the diagnosis is universally applicable.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Do I need developer skills to understand the report?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "No. We translate technical issues into plain English. Every issue comes with a clear priority level and practical next steps a non-technical person can understand.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "What's included in the ER Fix Pack exactly?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Speed optimization, mobile fixes, CTA improvements, SEO fundamentals cleanup, and trust signal enhancements. We re-scan after completion to prove the improvements in your grade.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "How accurate is the money leak estimate?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "It's directional. We combine your site grade with optional inputs (monthly visitors, conversion rate, average order value) to estimate potential revenue loss. Use it to justify the investment in fixes.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Is there a money-back guarantee?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Yes. If we don't improve your grade by at least 20 points with the ER Fix Pack, you receive a full refund.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "What's the difference between the Deep ER Report and ER Fix Pack?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Deep ER Report ($49): Manual review with written recommendations. ER Fix Pack ($497): We actually implement the fixes and re-scan to prove results.",
+            },
+        },
+    ],
+};
+
+const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        { "@type": "ListItem", position: 1, name: "SiteER", item: "https://siteer.dev" },
+        { "@type": "ListItem", position: 2, name: "FAQ", item: "https://siteer.dev/faq" },
+    ],
+};
+
 export default function FaqPage() {
     return (
         <main className="mx-auto max-w-5xl px-5 py-8 md:px-8 md:py-12">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+
                 <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
                     <div className="er-container">
                         <nav style={{ height: 76, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
@@ -76,6 +165,24 @@ export default function FaqPage() {
                     </a>
                     <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/pricing">
                         View pricing
+                    </a>
+                </div>
+            </section>
+
+            <section className="mt-12 rounded-2xl border border-black/10 bg-white/80 p-6">
+                <h2 className="text-sm font-bold uppercase tracking-wider text-red-600 mb-4">Related Reading</h2>
+                <div className="grid gap-3 md:grid-cols-3">
+                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02] transition-colors" href="/blog/local-business-website-mistakes">
+                        <div className="text-sm font-semibold">5 Website Mistakes That Cost the Most</div>
+                        <p className="mt-1 text-sm text-black/60">What quietly leaks leads on service sites.</p>
+                    </a>
+                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02] transition-colors" href="/blog/mobile-page-speed-fixes">
+                        <div className="text-sm font-semibold">Fix Slow Mobile Pages in Under an Hour</div>
+                        <p className="mt-1 text-sm text-black/60">Fast wins for mobile visitors.</p>
+                    </a>
+                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02] transition-colors" href="/blog/website-not-bringing-customers">
+                        <div className="text-sm font-semibold">Why Your Site Isn't Bringing Customers</div>
+                        <p className="mt-1 text-sm text-black/60">How to turn visits into calls.</p>
                     </a>
                 </div>
             </section>

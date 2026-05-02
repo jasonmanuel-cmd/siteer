@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
+const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        { "@type": "ListItem", position: 1, name: "SiteER", item: "https://siteer.dev" },
+        { "@type": "ListItem", position: 2, name: "Pricing", item: "https://siteer.dev/pricing" },
+    ],
+};
+
 export const metadata: Metadata = {
     title: "Pricing",
     description:
@@ -36,6 +45,10 @@ export const metadata: Metadata = {
 export default function PricingPage() {
     return (
         <main className="mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
                 <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
                     <div className="er-container">
                         <nav style={{ height: 76, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
