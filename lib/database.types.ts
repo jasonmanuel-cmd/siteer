@@ -261,12 +261,81 @@ export type Database = {
                 };
                 Relationships: [];
             };
+            rate_limits: {
+                Row: {
+                    key: string;
+                    hits: number;
+                    reset_at: string;
+                };
+                Insert: {
+                    key: string;
+                    hits?: number;
+                    reset_at: string;
+                };
+                Update: {
+                    key?: string;
+                    hits?: number;
+                    reset_at?: string;
+                };
+                Relationships: [];
+            };
+            follow_up_emails: {
+                Row: {
+                    id: string;
+                    lead_id: string | null;
+                    email: string;
+                    report_token: string | null;
+                    send_at: string;
+                    sent_at: string | null;
+                    type: string;
+                    created_at: string;
+                };
+                Insert: {
+                    id?: string;
+                    lead_id?: string | null;
+                    email: string;
+                    report_token?: string | null;
+                    send_at: string;
+                    sent_at?: string | null;
+                    type: string;
+                    created_at?: string;
+                };
+                Update: {
+                    id?: string;
+                    lead_id?: string | null;
+                    email?: string;
+                    report_token?: string | null;
+                    send_at?: string;
+                    sent_at?: string | null;
+                    type?: string;
+                    created_at?: string;
+                };
+                Relationships: [
+                    {
+                        foreignKeyName: "follow_up_emails_lead_id_fkey";
+                        columns: ["lead_id"];
+                        referencedRelation: "leads";
+                        referencedColumns: ["id"];
+                    },
+                ];
+            };
         };
         Views: {
             [_ in never]: never;
         };
         Functions: {
-            [_ in never]: never;
+            upsert_rate_limit: {
+                Args: {
+                    p_key: string;
+                    p_limit: number;
+                    p_reset_at: string;
+                };
+                Returns: {
+                    hits: number;
+                    reset_at: string;
+                    allowed: boolean;
+                };
+            };
         };
         Enums: {
             [_ in never]: never;

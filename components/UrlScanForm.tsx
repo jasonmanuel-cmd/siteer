@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState, useRef } from "react";
+import { trackEvent } from "@/lib/gtag";
 
 const ReportTeaser = dynamic(() => import("./ReportTeaser"), { ssr: false, loading: () => null });
 const ScanningOverlay = dynamic(() => import("./ScanningOverlay"), { ssr: false, loading: () => null });
@@ -134,6 +135,7 @@ export default function UrlScanForm() {
             setDoneSteps(new Set([0, 1, 2, 3]));
             setActiveStep(-1);
             setTeaser(data);
+            trackEvent("scan_complete", { grade: data.grade, overall_score: data.scores.overall });
         } catch (err) {
             if (intervalRef.current) clearInterval(intervalRef.current);
             setActiveStep(-1);
@@ -157,6 +159,7 @@ export default function UrlScanForm() {
             const data = (await res.json()) as { ok?: boolean; reportUrl?: string; error?: string };
             if (!res.ok || !data.ok || !data.reportUrl) throw new Error(data.error || "Unable to unlock report");
             setReportUrl(data.reportUrl);
+            trackEvent("lead_captured");
         } catch (err) {
             setLeadError(err instanceof Error ? err.message : "Unable to unlock report");
         } finally {

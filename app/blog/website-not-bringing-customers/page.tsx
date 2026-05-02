@@ -125,6 +125,22 @@ export default function Page() {
                         Get help converting
                     </a>
                 </section>
+
+                <section className="mt-12 border-t border-black/10 pt-10">
+                    <p className="text-xs font-bold uppercase tracking-wider text-red-600 mb-4">Related Reading</p>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <a className="rounded-2xl border border-black/10 bg-white p-5 hover:shadow-sm transition-shadow" href="/blog/local-business-website-mistakes">
+                            <p className="text-xs font-bold uppercase tracking-wider text-black/40 mb-2">Local SEO guide</p>
+                            <h3 className="font-semibold">5 Website Mistakes That Cost Local Businesses the Most</h3>
+                            <p className="mt-2 text-sm text-black/60">The common issues that quietly drain leads and revenue.</p>
+                        </a>
+                        <a className="rounded-2xl border border-black/10 bg-white p-5 hover:shadow-sm transition-shadow" href="/blog/mobile-page-speed-fixes">
+                            <p className="text-xs font-bold uppercase tracking-wider text-black/40 mb-2">Performance guide</p>
+                            <h3 className="font-semibold">How to Fix Slow Mobile Pages in Under an Hour</h3>
+                            <p className="mt-2 text-sm text-black/60">Fast wins for users on phones — highest-impact changes first.</p>
+                        </a>
+                    </div>
+                </section>
             </article>
         </main>
     );

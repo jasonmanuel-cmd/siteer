@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 const QuoteForm = dynamic(() => import("@/components/QuoteForm"), { ssr: false, loading: () => null });
 
+const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        { "@type": "ListItem", position: 1, name: "SiteER", item: "https://siteer.dev" },
+        { "@type": "ListItem", position: 2, name: "Get a Fix Quote", item: "https://siteer.dev/get-quote" },
+    ],
+};
+
 export const metadata: Metadata = {
     title: "Get a Fix Quote",
     description:
@@ -37,6 +46,10 @@ export const metadata: Metadata = {
 export default function GetQuotePage() {
     return (
         <main className="min-h-screen bg-gradient-to-br from-slate-50 to-white px-5 py-8 md:px-8 md:py-12">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
             <header className="mx-auto max-w-2xl flex flex-wrap items-center justify-between gap-4">
                 <a className="group flex items-center gap-2 text-sm font-semibold tracking-tight" href="/">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-600 text-white shadow-lg shadow-red-200">

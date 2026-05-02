@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackEvent } from "@/lib/gtag";
 
 export default function BuyReportButton({ reportToken }: { reportToken: string }) {
     const [email, setEmail] = useState("");
@@ -20,6 +21,7 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
             });
             const data = await res.json();
             if (!res.ok || !data.checkoutUrl) throw new Error(data.error || "Payment setup failed");
+            trackEvent("payment_initiated", { value: 49, currency: "USD" });
             window.location.href = data.checkoutUrl;
         } catch (err) {
             setError(err instanceof Error ? err.message : "Payment setup failed");
