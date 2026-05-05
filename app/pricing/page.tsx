@@ -13,7 +13,7 @@ const breadcrumbSchema = {
 export const metadata: Metadata = {
     title: "Pricing",
     description:
-        "See SiteER pricing for free website diagnosis, ER Fix Pack implementation, and deep manual reports powered by COAIBAKERSFIELD.COM.",
+        "No developer? No problem. SiteER's team fixes every issue we find for a flat $497 — or run the free scan yourself and send the report to anyone.",
     alternates: {
         canonical: "/pricing",
     },
@@ -62,9 +62,10 @@ export default function PricingPage() {
                                     style={{ width: "auto", height: 42 }}
                                 />
                             </a>
-                            <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
+                            <div style={{ display: "flex", gap: 28, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
                                 <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
                                 <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
+                                <a href="/blog" className="nav-link" style={{ fontWeight: 700 }}>Blog</a>
                                 <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
                             </div>
                             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -77,15 +78,14 @@ export default function PricingPage() {
                 </header>
 
             <section className="mt-10">
-                <h1 className="text-4xl font-semibold md:text-5xl">Stop the bleeding.</h1>
-                <p className="mt-3 max-w-2xl text-black/65">
-                    SiteER diagnosis is free. Pay only when you want implementation or a deeper manual review. 
-                    All fixes are built and verified by Bakersfield's trusted web team at{" "}
+                <h1 className="text-4xl font-semibold md:text-5xl text-white">Don&apos;t have a developer? Good — that&apos;s why we&apos;re here.</h1>
+                <p className="mt-3 max-w-2xl" style={{ color: "var(--er-muted)" }}>
+                    The scan is always free. If you want us to fix everything we find, our team handles it from start to finish — no developer on your end needed. Every fix is verified by Bakersfield&apos;s trusted web team at{" "}
                     <a
                         href="https://coaibakersfield.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-semibold text-red-600 hover:underline"
+                        className="font-semibold text-red-400 hover:underline"
                     >
                         coaibakersfield.com
                     </a>
@@ -95,11 +95,11 @@ export default function PricingPage() {
 
             <section className="mt-10 grid gap-5 md:grid-cols-3">
                 <article className="card-dark">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-black/55">
+                    <h2 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--er-muted)" }}>
                         Free ER Scan
                     </h2>
-                    <p className="mt-2 text-3xl font-semibold">$0</p>
-                    <ul className="mt-4 space-y-2 text-sm text-black/65">
+                    <p className="mt-2 text-3xl font-semibold text-white">$0</p>
+                    <ul className="mt-4 space-y-2 text-sm" style={{ color: "var(--er-muted)" }}>
                         <li>✓ Grade your site (A-F)</li>
                         <li>✓ Money leak estimate</li>
                         <li>✓ Top issues and treatment plan</li>
@@ -115,18 +115,18 @@ export default function PricingPage() {
 
                 <article className="relative card-dark" style={{ background: "linear-gradient(180deg,#7c1414,#a82700)", color: "white" }}>
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-1 text-xs font-bold text-red-900">
-                        MOST POPULAR
+                        NO DEVELOPER NEEDED
                     </div>
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-red-100">
-                        ER Fix Pack
+                        ER Fix Pack — We Do It For You
                     </h2>
                     <p className="mt-2 text-3xl font-semibold">$497</p>
-                    <p className="mt-1 text-xs text-red-100/80">Most sites qualify for this price</p>
+                    <p className="mt-1 text-xs text-red-100/80">Flat fee. We handle everything.</p>
                     <p className="mt-3 text-sm text-red-100/90">
-                        Our team implements your highest-impact fixes and re-scans to prove results.
+                        No developer? No problem. We implement every fix from your scan and re-scan to prove results.
                     </p>
                     <ul className="mt-4 space-y-2 text-sm text-red-100">
-                        <li>✓ Speed + mobile fixes</li>
+                        <li>✓ Speed + mobile fixes — done for you</li>
                         <li>✓ CTA and trust improvements</li>
                         <li>✓ SEO fundamentals cleanup</li>
                         <li>✓ Before/after re-scan proof</li>
@@ -136,19 +136,19 @@ export default function PricingPage() {
                         className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50 transition-colors"
                         href="/get-quote"
                     >
-                        Get a quote
+                        Let us fix it →
                     </a>
                 </article>
 
                 <article className="card-dark">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-black/55">
+                    <h2 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--er-muted)" }}>
                         Deep ER Report
                     </h2>
-                    <p className="mt-2 text-3xl font-semibold">$49</p>
-                    <p className="mt-2 text-sm text-black/65">
+                    <p className="mt-2 text-3xl font-semibold text-white">$49</p>
+                    <p className="mt-2 text-sm" style={{ color: "var(--er-muted)" }}>
                         30–60 minute human review layered on top of your automated scan.
                     </p>
-                    <ul className="mt-4 space-y-2 text-sm text-black/65">
+                    <ul className="mt-4 space-y-2 text-sm" style={{ color: "var(--er-muted)" }}>
                         <li>✓ Manual review by web expert</li>
                         <li>✓ Copy and offer clarity notes</li>
                         <li>✓ Local SEO quick wins</li>
@@ -169,7 +169,7 @@ export default function PricingPage() {
                     <div>
                         <h3 className="font-bold text-slate-900">Money-Back Guarantee</h3>
                         <p className="mt-1 text-sm text-slate-700">
-                            If we don't improve your grade by at least 20 points, you don't pay. No questions asked.
+                            If we don&apos;t improve your grade by at least 20 points, you don&apos;t pay. No questions asked.
                         </p>
                     </div>
                 </div>
@@ -181,8 +181,8 @@ export default function PricingPage() {
                         <div className="text-xs font-bold uppercase tracking-wider text-red-600">
                             Real Results
                         </div>
-                        <h2 className="mt-2 text-2xl font-bold text-slate-900">
-                            Before & After: Sites We Fixed
+                        <h2 className="mt-2 text-2xl font-bold text-white">
+                            Before &amp; After: Sites We Fixed
                         </h2>
                     </div>
                 </div>
@@ -190,7 +190,7 @@ export default function PricingPage() {
                     <article className="rounded-2xl border border-black/10 bg-white p-6">
                         <div className="flex items-end justify-between mb-4">
                             <div>
-                                <h3 className="font-bold text-slate-900">Joe's Plumbing</h3>
+                                <h3 className="font-bold text-slate-900">Joe&apos;s Plumbing</h3>
                                 <p className="text-sm text-slate-600">Local service business</p>
                             </div>
                         </div>
@@ -213,7 +213,7 @@ export default function PricingPage() {
                     <article className="rounded-2xl border border-black/10 bg-white p-6">
                         <div className="flex items-end justify-between mb-4">
                             <div>
-                                <h3 className="font-bold text-slate-900">Williams & Co. Law</h3>
+                                <h3 className="font-bold text-slate-900">Williams &amp; Co. Law</h3>
                                 <p className="text-sm text-slate-600">Local service business</p>
                             </div>
                         </div>
@@ -240,12 +240,12 @@ export default function PricingPage() {
                 <div className="flex flex-wrap items-center justify-between gap-6">
                     <div>
                         <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            Built by Bakersfield's trusted web team
+                            Built by Bakersfield&apos;s trusted web team
                         </div>
                         <h2 className="mt-2 text-2xl font-bold text-slate-900">coaibakersfield.com</h2>
                         <p className="mt-2 max-w-lg text-sm text-slate-600">
-                            We don't just diagnose — we fix, verify, and report back. Every ER Fix Pack includes a 
-                            before/after re-scan so you can see the improvement in real numbers. We've been optimizing 
+                            We don&apos;t just diagnose — we fix, verify, and report back. Every ER Fix Pack includes a 
+                            before/after re-scan so you can see the improvement in real numbers. We&apos;ve been optimizing 
                             websites since 2015.
                         </p>
                     </div>
@@ -264,7 +264,7 @@ export default function PricingPage() {
                 <div className="flex flex-wrap items-end justify-between gap-4">
                     <div>
                         <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            Learn & Implement
+                            Learn &amp; Implement
                         </div>
                         <h2 className="mt-2 text-2xl font-bold text-slate-900">
                             Understand the fixes before we build them
@@ -279,23 +279,23 @@ export default function PricingPage() {
                 </div>
                 <div className="mt-5 grid gap-4 md:grid-cols-3">
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/local-business-website-mistakes">
-                        <div className="text-sm font-semibold">Local business mistakes</div>
+                        <div className="text-sm font-semibold text-slate-900">Local business mistakes</div>
                         <p className="mt-1 text-sm text-black/60">What leaks leads on service sites.</p>
                     </a>
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/mobile-page-speed-fixes">
-                        <div className="text-sm font-semibold">Mobile speed fixes</div>
+                        <div className="text-sm font-semibold text-slate-900">Mobile speed fixes</div>
                         <p className="mt-1 text-sm text-black/60">Fast wins for users on phones.</p>
                     </a>
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/website-not-bringing-customers">
-                        <div className="text-sm font-semibold">Customer conversion leaks</div>
+                        <div className="text-sm font-semibold text-slate-900">Customer conversion leaks</div>
                         <p className="mt-1 text-sm text-black/60">How to turn visits into calls.</p>
                     </a>
                 </div>
             </section>
 
-            <footer className="mt-12 border-t border-slate-100 pt-8 text-sm text-slate-600">
-                <p className="mb-4">* Money-back guarantee: If we don't improve your grade by at least 20 points within the scope of work, you receive a full refund.</p>
-                <p>© {new Date().getFullYear()} SiteER — Built by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-red-600 hover:underline">coaibakersfield.com</a></p>
+            <footer className="mt-12 pt-8 text-sm" style={{ borderTop: "1px solid rgba(255,255,255,.1)", color: "var(--er-muted)" }}>
+                <p className="mb-4">* Money-back guarantee: If we don&apos;t improve your grade by at least 20 points within the scope of work, you receive a full refund.</p>
+                <p>© {new Date().getFullYear()} SiteER — Built by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-red-400 hover:underline">coaibakersfield.com</a></p>
             </footer>
         </main>
     );
