@@ -143,7 +143,7 @@ export default function FaqPage() {
                 <h1 className="mt-2 text-4xl font-bold text-balance md:text-5xl">
                     &ldquo;Do I need a developer?&rdquo; No. Here&apos;s why.
                 </h1>
-                <p className="mt-4 text-lg text-black/65">
+                <p className="mt-4 text-lg" style={{ color: "var(--er-muted)" }}>
                     Most of our customers don&apos;t have a developer on staff — that&apos;s the point. We scan it, we find it, we fix it.
                 </p>
             </section>
@@ -188,15 +188,15 @@ export default function FaqPage() {
                 <h2 className="text-sm font-bold uppercase tracking-wider text-red-600 mb-4">Related Reading</h2>
                 <div className="grid gap-3 md:grid-cols-3">
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02] transition-colors" href="/blog/local-business-website-mistakes">
-                        <div className="text-sm font-semibold">5 Website Mistakes That Cost the Most</div>
+                        <div className="text-sm font-semibold text-slate-900">5 Website Mistakes That Cost the Most</div>
                         <p className="mt-1 text-sm text-black/60">What quietly leaks leads on service sites.</p>
                     </a>
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02] transition-colors" href="/blog/mobile-page-speed-fixes">
-                        <div className="text-sm font-semibold">Fix Slow Mobile Pages in Under an Hour</div>
+                        <div className="text-sm font-semibold text-slate-900">Fix Slow Mobile Pages in Under an Hour</div>
                         <p className="mt-1 text-sm text-black/60">Fast wins for mobile visitors.</p>
                     </a>
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02] transition-colors" href="/blog/website-not-bringing-customers">
-                        <div className="text-sm font-semibold">Why Your Site Isn't Bringing Customers</div>
+                        <div className="text-sm font-semibold text-slate-900">Why Your Site Isn&apos;t Bringing Customers</div>
                         <p className="mt-1 text-sm text-black/60">How to turn visits into calls.</p>
                     </a>
                 </div>
