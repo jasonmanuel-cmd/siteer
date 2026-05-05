@@ -57,7 +57,7 @@ const structuredData = {
 export const metadata: Metadata = {
     title: "Is Your Website Costing You Customers? Free Scan — We Fix It For You",
     description:
-        "Paste your URL and find out in 60 seconds what's broken and how much it's costing you. No developer needed — SiteER's team fixes everything for a flat $497.",
+        "Paste your URL and find out in 60 seconds what’s broken and how much it’s costing you. No developer needed — SiteER’s team fixes everything for a flat $497.",
     alternates: { canonical: "/" },
 };
 
@@ -219,15 +219,15 @@ export default function HomePage() {
                                 </h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
-                                Every issue is translated into plain English and ranked by how much money it's costing you — not by how hard it is to understand.
+                                Every issue is translated into plain English and ranked by how much money it’s costing you — not by how hard it is to understand.
                             </p>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18 }}>
                             {[
                                 { icon: "⚡", color: "rgba(255,77,94,.13)", textColor: "#ff8792", title: "Slow site killing leads?", desc: "We pinpoint every speed issue dragging you down — oversized images, missing compression, render-blocking scripts — then fix them all.", checks: "8 checks" },
-                                { icon: "📱", color: "rgba(110,231,255,.12)", textColor: "var(--er-cyan)", title: "Mobile broken?", desc: "Over 60% of local searches happen on phones. One broken viewport or unreadable font and you're invisible. We find it and fix it.", checks: "5 checks" },
+                                { icon: "📱", color: "rgba(110,231,255,.12)", textColor: "var(--er-cyan)", title: "Mobile broken?", desc: "Over 60% of local searches happen on phones. One broken viewport or unreadable font and you’re invisible. We find it and fix it.", checks: "5 checks" },
                                 { icon: "🔎", color: "rgba(183,140,255,.13)", textColor: "var(--er-purple)", title: "Not showing on Google?", desc: "Missing title tags, no meta descriptions, no schema markup — every signal Google uses to rank your business, we check and repair.", checks: "5 checks" },
-                                { icon: "🛡", color: "rgba(62,226,143,.12)", textColor: "var(--er-green)", title: "Customers don't trust it?", desc: "No HTTPS, missing contact info, no visible reviews — we surface every trust gap that makes visitors leave without calling.", checks: "4 checks" },
+                                { icon: "🛡", color: "rgba(62,226,143,.12)", textColor: "var(--er-green)", title: "Customers don’t trust it?", desc: "No HTTPS, missing contact info, no visible reviews — we surface every trust gap that makes visitors leave without calling.", checks: "4 checks" },
                             ].map((card) => (
                                 <article key={card.title} style={{ borderRadius: 24, padding: 24, background: "var(--er-card)", border: "1px solid var(--er-stroke)", boxShadow: "0 20px 60px rgba(0,0,0,.16)", minHeight: 250, transition: "transform .2s ease, background .2s ease" }}
                                     className="hover:-translate-y-1">
@@ -257,7 +257,7 @@ export default function HomePage() {
                         </div>
                         <UrlScanForm />
                         <p style={{ marginTop: 18, color: "var(--er-muted-2)", fontSize: "0.85rem", maxWidth: 560 }}>
-                            <strong style={{ color: "var(--er-muted)" }}>How is the money leak calculated?</strong> We combine your grade with estimated traffic, industry conversion benchmarks, and average order value to project monthly revenue impact. It&apos;s directional — not a guarantee — but it&apos;s grounded in real performance data from thousands of local service sites.
+                            <strong style={{ color: "var(--er-muted)" }}>How is the money leak calculated?</strong> We combine your grade with estimated traffic, industry conversion benchmarks, and average order value to project monthly revenue impact. It&apos;s directional — not a guarantee — but it’s grounded in real performance data from thousands of local service sites.
                         </p>
                     </div>
                 </section>
@@ -273,10 +273,10 @@ export default function HomePage() {
                         {/* Testimonials grid */}
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18, marginBottom: 48 }}>
                             {[
-                                { quote: "I had no idea my website was this broken. SiteER found 9 issues in under a minute — then their team fixed all of them for $497. I'm getting more calls already.", name: "Marcus T.", biz: "Bakersfield HVAC & Air", before: "F", after: "B+" },
-                                { quote: "The money leak estimate said $2,400/mo. I was skeptical, but after the fix our contact form went from 2 leads a week to 9. These guys know what they're doing.", name: "Maria L.", biz: "Bakersfield Family Dentistry", before: "C", after: "A" },
-                                { quote: "I didn't have a developer and didn't know where to start. SiteER diagnosed the problems AND fixed them. The whole thing took less than a week.", name: "James R.", biz: "Kern County Roofing", before: "F", after: "B" },
-                                { quote: "Sent the report to my landlord — he had our site fixed that week. We're ranking on Google Maps now for the first time in three years.", name: "Priya N.", biz: "Downtown Bakersfield Café", before: "D", after: "A" },
+                                { quote: "I had no idea my website was this broken. SiteER found 9 issues in under a minute — then their team fixed all of them for $497. I’m getting more calls already.", name: "Marcus T.", biz: "Bakersfield HVAC & Air", before: "F", after: "B+" },
+                                { quote: "The money leak estimate said $2,400/mo. I was skeptical, but after the fix our contact form went from 2 leads a week to 9. These guys know what they’re doing.", name: "Maria L.", biz: "Bakersfield Family Dentistry", before: "C", after: "A" },
+                                { quote: "I didn’t have a developer and didn’t know where to start. SiteER diagnosed the problems AND fixed them. The whole thing took less than a week.", name: "James R.", biz: "Kern County Roofing", before: "F", after: "B" },
+                                { quote: "Sent the report to my landlord — he had our site fixed that week. We’re ranking on Google Maps now for the first time in three years.", name: "Priya N.", biz: "Downtown Bakersfield Café", before: "D", after: "A" },
                             ].map((t) => (
                                 <article key={t.name} style={{ borderRadius: 24, padding: 24, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)" }}>
                                     <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
@@ -303,7 +303,7 @@ export default function HomePage() {
                         {/* Before/after metric bar */}
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18 }}>
                             {[
-                                { biz: "Joe's Plumbing", type: "Local plumbing — Bakersfield", before: 38, after: 82, result: "+40% qualified calls · leads booked 2–3 days faster" },
+                                { biz: "Joe’s Plumbing", type: "Local plumbing — Bakersfield", before: 38, after: 82, result: "+40% qualified calls · leads booked 2–3 days faster" },
                                 { biz: "Williams & Co. Law", type: "Local law firm — Kern County", before: 45, after: 79, result: "Mobile restored · estimated $1,200/mo revenue recovered" },
                             ].map((cs) => (
                                 <div key={cs.biz} style={{ borderRadius: 24, padding: 24, background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.1)" }}>
@@ -344,7 +344,7 @@ export default function HomePage() {
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 18 }}>
                             {/* Included */}
                             <div style={{ borderRadius: 24, padding: 28, background: "rgba(62,226,143,.07)", border: "1px solid rgba(62,226,143,.18)" }}>
-                                <h3 style={{ fontSize: "1rem", fontWeight: 800, color: "var(--er-green)", marginBottom: 20, textTransform: "uppercase", letterSpacing: ".08em" }}>✓ What's included</h3>
+                                <h3 style={{ fontSize: "1rem", fontWeight: 800, color: "var(--er-green)", marginBottom: 20, textTransform: "uppercase", letterSpacing: ".08em" }}>✓ What’s included</h3>
                                 {[
                                     ["Speed optimization", "Image compression, caching, render-blocking removal"],
                                     ["Mobile usability fixes", "Viewport, font sizes, touch targets, overflow"],
@@ -366,7 +366,7 @@ export default function HomePage() {
                             {/* Not included + platforms */}
                             <div style={{ display: "grid", gap: 18 }}>
                                 <div style={{ borderRadius: 24, padding: 24, background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.1)" }}>
-                                    <h3 style={{ fontSize: "0.9rem", fontWeight: 800, color: "var(--er-muted)", marginBottom: 14, textTransform: "uppercase", letterSpacing: ".08em" }}>✗ Not included (so you're not surprised)</h3>
+                                    <h3 style={{ fontSize: "0.9rem", fontWeight: 800, color: "var(--er-muted)", marginBottom: 14, textTransform: "uppercase", letterSpacing: ".08em" }}>✗ Not included (so you’re not surprised)</h3>
                                     {["Full site redesigns", "New content creation or copywriting", "Paid advertising management", "Platform migrations"].map((item) => (
                                         <p key={item} style={{ color: "var(--er-muted)", fontSize: "0.88rem", marginBottom: 6, display: "flex", gap: 10 }}>
                                             <span style={{ color: "rgba(255,255,255,.3)" }}>—</span> {item}
@@ -401,7 +401,7 @@ export default function HomePage() {
                             {[
                                 { title: "Admit your site", desc: "Paste your URL. No account, no credit card, no waiting room. Triage starts immediately.", tag: "Instant" },
                                 { title: "Run diagnostics", desc: "20+ automated checks across speed, mobile, SEO, and trust. Your A–F grade in under 60 seconds.", tag: "60 seconds" },
-                                { title: "Read the chart", desc: "Every issue in plain English, ranked by how much revenue it's costing you monthly.", tag: "Free report" },
+                                { title: "Read the chart", desc: "Every issue in plain English, ranked by how much revenue it’s costing you monthly.", tag: "Free report" },
                                 { title: "Discharge — fixed", desc: "Our team implements every fix, then re-scans to prove your grade improved by 20+ points or you pay nothing.", tag: "3–5 days" },
                             ].map((card, i) => (
                                 <article key={card.title} style={{ position: "relative", borderRadius: 24, padding: 24, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)", minHeight: 210 }}>
@@ -429,7 +429,7 @@ export default function HomePage() {
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18, marginBottom: 48 }}>
                             {[
                                 { q: "What if my site has bigger problems than the scan finds?", a: "We scope before we charge. If your site needs work outside the Fix Pack, we tell you upfront with a custom quote — no surprise bills." },
-                                { q: "How do I know the fixes actually worked?", a: "Every Fix Pack includes a before/after re-scan. You see your old grade and your new grade side-by-side. If we don't hit +20 points, you get a full refund." },
+                                { q: "How do I know the fixes actually worked?", a: "Every Fix Pack includes a before/after re-scan. You see your old grade and your new grade side-by-side. If we don’t hit +20 points, you get a full refund." },
                                 { q: "I already have a developer — is this still useful?", a: "Absolutely. The free report is the fastest diagnostic brief your developer will ever receive. Send it to them and skip the back-and-forth." },
                             ].map((item) => (
                                 <article key={item.q} style={{ borderRadius: 24, padding: 24, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)" }}>
@@ -446,7 +446,7 @@ export default function HomePage() {
                                 Stop guessing. Start with a free scan.
                             </h2>
                             <p style={{ color: "var(--er-muted)", fontSize: "1rem", maxWidth: 520, margin: "0 auto 32px", lineHeight: 1.7 }}>
-                                60 seconds. No credit card. You'll know exactly what's broken, how much it's costing you, and what it would take to fix it — before spending a dollar.
+                                60 seconds. No credit card. You’ll know exactly what’s broken, how much it’s costing you, and what it would take to fix it — before spending a dollar.
                             </p>
                             <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
                                 <a href="#diagnosis" style={{ border: 0, borderRadius: 999, padding: "16px 36px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "1.05rem", textDecoration: "none", display: "inline-flex", alignItems: "center" }}>
