@@ -64,10 +64,10 @@ export default function GetQuotePage() {
 
             <section className="mx-auto mt-12 max-w-2xl">
                 <div className="inline-flex items-center rounded-full border border-red-200 bg-white px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-red-600 shadow-sm">
-                    ER Fix Pack — Starting at $450
+                    ER Fix Pack — Flat $497, We Handle Everything
                 </div>
                 <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900">
-                    Let's fix what's costing you money.
+                    No developer? No problem. We fix it for you.
                 </h1>
                 <p className="mt-4 text-lg text-slate-600">
                     The team at{" "}
@@ -79,22 +79,22 @@ export default function GetQuotePage() {
                     >
                         COAIBAKERSFIELD.COM
                     </a>{" "}
-                    implements your highest-impact fixes and re-scans your site to prove the improvement.
-                    Fill out the form below and we'll send a custom quote within 1 business day.
+                    handles every fix from your scan — speed, mobile, SEO, trust signals — then re-scans your site to prove the improvement in real numbers.
+                    Fill out the form below and we'll be in touch within 1 business day.
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-6 text-sm text-slate-500">
                     <span className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                        Speed + mobile fixes
+                        We do all the work — no tech skills needed
                     </span>
                     <span className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                        CTA and trust improvements
+                        Flat $497 — no surprises
                     </span>
                     <span className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                        Before/after re-scan included
+                        +20 pts guaranteed or full refund
                     </span>
                 </div>
             </section>

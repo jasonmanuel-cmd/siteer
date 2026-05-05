@@ -82,9 +82,9 @@ const structuredData = {
 };
 
 export const metadata: Metadata = {
-    title: "Website Audit Tool for SEO, Performance, and Trust Signals",
+    title: "Is Your Website Costing You Customers? Free Scan — We Fix It For You",
     description:
-        "SiteER gives businesses an instant website ER scan for SEO, speed, mobile, and trust issues with an actionable treatment plan and revenue-leak estimate.",
+        "Paste your URL and find out in 60 seconds what's broken and how much it's costing you. No developer needed — SiteER's team fixes everything for a flat $497.",
     alternates: {
         canonical: "/",
     },
@@ -133,28 +133,28 @@ export default function HomePage() {
                         <div>
                             <LiveScanCounter />
                             <h1 style={{ fontSize: "clamp(3rem, 7vw, 6.45rem)", lineHeight: 0.92, letterSpacing: "-.075em", maxWidth: 850, marginTop: 22 }}>
-                                The <span className="cta-word">emergency room</span> for{" "}
+                                Your website is{" "}
                                 <span style={{ background: "linear-gradient(135deg, #ffffff 15%, #ffb6bf 48%, #ffb15c 78%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-                                    sick websites.
+                                    costing you customers.
                                 </span>
                             </h1>
                             <div style={{ marginTop: 24, display: "grid", gap: 12, maxWidth: 650 }}>
                                 <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
                                     <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
-                                    <span>See your site's A–F grade in 60 seconds</span>
+                                    <span>See exactly what's broken — A–F grade in 60 seconds, free</span>
                                 </p>
                                 <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
                                     <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
-                                    <span>Find the exact dollar amount you're losing every month</span>
+                                    <span>Find the dollar amount you're leaking every single month</span>
                                 </p>
                                 <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
-                                    <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
-                                    <span>Get a shareable report to send your developer</span>
+                                    <span style={{ color: "#ffb15c", fontWeight: 900, flexShrink: 0 }}>★</span>
+                                    <span><strong style={{ color: "white" }}>No developer? No problem.</strong> We fix everything we find.</span>
                                 </p>
                             </div>
                             <HeroUrlInput />
                             <div style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 14, color: "var(--er-muted-2)", fontSize: "0.92rem" }}>
-                                {["No credit card required", "No signup", "Results in 60 seconds"].map((item) => (
+                                {["Free scan — no card needed", "No tech skills required", "We handle fixes for you"].map((item) => (
                                     <span key={item} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                                         <span style={{ color: "var(--er-green)", fontWeight: 900 }}>✓</span> {item}
                                     </span>
@@ -220,21 +220,21 @@ export default function HomePage() {
                     <div className="er-container">
                         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginBottom: 34, flexWrap: "wrap" }}>
                             <div>
-                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>4 reports • 20+ checks • 1 clear action plan</div>
+                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>20+ checks • plain-English results • we fix it for you</div>
                                 <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em", maxWidth: 780 }}>
-                                    Everything a business owner needs to know, without the technical fog.
+                                    Find the leaks. We'll patch them.
                                 </h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
-                                SiteER fetches the page, runs 20+ automated checks, weights every issue by severity, and turns website problems into an action plan.
+                                No developer on your team? That's fine — we scan your site, show you every problem in plain English, then our team fixes everything for a flat fee.
                             </p>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18 }}>
                             {[
-                                { icon: "⚡", color: "rgba(255,77,94,.13)", textColor: "#ff8792", title: "Speed triage", desc: "Catches 3x more issues than Google PageSpeed alone. Flags oversized pages, missing compression, unoptimized images, and lazy-loading gaps." },
-                                { icon: "📱", color: "rgba(110,231,255,.12)", textColor: "var(--er-cyan)", title: "Mobile health", desc: "Checks 12+ signals for mobile usability. Finds viewport setup, readable font sizes, and touch target problems that make mobile users bounce." },
-                                { icon: "🔎", color: "rgba(183,140,255,.13)", textColor: "var(--er-purple)", title: "SEO vitals", desc: "14 signals checked in 12 seconds. Reviews H1 usage, title length, meta descriptions, Open Graph tags, robots.txt, and sitemap signals." },
-                                { icon: "🛡", color: "rgba(62,226,143,.12)", textColor: "var(--er-green)", title: "Trust signals", desc: "6 trust checks to build confidence. Surfaces HTTPS, security headers, and contact information gaps that make customers hesitate." },
+                                { icon: "⚡", color: "rgba(255,77,94,.13)", textColor: "#ff8792", title: "Slow site killing leads?", desc: "We find every speed issue killing your rankings and conversions — then fix them. Images, compression, caching, the works." },
+                                { icon: "📱", color: "rgba(110,231,255,.12)", textColor: "var(--er-cyan)", title: "Mobile broken?", desc: "Over 60% of local searches are on phones. If your site isn't mobile-friendly, you're invisible. We find it and fix it." },
+                                { icon: "🔎", color: "rgba(183,140,255,.13)", textColor: "var(--er-purple)", title: "Not showing on Google?", desc: "Missing titles, no meta descriptions, broken SEO basics — we catch every signal Google uses to rank your business." },
+                                { icon: "🛡", color: "rgba(62,226,143,.12)", textColor: "var(--er-green)", title: "Customers don't trust it?", desc: "No HTTPS, missing contact info, no reviews showing — we surface every trust gap that's making visitors leave without calling." },
                             ].map((card) => (
                                 <article key={card.title} style={{ borderRadius: 24, padding: 24, background: "var(--er-card)", border: "1px solid var(--er-stroke)", boxShadow: "0 20px 60px rgba(0,0,0,.16)", minHeight: 250, transition: "transform .2s ease, background .2s ease" }}
                                     className="hover:-translate-y-1">
@@ -252,11 +252,11 @@ export default function HomePage() {
                     <div className="er-container">
                         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginBottom: 34, flexWrap: "wrap" }}>
                             <div>
-                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Try the flow</div>
-                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Run a real <span className="cta-word">ER scan</span>.</h2>
+                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Free — no card, no signup</div>
+                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Scan your site <span className="cta-word">right now</span>.</h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
-                                This is the live product: URL in, triage checks, teaser report, then an email gate for the full shareable report.
+                                Paste your URL, get your grade in 60 seconds. Enter your email to unlock the full report — then decide if you want us to fix it.
                             </p>
                         </div>
                         <UrlScanForm />
@@ -267,17 +267,17 @@ export default function HomePage() {
                 <section style={{ padding: "82px 0" }}>
                     <div className="er-container">
                         <div style={{ marginBottom: 34 }}>
-                            <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Why choose SiteER</div>
-                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>No credit card. No signup. Results in 60 seconds.</h2>
+                            <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>No developer needed</div>
+                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Scan it yourself. We'll fix it for you.</h2>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 18, marginBottom: 48 }}>
                             {[
-                                { icon: "💳", label: "No credit card", detail: "Free scan, forever" },
-                                { icon: "⏱", label: "60 seconds", detail: "Instant diagnosis" },
-                                { icon: "📊", label: "20+ checks", detail: "Comprehensive audit" },
-                                { icon: "🔒", label: "Secure", detail: "HTTPS protected" },
-                                { icon: "📧", label: "Email delivery", detail: "Shareable reports" },
-                                { icon: "🎯", label: "Actionable", detail: "Prioritized fixes" },
+                                { icon: "💳", label: "Free scan", detail: "No card, no signup" },
+                                { icon: "⏱", label: "60 seconds", detail: "Results while you wait" },
+                                { icon: "🔧", label: "We fix it", detail: "Flat $497 — we handle it all" },
+                                { icon: "📋", label: "Plain English", detail: "No tech jargon" },
+                                { icon: "📊", label: "Before & after", detail: "Re-scan proves results" },
+                                { icon: "🛡️", label: "Guaranteed", detail: "+20 pts or money back" },
                             ].map((badge) => (
                                 <article key={badge.label} style={{ borderRadius: 18, padding: 20, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)", textAlign: "center" }}>
                                     <div style={{ fontSize: "1.8rem", marginBottom: 10 }}>{badge.icon}</div>
@@ -287,12 +287,12 @@ export default function HomePage() {
                             ))}
                         </div>
                         <div style={{ background: "rgba(255,77,94,.08)", border: "1px solid rgba(255,77,94,.18)", borderRadius: 24, padding: 32, textAlign: "center" }}>
-                            <p style={{ color: "var(--er-muted)", fontSize: "0.95rem", marginBottom: 16 }}>Trusted by local business owners, contractors, and service companies</p>
+                            <p style={{ color: "var(--er-muted)", fontSize: "0.95rem", marginBottom: 16 }}>Trusted by local business owners, contractors, and service companies across Bakersfield</p>
                             <blockquote style={{ fontSize: "1.15rem", fontStyle: "italic", color: "white", lineHeight: 1.7, marginBottom: 18 }}>
-                                "I sent this to my web developer and he fixed everything in a day. For $0, I got a roadmap that actually worked. Highly recommend."
+                                "I had no idea my website was this broken. SiteER found 9 issues in under a minute — then their team fixed all of them for $497. I'm getting more calls already."
                             </blockquote>
                             <div style={{ color: "var(--er-muted)", fontSize: "0.9rem" }}>
-                                <strong>— Sarah M.</strong> Bakersfield Wellness Center
+                                <strong>— Marcus T.</strong>, Bakersfield HVAC &amp; Air
                             </div>
                         </div>
                     </div>
@@ -303,14 +303,14 @@ export default function HomePage() {
                     <div className="er-container">
                         <div style={{ marginBottom: 34 }}>
                             <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>How it works</div>
-                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Built for instant diagnosis and lead capture.</h2>
+                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Diagnosis in 60 seconds. Fixed in days — not months.</h2>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18, counterReset: "workflow" }}>
                             {[
-                                { title: "Fetch", desc: "Downloads the page HTML with a 12-second timeout, bot user-agent, and redirect following." },
-                                { title: "Analyze", desc: "Parses the HTML to inspect speed, mobile, SEO, trust, and technical signals across 20+ checks." },
-                                { title: "Score", desc: "Weights each issue by severity and category to create an A–F grade customers understand instantly." },
-                                { title: "Convert", desc: "Shows a free teaser first, then gates the full permanent report behind email capture." },
+                                { title: "Paste your URL", desc: "Type or paste your website address. No account, no credit card. Takes 5 seconds." },
+                                { title: "Get your grade", desc: "We scan 20+ signals across speed, mobile, SEO, and trust. Your A–F grade is ready in under 60 seconds." },
+                                { title: "See your money leak", desc: "Your free report shows exactly what's broken and estimates how much it's costing you every month." },
+                                { title: "We fix it for you", desc: "No developer? No problem. Our team implements every fix for a flat fee, then re-scans to prove results." },
                             ].map((card, i) => (
                                 <article key={card.title} style={{ position: "relative", borderRadius: 24, padding: 24, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)", minHeight: 210 }}>
                                     <div style={{ display: "inline-flex", marginBottom: 28, color: "#071018", background: "linear-gradient(135deg, var(--er-cyan), var(--er-green))", borderRadius: 999, padding: "6px 10px", fontSize: "0.78rem", fontWeight: 950 }}>
@@ -329,25 +329,25 @@ export default function HomePage() {
                     <div className="er-container">
                         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginBottom: 34, flexWrap: "wrap" }}>
                             <div>
-                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Next steps</div>
-                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>The other pages live behind the diagnosis.</h2>
+                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>What happens next</div>
+                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Ready to stop losing money?</h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
-                                Use the homepage to start the scan, then move to the reports, pricing, and FAQ pages only when the user is ready.
+                                After your scan, you decide what happens next. Keep the report and hand it to your team — or let us handle everything for a flat fee.
                             </p>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18 }}>
                             {[
-                                { title: "Reports", desc: "See what the shareable report includes after the scan.", href: "/reports" },
-                                { title: "Pricing", desc: "Compare free diagnosis, implementation, and manual review.", href: "/pricing" },
-                                { title: "FAQ", desc: "Answer common questions without distracting from the funnel.", href: "/faq" },
-                                { title: "Blog", desc: "Read the content cluster that supports the homepage.", href: "/blog" },
+                                { title: "See your report", desc: "Every scan creates a permanent, shareable report link. See what's broken and what it's costing you.", href: "/reports" },
+                                { title: "We fix it — $497 flat", desc: "No developer? We implement every fix, guaranteed. +20 point grade improvement or full refund.", href: "/pricing" },
+                                { title: "Common questions", desc: "\"Do I need a developer?\" \"How long does it take?\" \"What exactly do you fix?\" Answered here.", href: "/faq" },
+                                { title: "Website tips & guides", desc: "Free resources to understand why your site isn't bringing in customers — and what to do about it.", href: "/blog" },
                             ].map((item) => (
                                 <article key={item.title} style={{ borderRadius: 24, padding: 22, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)" }}>
                                     <h3 style={{ fontSize: "1.1rem", letterSpacing: "-.03em", marginBottom: 10 }}>{item.title}</h3>
                                     <p style={{ color: "var(--er-muted)", lineHeight: 1.65, fontSize: "0.95rem" }}>{item.desc}</p>
                                     <a href={item.href} className="mt-4 inline-flex text-sm font-semibold text-white underline decoration-red-300 underline-offset-4">
-                                        Open page
+                                        Learn more →
                                     </a>
                                 </article>
                             ))}

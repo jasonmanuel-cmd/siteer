@@ -13,7 +13,7 @@ const breadcrumbSchema = {
 export const metadata: Metadata = {
     title: "Pricing",
     description:
-        "See SiteER pricing for free website diagnosis, ER Fix Pack implementation, and deep manual reports powered by COAIBAKERSFIELD.COM.",
+        "No developer? No problem. SiteER's team fixes every issue we find for a flat $497 — or run the free scan yourself and send the report to anyone.",
     alternates: {
         canonical: "/pricing",
     },
@@ -77,10 +77,9 @@ export default function PricingPage() {
                 </header>
 
             <section className="mt-10">
-                <h1 className="text-4xl font-semibold md:text-5xl">Stop the bleeding.</h1>
+                <h1 className="text-4xl font-semibold md:text-5xl">Don't have a developer? Good — that's why we're here.</h1>
                 <p className="mt-3 max-w-2xl text-black/65">
-                    SiteER diagnosis is free. Pay only when you want implementation or a deeper manual review. 
-                    All fixes are built and verified by Bakersfield's trusted web team at{" "}
+                    The scan is always free. If you want us to fix everything we find, our team handles it from start to finish — no developer on your end needed. Every fix is verified by Bakersfield's trusted web team at{" "}
                     <a
                         href="https://coaibakersfield.com"
                         target="_blank"
@@ -115,18 +114,18 @@ export default function PricingPage() {
 
                 <article className="relative card-dark" style={{ background: "linear-gradient(180deg,#7c1414,#a82700)", color: "white" }}>
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-1 text-xs font-bold text-red-900">
-                        MOST POPULAR
+                        NO DEVELOPER NEEDED
                     </div>
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-red-100">
-                        ER Fix Pack
+                        ER Fix Pack — We Do It For You
                     </h2>
                     <p className="mt-2 text-3xl font-semibold">$497</p>
-                    <p className="mt-1 text-xs text-red-100/80">Most sites qualify for this price</p>
+                    <p className="mt-1 text-xs text-red-100/80">Flat fee. We handle everything.</p>
                     <p className="mt-3 text-sm text-red-100/90">
-                        Our team implements your highest-impact fixes and re-scans to prove results.
+                        No developer? No problem. We implement every fix from your scan and re-scan to prove results.
                     </p>
                     <ul className="mt-4 space-y-2 text-sm text-red-100">
-                        <li>✓ Speed + mobile fixes</li>
+                        <li>✓ Speed + mobile fixes — done for you</li>
                         <li>✓ CTA and trust improvements</li>
                         <li>✓ SEO fundamentals cleanup</li>
                         <li>✓ Before/after re-scan proof</li>
@@ -136,7 +135,7 @@ export default function PricingPage() {
                         className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50 transition-colors"
                         href="/get-quote"
                     >
-                        Get a quote
+                        Let us fix it →
                     </a>
                 </article>
 

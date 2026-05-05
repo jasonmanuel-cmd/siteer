@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PrintButton from "@/components/PrintButton";
 
 export const metadata: Metadata = {
     title: "SiteER — Complete Business Overview",
@@ -297,7 +298,7 @@ export default function BusinessOverviewPage() {
                 }
             `}</style>
 
-            <button className="print-btn" onClick={() => window.print()}>
+            <PrintButton />
                 Print / Save as PDF ↓
             </button>
 

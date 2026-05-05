@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import PrintButton from "@/components/PrintButton";
 
 export const dynamic = "force-dynamic";
 
@@ -102,12 +103,11 @@ export default async function PrintPage({ params }: { params: { token: string } 
 
                 {/* Print button — hidden when printing */}
                 <div className="no-print" style={{ marginBottom: 24, textAlign: "right" }}>
-                    <button
-                        onClick={() => window.print()}
+                    <PrintButton
+                        label="Download / Print PDF"
+                        className=""
                         style={{ background: "#dc2626", color: "white", border: "none", borderRadius: 8, padding: "10px 20px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
-                    >
-                        Download / Print PDF
-                    </button>
+                    />
                 </div>
 
                 {/* Header */}

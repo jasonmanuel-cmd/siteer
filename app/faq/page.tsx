@@ -139,13 +139,28 @@ export default function FaqPage() {
                 </header>
 
             <section className="mt-10 max-w-2xl">
-                <p className="text-xs font-bold uppercase tracking-wider text-red-600">Questions</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-red-600">Common Questions</p>
                 <h1 className="mt-2 text-4xl font-bold text-balance md:text-5xl">
-                    Questions about SiteER? We've got answers.
+                    &ldquo;Do I need a developer?&rdquo; No. Here&apos;s why.
                 </h1>
                 <p className="mt-4 text-lg text-black/65">
-                    Find practical details about how the scan works, what you'll get, and what's next.
+                    Most of our customers don't have a developer on staff — that's the point. We scan it, we find it, we fix it.
                 </p>
+            </section>
+
+            <section className="mt-8 rounded-2xl border-2 border-red-200 bg-red-50 p-6">
+                <div className="flex flex-wrap gap-6">
+                    {[
+                        { q: "Do I need to be technical?", a: "Not at all. The report is in plain English. Every issue has a priority level and a clear description anyone can understand." },
+                        { q: "What if I don't have a developer?", a: "That's what we're here for. Our team handles every fix for a flat $497 — speed, mobile, SEO, trust signals. You don't touch a line of code." },
+                        { q: "How long does the fix take?", a: "Most sites are fully fixed within 3–5 business days. You'll get a before/after re-scan when we're done." },
+                    ].map((item) => (
+                        <div key={item.q} style={{ flex: "1 1 220px" }}>
+                            <div className="text-sm font-bold text-slate-900">{item.q}</div>
+                            <p className="mt-1 text-sm text-slate-600">{item.a}</p>
+                        </div>
+                    ))}
+                </div>
             </section>
 
             <section className="mt-10">
@@ -154,17 +169,17 @@ export default function FaqPage() {
 
             <section className="mt-12 grid gap-4 md:grid-cols-2">
                 <div>
-                    <h2 className="text-xl font-semibold">Need the next step?</h2>
+                    <h2 className="text-xl font-semibold">Ready to find out what&apos;s broken?</h2>
                     <p style={{ marginTop: 8, color: 'var(--er-muted)', fontSize: '0.95rem' }}>
-                        Run a scan on the homepage, then unlock the report with your email.
+                        Scan is free. If you want us to fix it, we handle everything for a flat fee.
                     </p>
                 </div>
                 <div className="flex flex-wrap gap-3 md:justify-end">
                     <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/#diagnosis">
-                        Run a diagnosis
+                        Run a free scan
                     </a>
-                    <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/pricing">
-                        View pricing
+                    <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/get-quote">
+                        Let us fix it — $497
                     </a>
                 </div>
             </section>

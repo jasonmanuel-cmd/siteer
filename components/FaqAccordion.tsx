@@ -4,8 +4,12 @@ import { useState } from "react";
 
 const faqs = [
     {
+        q: "I don't have a developer — can you still help me?",
+        a: "Absolutely — that's exactly who SiteER is built for. We scan your site, show you every problem in plain English, then our team fixes everything for a flat $497. You don't touch a line of code.",
+    },
+    {
         q: "Who is SiteER for?",
-        a: "Local business owners, contractors, and service companies who are losing leads from a slow or broken website. Perfect for anyone who wants a fast diagnosis without reading a technical audit.",
+        a: "Local business owners, service companies, contractors, and anyone with a website who's losing customers but doesn't know why. No tech skills needed — we translate every finding into plain English.",
     },
     {
         q: "How long does a scan take?",
