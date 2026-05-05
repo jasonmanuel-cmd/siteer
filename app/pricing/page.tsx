@@ -278,15 +278,15 @@ export default function PricingPage() {
                 </div>
                 <div className="mt-5 grid gap-4 md:grid-cols-3">
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/local-business-website-mistakes">
-                        <div className="text-sm font-semibold">Local business mistakes</div>
+                        <div className="text-sm font-semibold text-slate-900">Local business mistakes</div>
                         <p className="mt-1 text-sm text-black/60">What leaks leads on service sites.</p>
                     </a>
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/mobile-page-speed-fixes">
-                        <div className="text-sm font-semibold">Mobile speed fixes</div>
+                        <div className="text-sm font-semibold text-slate-900">Mobile speed fixes</div>
                         <p className="mt-1 text-sm text-black/60">Fast wins for users on phones.</p>
                     </a>
                     <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/website-not-bringing-customers">
-                        <div className="text-sm font-semibold">Customer conversion leaks</div>
+                        <div className="text-sm font-semibold text-slate-900">Customer conversion leaks</div>
                         <p className="mt-1 text-sm text-black/60">How to turn visits into calls.</p>
                     </a>
                 </div>
