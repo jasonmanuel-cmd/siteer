@@ -124,9 +124,10 @@ export default function FaqPage() {
                                     style={{ width: "auto", height: 42 }}
                                 />
                             </a>
-                            <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
+                            <div style={{ display: "flex", gap: 28, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
                                 <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
                                 <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
+                                <a href="/blog" className="nav-link" style={{ fontWeight: 700 }}>Blog</a>
                                 <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
                             </div>
                             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

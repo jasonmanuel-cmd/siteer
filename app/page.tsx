@@ -92,9 +92,10 @@ export default function HomePage() {
                                 style={{ width: "auto", height: 42 }}
                             />
                         </a>
-                        <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
+                        <div style={{ display: "flex", gap: 28, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
                             <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
                             <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
+                            <a href="/blog" className="nav-link" style={{ fontWeight: 700 }}>Blog</a>
                             <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
                         </div>
                         <a href="#diagnosis" style={{ border: 0, borderRadius: 999, padding: "14px 22px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "0.95rem", minHeight: 48, display: "inline-flex", alignItems: "center" }}>
