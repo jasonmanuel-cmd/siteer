@@ -144,7 +144,7 @@ export default function FaqPage() {
                     &ldquo;Do I need a developer?&rdquo; No. Here&apos;s why.
                 </h1>
                 <p className="mt-4 text-lg text-black/65">
-                    Most of our customers don't have a developer on staff — that's the point. We scan it, we find it, we fix it.
+                    Most of our customers don&apos;t have a developer on staff — that&apos;s the point. We scan it, we find it, we fix it.
                 </p>
             </section>
 
