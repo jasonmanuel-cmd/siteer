@@ -83,25 +83,14 @@ export default function ContactForm() {
             </div>
             <div>
                 <label style={labelStyle}>Message</label>
-                <textarea
-                    name="message"
-                    rows={5}
-                    value={form.message}
-                    onChange={handleChange}
-                    placeholder="What's your biggest digital challenge right now?"
-                    style={{ ...inputStyle, resize: "vertical" }}
-                />
+                <textarea name="message" rows={5} value={form.message} onChange={handleChange} placeholder="What's your biggest digital challenge right now?" style={{ ...inputStyle, resize: "vertical" }} />
             </div>
-            <button
-                type="submit"
-                disabled={status === "sending"}
-                style={{ width: "100%", padding: "18px", borderRadius: 14, border: 0, fontWeight: 800, fontSize: "1rem", color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", cursor: status === "sending" ? "not-allowed" : "pointer", opacity: status === "sending" ? 0.7 : 1, boxShadow: "0 18px 42px rgba(255,77,94,.28)" }}
-            >
+            <button type="submit" disabled={status === "sending"} style={{ width: "100%", padding: "18px", borderRadius: 14, border: 0, fontWeight: 800, fontSize: "1rem", color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", cursor: status === "sending" ? "not-allowed" : "pointer", opacity: status === "sending" ? 0.7 : 1, boxShadow: "0 18px 42px rgba(255,77,94,.28)" }}>
                 {status === "sending" ? "Sending…" : "Send Message →"}
             </button>
             {status === "error" && (
                 <p style={{ color: "var(--er-red)", fontSize: "0.88rem", textAlign: "center" }}>
-                    Something went wrong. Call us directly at <a href="tel:+16615694244" style={{ color: "var(--er-red)", fontWeight: 700 }}>(661) 569-4244</a>.
+                    Something went wrong. Call us at <a href="tel:+16615694244" style={{ color: "var(--er-red)", fontWeight: 700 }}>(661) 569-4244</a>.
                 </p>
             )}
             <p style={{ fontSize: "0.8rem", color: "var(--er-muted-2)", textAlign: "center", lineHeight: 1.6 }}>

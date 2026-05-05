@@ -24,14 +24,11 @@ export default function ContactPage() {
             <SiteHeader />
             <main className="er-container" style={{ padding: "64px 0 0" }}>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "start" }}>
-
-                    {/* Left — contact info */}
                     <div>
                         <p style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Get in touch</p>
                         <h1 style={{ fontSize: "clamp(2.2rem, 4vw, 3.4rem)", lineHeight: 1.0, letterSpacing: "-.055em", marginBottom: 36 }}>
                             Talk to a human.<br />Not a chatbot.
                         </h1>
-
                         <div style={{ marginBottom: 32 }}>
                             <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--er-muted)", marginBottom: 10 }}>Direct Line</p>
                             <a href="tel:+16615694244" style={{ fontSize: "2rem", fontWeight: 900, color: "var(--er-cyan)", letterSpacing: "-.03em", display: "block", marginBottom: 6 }}>
@@ -39,14 +36,12 @@ export default function ContactPage() {
                             </a>
                             <p style={{ color: "var(--er-muted)", fontSize: "0.9rem" }}>Jason picks up. No receptionist gatekeeping.</p>
                         </div>
-
                         <div style={{ marginBottom: 40 }}>
                             <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--er-muted)", marginBottom: 10 }}>Email</p>
                             <a href="mailto:jasonm@coaibakersfield.com" style={{ fontSize: "1.1rem", fontWeight: 700, color: "white", display: "block" }}>
                                 jasonm@coaibakersfield.com
                             </a>
                         </div>
-
                         <div style={{ borderRadius: 20, padding: 24, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)" }}>
                             {[
                                 "No high-pressure sales",
@@ -60,8 +55,6 @@ export default function ContactPage() {
                             ))}
                         </div>
                     </div>
-
-                    {/* Right — form */}
                     <div style={{ borderRadius: 24, padding: 32, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)" }}>
                         <h2 style={{ fontSize: "1.4rem", fontWeight: 800, marginBottom: 6 }}>Send a Message</h2>
                         <p style={{ color: "var(--er-muted)", fontSize: "0.9rem", marginBottom: 28 }}>
