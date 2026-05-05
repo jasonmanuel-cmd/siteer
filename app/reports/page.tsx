@@ -53,9 +53,10 @@ export default function ReportsPage() {
                                 style={{ width: "auto", height: 42 }}
                             />
                         </a>
-                        <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
+                        <div style={{ display: "flex", gap: 28, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
                             <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
                             <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
+                            <a href="/blog" className="nav-link" style={{ fontWeight: 700 }}>Blog</a>
                             <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -73,8 +74,8 @@ export default function ReportsPage() {
                     <h1 className="mt-2 text-4xl font-semibold text-balance md:text-5xl">
                         Send this report to your developer (or us) and get your site fixed in days, not months.
                     </h1>
-                    <p className="mt-4 max-w-2xl text-lg text-black/65">
-                        The one PDF that gets your team to actually fix what's broken. Includes the grade, every issue prioritized, revenue-leak estimate, and a clear treatment plan.
+                    <p className="mt-4 max-w-2xl text-lg" style={{ color: "var(--er-muted)" }}>
+                        The one PDF that gets your team to actually fix what&apos;s broken. Includes the grade, every issue prioritized, revenue-leak estimate, and a clear treatment plan.
                     </p>
                     <div className="mt-6 flex flex-wrap gap-3">
                         <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/#diagnosis">
@@ -127,8 +128,8 @@ export default function ReportsPage() {
             <section className="mt-12 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-8">
                 <h2 className="text-2xl font-bold text-slate-900">Real customer feedback</h2>
                 <blockquote className="mt-6 border-l-4 border-amber-400 pl-6 text-lg font-medium text-slate-900">
-                    "I sent this to my web guy and he fixed 4 issues in a day. Best $0 I ever spent. Then we got the ER Fix Pack and our site jumped from a D to a B. Now we're getting 30% more calls."
-                    <footer className="mt-3 text-sm text-slate-600">— Mike D., Local Contractor</footer>
+                    &ldquo;I sent this to my web guy and he fixed 4 issues in a day. Best $49 I ever spent. Then we got the ER Fix Pack and our site jumped from a D to a B. Now we&apos;re getting 30% more calls.&rdquo;
+                    <footer className="mt-3 text-sm text-slate-600">&mdash; Mike D., Local Contractor</footer>
                 </blockquote>
             </section>
         </main>
