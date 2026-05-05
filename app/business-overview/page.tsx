@@ -299,8 +299,6 @@ export default function BusinessOverviewPage() {
             `}</style>
 
             <PrintButton />
-                Print / Save as PDF ↓
-            </button>
 
             <div className="page">
 
