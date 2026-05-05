@@ -3,10 +3,8 @@ const nextConfig = {
     reactStrictMode: true,
     // Increase timeout for static page generation from default 60 seconds to 120 seconds
     staticPageGenerationTimeout: 120,
-    // Experimental options for better build performance
-    experimental: {
-        isrMemoryCacheSize: 50 * 1024 * 1024, // 50MB ISR cache
-    },
+    // Cache settings for incremental static regeneration
+    cacheMaxMemorySize: 50 * 1024 * 1024, // 50MB ISR cache
     images: {
         formats: ["image/avif", "image/webp"],
         deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
