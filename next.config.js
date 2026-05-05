@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
+    // Increase timeout for static page generation from default 60 seconds to 120 seconds
+    staticPageGenerationTimeout: 120,
+    // Experimental options for better build performance
+    experimental: {
+        isrMemoryCacheSize: 50 * 1024 * 1024, // 50MB ISR cache
+    },
     images: {
         formats: ["image/avif", "image/webp"],
         deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -65,8 +71,17 @@ const nextConfig = {
             },
         ];
     },
+    async redirects() {
+        return [
+            // Catch any phantom routes and redirect to home
+            // This prevents 404s from trying to generate non-existent pages
+            {
+                source: '/business-overview',
+                destination: '/',
+                permanent: false,
+            },
+        ];
+    },
 }
 
 module.exports = nextConfig;
-
-module.exports = nextConfig

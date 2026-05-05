@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SiteChrome from "@/components/SiteChrome";
 
 export const metadata: Metadata = {
     title: "Resources",
@@ -55,58 +56,50 @@ const posts = [
 
 export default function BlogPage() {
     return (
-        <main className="mx-auto max-w-5xl px-5 py-8 md:px-8 md:py-12">
-            <header className="flex items-center justify-between gap-4">
-                <a className="text-sm font-semibold tracking-tight" href="/">
-                    SiteER <span className="text-black/45">/ Resources</span>
-                </a>
-                <div className="flex items-center gap-4">
-                    <a className="text-sm text-black/60 hover:text-black" href="/pricing">
-                        Pricing
-                    </a>
-                    <a className="text-sm text-black/60 hover:text-black" href="/">
-                        Free scan
-                    </a>
-                </div>
-            </header>
+        <SiteChrome>
+            <main className="mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
+                <section className="max-w-3xl">
+                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#ffb15c]">Resources</p>
+                    <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">Practical fixes for speed, SEO, and conversion</h1>
+                    <p className="mt-4 max-w-2xl text-base leading-7 text-white/70">
+                        Short, useful guides for business owners who want more calls from the same traffic. Each article focuses on one problem, one diagnosis path, and one set of fixes.
+                    </p>
+                </section>
 
-            <h1 className="mt-10 text-4xl font-semibold">Resources</h1>
-            <p className="mt-2 max-w-2xl text-black/65">
-                Content for business owners who want more leads from the same traffic.
-            </p>
-
-            <div className="mt-8 space-y-4">
-                {posts.map((post) => (
-                    <article
-                        key={post.title}
-                        className="rounded-2xl border border-black/10 bg-white/90 p-6 shadow-sm"
-                    >
-                        <h2 className="text-xl font-semibold">{post.title}</h2>
-                        <p className="mt-2 text-sm text-black/65">{post.summary}</p>
-                        <a
-                            className="mt-4 inline-flex text-sm font-semibold text-red-700 underline decoration-red-300 underline-offset-2"
-                            href={post.href}
+                <div className="mt-10 grid gap-4">
+                    {posts.map((post) => (
+                        <article
+                            key={post.title}
+                            className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_24px_60px_rgba(0,0,0,.22)] backdrop-blur"
                         >
-                            Read the guide
-                        </a>
-                    </article>
-                ))}
-            </div>
-
-            <section className="mt-12 rounded-2xl border border-slate-100 bg-slate-50 p-6">
-                <h2 className="text-xl font-semibold">Related actions</h2>
-                <div className="mt-4 flex flex-wrap gap-3 text-sm">
-                    <a className="rounded-full border border-black/10 bg-white px-4 py-2 font-semibold text-black hover:bg-black/5" href="/">
-                        Run a free scan
-                    </a>
-                    <a className="rounded-full border border-black/10 bg-white px-4 py-2 font-semibold text-black hover:bg-black/5" href="/pricing">
-                        Review pricing
-                    </a>
-                    <a className="rounded-full border border-black/10 bg-white px-4 py-2 font-semibold text-black hover:bg-black/5" href="/get-quote">
-                        Get a quote
-                    </a>
+                            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#7d88ff]">Guide</p>
+                            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white">{post.title}</h2>
+                            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/68">{post.summary}</p>
+                            <a
+                                className="mt-5 inline-flex text-sm font-semibold text-[#ffb15c] underline decoration-[#ffb15c]/40 underline-offset-4"
+                                href={post.href}
+                            >
+                                Read the guide
+                            </a>
+                        </article>
+                    ))}
                 </div>
-            </section>
-        </main>
+
+                <section className="mt-12 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur">
+                    <h2 className="text-xl font-semibold tracking-tight text-white">Related actions</h2>
+                    <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                        <a className="rounded-full border border-white/12 bg-white px-4 py-2 font-semibold text-[#090d12] transition-colors hover:bg-[#ffb15c]" href="/">
+                            Run a free scan
+                        </a>
+                        <a className="rounded-full border border-white/12 bg-white px-4 py-2 font-semibold text-[#090d12] transition-colors hover:bg-[#ffb15c]" href="/pricing">
+                            Review pricing
+                        </a>
+                        <a className="rounded-full border border-white/12 bg-white px-4 py-2 font-semibold text-[#090d12] transition-colors hover:bg-[#ffb15c]" href="/contact">
+                            Contact Jason
+                        </a>
+                    </div>
+                </section>
+            </main>
+        </SiteChrome>
     );
 }

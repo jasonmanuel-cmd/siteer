@@ -374,7 +374,7 @@ export default function HomePage() {
                         <a href="/faq" className="hover:text-white transition-colors">FAQ</a>
                         <a href="/terms" className="hover:text-white transition-colors">Terms</a>
                         <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
-                        <a href="mailto:hello@siteer.dev" className="hover:text-white transition-colors">Contact</a>
+                        <a href="/contact" className="hover:text-white transition-colors">Contact</a>
                     </div>
                     <div style={{ fontSize: "0.85rem", textAlign: "right" }}>
                         © {new Date().getFullYear()} SiteER • Built by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline">coaibakersfield.com</a>

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import SiteChrome from "@/components/SiteChrome";
+import SiteChrome from "@/components/SiteChrome";
 
 export const metadata: Metadata = {
     title: "How to Fix Slow Mobile Pages in Under an Hour",
@@ -66,6 +68,7 @@ const breadcrumbSchema = {
 
 export default function Page() {
     return (
+        <SiteChrome>
         <main className="mx-auto max-w-4xl px-5 py-8 md:px-8 md:py-12">
             <script
                 type="application/ld+json"
@@ -75,27 +78,18 @@ export default function Page() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
-            <header className="flex items-center justify-between gap-4">
-                <a className="text-sm font-semibold tracking-tight" href="/blog">
-                    SiteER <span className="text-black/45">/ Resources</span>
-                </a>
-                <a className="text-sm text-black/60 hover:text-black" href="/pricing">
-                    Pricing
-                </a>
-            </header>
-
             <article className="mt-10">
-                <p className="text-xs font-bold uppercase tracking-wider text-red-600">Performance guide</p>
-                <h1 className="mt-2 text-4xl font-semibold text-balance md:text-5xl">
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#7d88ff]">Performance guide</p>
+                <h1 className="mt-2 text-4xl font-semibold text-balance text-white md:text-5xl">
                     How to Fix Slow Mobile Pages in Under an Hour
                 </h1>
-                <p className="mt-4 max-w-3xl text-lg text-black/65">
+                <p className="mt-4 max-w-3xl text-lg text-white/72">
                     Mobile performance is usually a few repeatable issues: oversized images, too much JavaScript, layout shifts, and a hero section that asks the browser to do too much too early.
                 </p>
 
-                <section className="mt-8 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-                    <h2 className="text-xl font-semibold">Fast wins</h2>
-                    <ul className="mt-4 space-y-2 text-sm text-black/65">
+                <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_18px_48px_rgba(0,0,0,.18)]">
+                    <h2 className="text-xl font-semibold text-white">Fast wins</h2>
+                    <ul className="mt-4 space-y-2 text-sm text-white/68">
                         <li>1. Compress the biggest images and convert them to AVIF/WebP.</li>
                         <li>2. Delay non-essential scripts until after the first visible paint.</li>
                         <li>3. Use a single CTA in the hero and keep the form short.</li>
@@ -111,22 +105,23 @@ export default function Page() {
                         ["Spacing hygiene", "Avoid massive vertical gaps that push conversion elements below the fold on phones."],
                         ["CTA hygiene", "Make the call to action visible without scrolling or pinching."],
                     ].map(([title, desc]) => (
-                        <section key={title} className="rounded-2xl border border-black/10 bg-slate-50 p-5">
-                            <h2 className="text-lg font-semibold">{title}</h2>
-                            <p className="mt-2 text-sm text-black/65">{desc}</p>
+                        <section key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                            <h2 className="text-lg font-semibold text-white">{title}</h2>
+                            <p className="mt-2 text-sm text-white/68">{desc}</p>
                         </section>
                     ))}
                 </section>
 
                 <section className="mt-8 flex flex-wrap gap-3">
-                    <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/">
-                        Test your page
+                        <a className="rounded-full bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-5 py-2.5 text-sm font-semibold text-[#19070a]" href="/">
+                            Test your page
                     </a>
-                    <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/get-quote">
-                        Ask for a speed fix
+                        <a className="rounded-full border border-white/12 bg-white px-5 py-2.5 text-sm font-semibold text-[#090d12] hover:bg-[#ffb15c]" href="/contact">
+                            Ask for a speed fix
                     </a>
                 </section>
             </article>
         </main>
+        </SiteChrome>
     );
 }

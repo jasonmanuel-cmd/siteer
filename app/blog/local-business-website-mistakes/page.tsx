@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import SiteChrome from "@/components/SiteChrome";
+import SiteChrome from "@/components/SiteChrome";
 
 export const metadata: Metadata = {
     title: "5 Website Mistakes That Cost Local Businesses the Most",
@@ -67,6 +69,7 @@ const breadcrumbSchema = {
 
 export default function Page() {
     return (
+        <SiteChrome>
         <main className="mx-auto max-w-4xl px-5 py-8 md:px-8 md:py-12">
             <script
                 type="application/ld+json"
@@ -77,21 +80,12 @@ export default function Page() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
 
-            <header className="flex items-center justify-between gap-4">
-                <a className="text-sm font-semibold tracking-tight" href="/blog">
-                    SiteER <span className="text-black/45">/ Resources</span>
-                </a>
-                <a className="text-sm text-black/60 hover:text-black" href="/pricing">
-                    Pricing
-                </a>
-            </header>
-
             <article className="mt-10">
-                <p className="text-xs font-bold uppercase tracking-wider text-red-600">Local SEO guide</p>
-                <h1 className="mt-2 text-4xl font-semibold text-balance md:text-5xl">
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ffb15c]">Local SEO guide</p>
+                <h1 className="mt-2 text-4xl font-semibold text-balance text-white md:text-5xl">
                     5 Website Mistakes That Cost Local Businesses the Most
                 </h1>
-                <p className="mt-4 max-w-3xl text-lg text-black/65">
+                <p className="mt-4 max-w-3xl text-lg text-white/72">
                     Most local sites do not fail because of one huge problem. They leak leads through a stack of small issues: weak mobile usability, missing trust proof, slow pages, vague offers, and calls to action that do not tell people what to do next.
                 </p>
 
@@ -100,18 +94,9 @@ export default function Page() {
                         ["Slow mobile first paint", "People on phones leave before the page becomes usable."],
                         ["No trust proof", "Visitors need reviews, contact details, and clear credibility cues."],
                         ["Vague offers", "If users do not understand the service, they do not convert."],
-                        ["Weak CTA hierarchy", "Every page should make the next action obvious."],
-                    ].map(([title, desc]) => (
-                        <section key={title} className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-                            <h2 className="text-lg font-semibold">{title}</h2>
-                            <p className="mt-2 text-sm text-black/65">{desc}</p>
-                        </section>
-                    ))}
-                </div>
-
-                <section className="mt-8 rounded-2xl border border-black/10 bg-slate-50 p-6">
-                    <h2 className="text-xl font-semibold">What to fix first</h2>
-                    <ol className="mt-4 space-y-2 text-sm text-black/65">
+                <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                    <h2 className="text-xl font-semibold text-white">What to fix first</h2>
+                    <ol className="mt-4 space-y-2 text-sm text-white/68">
                         <li>1. Make the mobile hero simple, short, and easy to act on.</li>
                         <li>2. Add proof near the first CTA: reviews, logos, results, or numbers.</li>
                         <li>3. Cut page weight by removing unnecessary scripts and oversized media.</li>
@@ -119,15 +104,20 @@ export default function Page() {
                     </ol>
                 </section>
 
-                <section className="mt-8 flex flex-wrap gap-3">
+                        <a className="rounded-full bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-5 py-2.5 text-sm font-semibold text-[#19070a]" href="/">
                     <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/">
                         Run a free scan
-                    </a>
+                        <a className="rounded-full border border-white/12 bg-white px-5 py-2.5 text-sm font-semibold text-[#090d12] hover:bg-[#ffb15c]" href="/contact">
                     <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/get-quote">
                         Get implementation help
                     </a>
                 </section>
-            </article>
-        </main>
+                    <section className="mt-12 border-t border-white/10 pt-10">
+                        <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ffb15c] mb-4">Related Reading</p>
     );
 }
+
+                </article>
+            </main>
+            </SiteChrome>
+        </main>
