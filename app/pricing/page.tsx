@@ -77,9 +77,9 @@ export default function PricingPage() {
                 </header>
 
             <section className="mt-10">
-                <h1 className="text-4xl font-semibold md:text-5xl">Don't have a developer? Good — that's why we're here.</h1>
+                <h1 className="text-4xl font-semibold md:text-5xl">Don&apos;t have a developer? Good — that&apos;s why we&apos;re here.</h1>
                 <p className="mt-3 max-w-2xl text-black/65">
-                    The scan is always free. If you want us to fix everything we find, our team handles it from start to finish — no developer on your end needed. Every fix is verified by Bakersfield's trusted web team at{" "}
+                    The scan is always free. If you want us to fix everything we find, our team handles it from start to finish — no developer on your end needed. Every fix is verified by Bakersfield&apos;s trusted web team at{" "}
                     <a
                         href="https://coaibakersfield.com"
                         target="_blank"
@@ -168,7 +168,7 @@ export default function PricingPage() {
                     <div>
                         <h3 className="font-bold text-slate-900">Money-Back Guarantee</h3>
                         <p className="mt-1 text-sm text-slate-700">
-                            If we don't improve your grade by at least 20 points, you don't pay. No questions asked.
+                            If we don&apos;t improve your grade by at least 20 points, you don&apos;t pay. No questions asked.
                         </p>
                     </div>
                 </div>
@@ -181,7 +181,7 @@ export default function PricingPage() {
                             Real Results
                         </div>
                         <h2 className="mt-2 text-2xl font-bold text-slate-900">
-                            Before & After: Sites We Fixed
+                            Before &amp; After: Sites We Fixed
                         </h2>
                     </div>
                 </div>
@@ -189,7 +189,7 @@ export default function PricingPage() {
                     <article className="rounded-2xl border border-black/10 bg-white p-6">
                         <div className="flex items-end justify-between mb-4">
                             <div>
-                                <h3 className="font-bold text-slate-900">Joe's Plumbing</h3>
+                                <h3 className="font-bold text-slate-900">Joe&apos;s Plumbing</h3>
                                 <p className="text-sm text-slate-600">Local service business</p>
                             </div>
                         </div>
@@ -212,7 +212,7 @@ export default function PricingPage() {
                     <article className="rounded-2xl border border-black/10 bg-white p-6">
                         <div className="flex items-end justify-between mb-4">
                             <div>
-                                <h3 className="font-bold text-slate-900">Williams & Co. Law</h3>
+                                <h3 className="font-bold text-slate-900">Williams &amp; Co. Law</h3>
                                 <p className="text-sm text-slate-600">Local service business</p>
                             </div>
                         </div>
@@ -239,12 +239,12 @@ export default function PricingPage() {
                 <div className="flex flex-wrap items-center justify-between gap-6">
                     <div>
                         <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            Built by Bakersfield's trusted web team
+                            Built by Bakersfield&apos;s trusted web team
                         </div>
                         <h2 className="mt-2 text-2xl font-bold text-slate-900">coaibakersfield.com</h2>
                         <p className="mt-2 max-w-lg text-sm text-slate-600">
-                            We don't just diagnose — we fix, verify, and report back. Every ER Fix Pack includes a 
-                            before/after re-scan so you can see the improvement in real numbers. We've been optimizing 
+                            We don&apos;t just diagnose — we fix, verify, and report back. Every ER Fix Pack includes a 
+                            before/after re-scan so you can see the improvement in real numbers. We&apos;ve been optimizing 
                             websites since 2015.
                         </p>
                     </div>
@@ -263,7 +263,7 @@ export default function PricingPage() {
                 <div className="flex flex-wrap items-end justify-between gap-4">
                     <div>
                         <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            Learn & Implement
+                            Learn &amp; Implement
                         </div>
                         <h2 className="mt-2 text-2xl font-bold text-slate-900">
                             Understand the fixes before we build them
@@ -293,7 +293,7 @@ export default function PricingPage() {
             </section>
 
             <footer className="mt-12 border-t border-slate-100 pt-8 text-sm text-slate-600">
-                <p className="mb-4">* Money-back guarantee: If we don't improve your grade by at least 20 points within the scope of work, you receive a full refund.</p>
+                <p className="mb-4">* Money-back guarantee: If we don&apos;t improve your grade by at least 20 points within the scope of work, you receive a full refund.</p>
                 <p>© {new Date().getFullYear()} SiteER — Built by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-red-600 hover:underline">coaibakersfield.com</a></p>
             </footer>
         </main>
