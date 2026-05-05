@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
-import SiteChrome from "@/components/SiteChrome";
 
 export const metadata: Metadata = {
     title: "How to Fix Slow Mobile Pages in Under an Hour",
