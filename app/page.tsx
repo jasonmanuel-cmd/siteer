@@ -126,7 +126,7 @@ export default function HomePage() {
                 </div>
             </header>
 
-            <main className="ambulance-flash">
+            <main>
                 {/* ── HERO ── */}
                 <section style={{ padding: "82px 0 58px" }}>
                     <div className="er-container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center" }}>

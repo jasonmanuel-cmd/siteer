@@ -11,14 +11,14 @@ type IssueRow = {
 };
 
 function ScoreBar({ label, score }: { label: string; score: number }) {
-    const color = score >= 80 ? "#16a34a" : score >= 60 ? "#d97706" : "#dc2626";
+    const color = score >= 80 ? "#3ee28f" : score >= 60 ? "#ffb15c" : "#ff4d5e";
     return (
         <div style={{ marginBottom: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 4 }}>
                 <span style={{ fontWeight: 600 }}>{label}</span>
                 <span style={{ color }}>{score}/100</span>
             </div>
-            <div style={{ height: 8, borderRadius: 4, background: "#f1f5f9" }}>
+            <div className="score-track" style={{ height: 8, borderRadius: 4, background: "rgba(255,255,255,0.08)" }}>
                 <div style={{ height: 8, borderRadius: 4, width: `${score}%`, background: color }} />
             </div>
         </div>
@@ -92,35 +92,131 @@ export default async function PrintPage({ params }: { params: { token: string } 
                     @media print {
                         @page { margin: 0.75in; size: letter; }
                         .no-print { display: none !important; }
-                        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        body {
+                            -webkit-print-color-adjust: exact;
+                            print-color-adjust: exact;
+                            background: white !important;
+                            color: #0f172a !important;
+                        }
+                        .print-page-wrap { background: white !important; color: #0f172a !important; padding: 0 !important; }
+                        .screen-header { display: none !important; }
                     }
+
                     * { box-sizing: border-box; margin: 0; padding: 0; }
-                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #0f172a; background: white; }
+
+                    body {
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                        background:
+                            radial-gradient(circle at 15% 8%, rgba(255,77,94,0.28), transparent 34%),
+                            radial-gradient(circle at 84% 14%, rgba(110,231,255,0.2), transparent 32%),
+                            linear-gradient(180deg, #061019 0%, #08131f 45%, #060b12 100%);
+                        background-attachment: fixed;
+                        color: #eef7ff;
+                        min-height: 100vh;
+                    }
+
+                    .screen-header {
+                        position: sticky;
+                        top: 0;
+                        z-index: 50;
+                        backdrop-filter: blur(18px);
+                        background: rgba(7,16,24,.72);
+                        border-bottom: 1px solid rgba(255,255,255,.08);
+                        padding: 0 32px;
+                        height: 64px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    }
+
+                    .screen-header-title {
+                        font-size: 1.1rem;
+                        font-weight: 800;
+                        letter-spacing: -0.04em;
+                        color: #eef7ff;
+                    }
+
+                    .screen-header-title span {
+                        color: #ff4d5e;
+                    }
+
+                    .print-page-wrap {
+                        background: rgba(255,255,255,0.04);
+                        border: 1px solid rgba(255,255,255,0.1);
+                        border-radius: 16px;
+                        padding: 40px 48px;
+                        max-width: 820px;
+                        margin: 32px auto 48px;
+                    }
+
+                    /* Section headings */
+                    h1 { color: #eef7ff; }
+                    h2 { color: #eef7ff; }
+                    h3 { color: #9fb1c3; }
+
+                    /* Score bars get dark track */
+                    .score-track { background: rgba(255,255,255,0.08) !important; }
+
+                    /* Money leak card — dark */
+                    .money-card {
+                        background: rgba(255,77,94,0.12) !important;
+                        border: 1px solid rgba(255,77,94,0.28) !important;
+                        border-radius: 12px;
+                        padding: 20px;
+                        margin-bottom: 24px;
+                    }
+                    .money-card-label { color: #ff8792 !important; }
+                    .money-card-amount { color: #ffcad0 !important; }
+                    .money-card-sub { color: #9fb1c3 !important; }
+
+                    /* CTA block — dark */
+                    .cta-block {
+                        background: rgba(255,255,255,0.06) !important;
+                        border: 1px solid rgba(255,255,255,0.12) !important;
+                        border-radius: 12px;
+                        padding: 20px;
+                    }
+                    .cta-block h3 { color: #eef7ff !important; }
+                    .cta-block p { color: #9fb1c3 !important; }
+                    .cta-block-link { color: #ff8792 !important; }
+
+                    /* Issue cards */
+                    .issue-high { background: rgba(220,38,38,0.12) !important; border-color: rgba(220,38,38,0.3) !important; }
+                    .issue-medium { background: rgba(217,119,6,0.12) !important; border-color: rgba(217,119,6,0.3) !important; }
+                    .issue-low { background: rgba(22,163,74,0.12) !important; border-color: rgba(22,163,74,0.3) !important; }
+                    .issue-desc { color: #eef7ff !important; }
+                    .issue-fix { color: #9fb1c3 !important; }
+
+                    /* Footer */
+                    .report-footer { border-top: 1px solid rgba(255,255,255,0.08) !important; color: #71869a !important; }
                 `}</style>
             </head>
-            <body style={{ padding: "40px 48px", maxWidth: 800, margin: "0 auto" }}>
+            <body>
 
-                {/* Print button — hidden when printing */}
-                <div className="no-print" style={{ marginBottom: 24, textAlign: "right" }}>
+                {/* Screen-only nav bar */}
+                <div className="screen-header no-print">
+                    <div className="screen-header-title">Site<span>ER</span> — Website Health Report</div>
                     <button
                         onClick={() => window.print()}
-                        style={{ background: "#dc2626", color: "white", border: "none", borderRadius: 8, padding: "10px 20px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
+                        style={{ background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", color: "#1b080a", border: "none", borderRadius: 8, padding: "10px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", letterSpacing: "-0.02em" }}
                     >
                         Download / Print PDF
                     </button>
                 </div>
 
+                <div className="print-page-wrap">
+
                 {/* Header */}
-                <div style={{ borderBottom: "2px solid #dc2626", paddingBottom: 20, marginBottom: 28 }}>
+                <div style={{ borderBottom: "2px solid #ff4d5e", paddingBottom: 20, marginBottom: 28 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                         <div>
-                            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#dc2626", marginBottom: 4 }}>SiteER — Emergency Room for Sick Websites</div>
+                            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ff4d5e", marginBottom: 4 }}>SiteER — Emergency Room for Sick Websites</div>
                             <h1 style={{ fontSize: 28, fontWeight: 800, lineHeight: 1.2 }}>Website Health Report</h1>
-                            <div style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>Scan date: {scanDate}</div>
+                            <div style={{ fontSize: 13, color: "#9fb1c3", marginTop: 6 }}>Scan date: {scanDate}</div>
                         </div>
-                        <div style={{ textAlign: "center", border: "2px solid #fecaca", borderRadius: 16, padding: "12px 20px", minWidth: 90 }}>
-                            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#64748b" }}>Grade</div>
-                            <div style={{ fontSize: 52, fontWeight: 900, lineHeight: 1, color: scan.overall_grade === "A" ? "#16a34a" : scan.overall_grade === "B" ? "#65a30d" : scan.overall_grade === "C" ? "#d97706" : scan.overall_grade === "D" ? "#ea580c" : "#dc2626" }}>
+                        <div style={{ textAlign: "center", border: "2px solid rgba(255,77,94,0.4)", borderRadius: 16, padding: "12px 20px", minWidth: 90, background: "rgba(255,77,94,0.1)" }}>
+                            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#9fb1c3" }}>Grade</div>
+                            <div style={{ fontSize: 52, fontWeight: 900, lineHeight: 1, color: scan.overall_grade === "A" ? "#3ee28f" : scan.overall_grade === "B" ? "#6ee7ff" : scan.overall_grade === "C" ? "#ffb15c" : scan.overall_grade === "D" ? "#ffb15c" : "#ff4d5e" }}>
                                 {scan.overall_grade}
                             </div>
                         </div>
@@ -128,13 +224,13 @@ export default async function PrintPage({ params }: { params: { token: string } 
                 </div>
 
                 {/* Money Leak */}
-                <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 12, padding: 20, marginBottom: 24 }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#dc2626", marginBottom: 8 }}>Estimated Monthly Revenue Loss</div>
-                    <div style={{ fontSize: 32, fontWeight: 800 }}>
+                <div className="money-card">
+                    <div className="money-card-label" style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>Estimated Monthly Revenue Loss</div>
+                    <div className="money-card-amount" style={{ fontSize: 32, fontWeight: 800 }}>
                         ${lossLow.toLocaleString()} – ${lossHigh.toLocaleString()}
                     </div>
                     {lossPct > 0 && (
-                        <div style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
+                        <div className="money-card-sub" style={{ fontSize: 13, marginTop: 6 }}>
                             Approximately {lossPct}% conversion drag from identified issues
                             {(scan.est_monthly_visitors ?? 0) > 0 ? ` · ${Number(scan.est_monthly_visitors).toLocaleString()} monthly visitors at risk` : ""}
                         </div>
@@ -143,7 +239,7 @@ export default async function PrintPage({ params }: { params: { token: string } 
 
                 {/* Vital Signs */}
                 <div style={{ marginBottom: 28 }}>
-                    <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, borderBottom: "1px solid #e2e8f0", paddingBottom: 8 }}>Vital Signs</h2>
+                    <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8 }}>Vital Signs</h2>
                     <ScoreBar label="Speed" score={Number(scan.speed_score)} />
                     <ScoreBar label="Mobile" score={Number(scan.mobile_score)} />
                     <ScoreBar label="SEO" score={Number(scan.seo_score)} />
@@ -152,23 +248,24 @@ export default async function PrintPage({ params }: { params: { token: string } 
 
                 {/* Issues by category */}
                 <div style={{ marginBottom: 28 }}>
-                    <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, borderBottom: "1px solid #e2e8f0", paddingBottom: 8 }}>
+                    <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8 }}>
                         Treatment Plan ({(issues ?? []).length} issues found)
                     </h2>
                     {Object.entries(byCategory).map(([category, catIssues]) => (
                         <div key={category} style={{ marginBottom: 20 }}>
-                            <h3 style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#475569", marginBottom: 10 }}>{category}</h3>
+                            <h3 style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>{category}</h3>
                             {catIssues.map((issue) => {
+                                const issueClass = issue.severity === "high" ? "issue-high" : issue.severity === "medium" ? "issue-medium" : "issue-low";
                                 const c = severityColor(issue.severity);
                                 return (
-                                    <div key={issue.id} style={{ border: `1px solid ${c.border}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, background: c.bg, pageBreakInside: "avoid" }}>
+                                    <div key={issue.id} className={issueClass} style={{ borderRadius: 10, padding: "12px 14px", marginBottom: 8, pageBreakInside: "avoid", border: "1px solid transparent" }}>
                                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
-                                            <div style={{ fontSize: 14, fontWeight: 600, flex: 1 }}>{issue.description}</div>
-                                            <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: c.text, background: "white", border: `1px solid ${c.border}`, borderRadius: 20, padding: "2px 8px", whiteSpace: "nowrap" }}>
+                                            <div className="issue-desc" style={{ fontSize: 14, fontWeight: 600, flex: 1 }}>{issue.description}</div>
+                                            <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: c.text, background: "rgba(0,0,0,0.3)", border: `1px solid ${c.border}`, borderRadius: 20, padding: "2px 8px", whiteSpace: "nowrap" }}>
                                                 {issue.severity}
                                             </span>
                                         </div>
-                                        <div style={{ fontSize: 13, color: "#475569", marginTop: 6 }}>
+                                        <div className="issue-fix" style={{ fontSize: 13, marginTop: 6 }}>
                                             <span style={{ fontWeight: 600 }}>Fix: </span>{issue.recommendation}
                                         </div>
                                     </div>
@@ -179,21 +276,23 @@ export default async function PrintPage({ params }: { params: { token: string } 
                 </div>
 
                 {/* CTA Footer */}
-                <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: 20, background: "#f8fafc", pageBreakInside: "avoid" }}>
+                <div className="cta-block" style={{ pageBreakInside: "avoid" }}>
                     <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>Ready to fix these issues?</h3>
-                    <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}>
-                        The team at <strong>COAIBAKERSFIELD.COM</strong> implements your highest-impact fixes and re-scans your site to prove the improvement. Starting at $450.
+                    <p style={{ fontSize: 13, lineHeight: 1.6 }}>
+                        The team at <strong style={{ color: "#ff8792" }}>COAIBAKERSFIELD.COM</strong> implements your highest-impact fixes and re-scans your site to prove the improvement. Starting at $450.
                     </p>
-                    <div style={{ marginTop: 12, fontSize: 13, fontWeight: 600, color: "#dc2626" }}>
-                        Visit coaibakersfield.com or run a new scan at siteer.dev
+                    <div className="cta-block-link" style={{ marginTop: 12, fontSize: 13, fontWeight: 600 }}>
+                        Visit coaibakersfield.com · Run a new scan at siteer.dev
                     </div>
                 </div>
 
                 {/* Footer */}
-                <div style={{ borderTop: "1px solid #e2e8f0", marginTop: 28, paddingTop: 16, display: "flex", justifyContent: "space-between", fontSize: 11, color: "#94a3b8" }}>
+                <div className="report-footer" style={{ marginTop: 28, paddingTop: 16, display: "flex", justifyContent: "space-between", fontSize: 11 }}>
                     <span>Generated by SiteER · siteer.dev</span>
                     <span>Fixes by COAIBAKERSFIELD.COM · AI-powered web solutions in Bakersfield, CA</span>
                 </div>
+
+                </div>{/* end print-page-wrap */}
 
             </body>
         </html>

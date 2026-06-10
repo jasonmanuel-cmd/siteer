@@ -261,10 +261,11 @@ export default function ReportTeaser({
                                 Open your full report and share it with your team.
                             </p>
                             <a
-                                className="mt-3 block break-all rounded-xl border border-black/10 bg-white px-3 py-2 text-sm underline decoration-red-400 underline-offset-2"
+                                className="mt-3 block rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-red-300 hover:text-red-700 transition-colors"
                                 href={reportUrl}
                             >
-                                {reportUrl}
+                                <span className="text-xs text-black/40 block mb-0.5">siteer.dev</span>
+                                /scan/{reportUrl.split("/scan/")[1]}
                             </a>
                             <div className="mt-4 flex flex-wrap gap-3">
                                 <Button
@@ -273,7 +274,7 @@ export default function ReportTeaser({
                                         window.location.href = reportUrl;
                                     }}
                                 >
-                                    Open Report
+                                    Open Report →
                                 </Button>
                                 <Button type="button" variant="ghost" onClick={onClose}>
                                     Close

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { consumeRateLimit, getClientIp } from "@/lib/rateLimit";
 import { generateCsrfToken } from "@/lib/csrf";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { logLead } from "@/lib/googleSheets";
 
 export const runtime = "nodejs";
 
@@ -72,10 +73,14 @@ export async function POST(request: Request) {
 
         const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
         const csrfToken = generateCsrfToken();
-        
+        const reportUrl = `${appUrl}/scan/${report.public_token}`;
+
+        // Log to Google Sheets (non-blocking)
+        void logLead({ email, scanId: body.scanId, reportUrl });
+
         return NextResponse.json({
             ok: true,
-            reportUrl: `${appUrl}/scan/${report.public_token}`,
+            reportUrl,
             csrfToken: csrfToken,
         });
     } catch (error) {

@@ -46,16 +46,16 @@ export default function QuoteForm() {
 
     if (status === "success") {
         return (
-            <div className="rounded-2xl border border-green-200 bg-green-50 p-10 text-center">
-                <div className="text-4xl">✓</div>
-                <h2 className="mt-4 text-2xl font-semibold text-slate-900">Quote request received.</h2>
-                <p className="mt-3 text-slate-600 max-w-md mx-auto">
+            <div style={{ borderRadius: 16, border: "1px solid rgba(62,226,143,0.3)", background: "rgba(62,226,143,0.08)", padding: "40px 24px", textAlign: "center" }}>
+                <div style={{ fontSize: "2.5rem", marginBottom: 12 }}>✓</div>
+                <h2 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#eef7ff", marginBottom: 10 }}>Quote request received.</h2>
+                <p style={{ color: "#9fb1c3", maxWidth: 380, margin: "0 auto", lineHeight: 1.65, fontSize: "0.95rem" }}>
                     The team at{" "}
                     <a
                         href="https://coaibakersfield.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-semibold text-red-600 hover:underline"
+                        style={{ color: "#ff8792", fontWeight: 700, textDecoration: "none" }}
                     >
                         COAIBAKERSFIELD.COM
                     </a>{" "}
@@ -65,8 +65,8 @@ export default function QuoteForm() {
         );
     }
 
-    const inputClass = "mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-100 transition";
-    const labelClass = "block text-sm font-medium text-slate-700";
+    const inputClass = "mt-1.5 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#eef7ff] placeholder-[#4b5e6d] focus:border-red-400/60 focus:outline-none focus:ring-2 focus:ring-red-400/20 transition";
+    const labelClass = "block text-sm font-medium text-[#9fb1c3]";
 
     return (
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -145,7 +145,7 @@ export default function QuoteForm() {
             </div>
 
             {status === "error" && (
-                <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                <p className="rounded-xl px-4 py-3 text-sm text-red-400" style={{ border: "1px solid rgba(255,77,94,0.3)", background: "rgba(255,77,94,0.1)" }}>
                     {errorMsg}
                 </p>
             )}
@@ -153,14 +153,14 @@ export default function QuoteForm() {
             <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="w-full rounded-xl bg-red-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-red-200 hover:bg-red-700 disabled:opacity-60 transition-colors"
+                style={{ width: "100%", borderRadius: 12, background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", border: "none", padding: "14px 24px", fontSize: "0.9rem", fontWeight: 700, color: "#1b080a", cursor: "pointer", opacity: status === "submitting" ? 0.6 : 1, letterSpacing: "-0.02em", boxShadow: "0 12px 36px rgba(255,77,94,0.28)" }}
             >
                 {status === "submitting" ? "Sending..." : "Request My Fix Quote →"}
             </button>
 
-            <p className="text-center text-xs text-slate-400">
+            <p className="text-center text-xs" style={{ color: "#4b5e6d" }}>
                 No obligation. Our team at{" "}
-                <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-slate-500 hover:text-red-600">
+                <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" style={{ color: "#71869a", fontWeight: 600 }}>
                     COAIBAKERSFIELD.COM
                 </a>{" "}
                 will respond within 1 business day.

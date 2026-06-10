@@ -36,69 +36,66 @@ export const metadata: Metadata = {
 
 export default function GetQuotePage() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-50 to-white px-5 py-8 md:px-8 md:py-12">
-            <header className="mx-auto max-w-2xl flex flex-wrap items-center justify-between gap-4">
-                <a className="group flex items-center gap-2 text-sm font-semibold tracking-tight" href="/">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-600 text-white shadow-lg shadow-red-200">
-                        <span className="text-lg font-bold">+</span>
-                    </div>
-                    SiteER
-                </a>
-                <a className="text-sm text-black/50 hover:text-red-600 transition-colors" href="/pricing">
-                    Pricing
-                </a>
+        <>
+            {/* Sticky nav — matches homepage */}
+            <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+                <div style={{ width: "min(1160px, calc(100% - 40px))", margin: "0 auto", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+                        <div style={{ width: 32, height: 32, display: "grid", placeItems: "center", borderRadius: 9, background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", color: "#1b080a", fontWeight: 900, fontSize: "1.1rem" }}>+</div>
+                        <span style={{ fontWeight: 800, fontSize: "1rem", letterSpacing: "-0.03em", color: "#eef7ff" }}>SiteER</span>
+                    </a>
+                    <a href="/pricing" style={{ fontSize: "0.9rem", color: "rgba(159,177,195,1)", fontWeight: 700, textDecoration: "none" }}>Pricing</a>
+                </div>
             </header>
 
-            <section className="mx-auto mt-12 max-w-2xl">
-                <div className="inline-flex items-center rounded-full border border-red-200 bg-white px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-red-600 shadow-sm">
-                    ER Fix Pack — Starting at $450
+            <main style={{ minHeight: "100vh" }}>
+                <div style={{ width: "min(680px, calc(100% - 40px))", margin: "0 auto", padding: "56px 0 80px" }}>
+
+                    {/* Badge */}
+                    <div style={{ display: "inline-flex", alignItems: "center", borderRadius: 999, border: "1px solid rgba(255,77,94,0.35)", background: "rgba(255,77,94,0.1)", padding: "6px 16px", fontFamily: "monospace", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#ff8792", marginBottom: 20 }}>
+                        ER Fix Pack — Flat $497, We Handle Everything
+                    </div>
+
+                    <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.05, letterSpacing: "-0.06em", fontWeight: 900, marginBottom: 20 }}>
+                        No developer?{" "}
+                        <span style={{ background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+                            No problem.
+                        </span>
+                        <br />We fix it for you.
+                    </h1>
+
+                    <p style={{ fontSize: "1.05rem", color: "#9fb1c3", lineHeight: 1.7, marginBottom: 24 }}>
+                        The team at{" "}
+                        <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" style={{ color: "#ff8792", fontWeight: 700, textDecoration: "none" }}>
+                            COAIBAKERSFIELD.COM
+                        </a>{" "}
+                        handles every fix from your scan — speed, mobile, SEO, trust signals — then re-scans your site to prove the improvement in real numbers. Fill out the form below and we'll be in touch within 1 business day.
+                    </p>
+
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 36, fontSize: "0.9rem", color: "#9fb1c3" }}>
+                        {["We do all the work — no tech skills needed", "Flat $497 — no surprises", "+20 pts guaranteed or full refund"].map((item) => (
+                            <span key={item} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                <span style={{ color: "#ff4d5e", fontWeight: 900 }}>•</span> {item}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* Form card */}
+                    <div style={{ borderRadius: 20, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", padding: "32px" }}>
+                        <QuoteForm />
+                    </div>
+
+                    {/* Footer */}
+                    <div style={{ marginTop: 36, borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, fontSize: "0.8rem", color: "#71869a" }}>
+                        SiteER diagnostics powered by{" "}
+                        <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" style={{ color: "#9fb1c3", fontWeight: 600, textDecoration: "none" }}>
+                            COAIBAKERSFIELD.COM
+                        </a>
+                        {" "}— AI-powered web solutions in Bakersfield, CA.
+                    </div>
+
                 </div>
-                <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900">
-                    Let's fix what's costing you money.
-                </h1>
-                <p className="mt-4 text-lg text-slate-600">
-                    The team at{" "}
-                    <a
-                        href="https://coaibakersfield.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold text-red-600 hover:underline"
-                    >
-                        COAIBAKERSFIELD.COM
-                    </a>{" "}
-                    implements your highest-impact fixes and re-scans your site to prove the improvement.
-                    Fill out the form below and we'll send a custom quote within 1 business day.
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-6 text-sm text-slate-500">
-                    <span className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                        Speed + mobile fixes
-                    </span>
-                    <span className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                        CTA and trust improvements
-                    </span>
-                    <span className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                        Before/after re-scan included
-                    </span>
-                </div>
-            </section>
-
-            <section className="mx-auto mt-10 max-w-2xl rounded-2xl border border-slate-100 bg-white p-8 shadow-sm">
-                <QuoteForm />
-            </section>
-
-            <footer className="mx-auto mt-12 max-w-2xl border-t border-slate-100 pt-6 text-xs text-slate-400">
-                <p>
-                    SiteER diagnostics powered by{" "}
-                    <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-500 hover:text-red-600">
-                        COAIBAKERSFIELD.COM
-                    </a>
-                    {" "}— AI-powered web solutions in Bakersfield, CA.
-                </p>
-            </footer>
-        </main>
+            </main>
+        </>
     );
 }

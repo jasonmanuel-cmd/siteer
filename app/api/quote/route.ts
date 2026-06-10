@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { consumeRateLimit, getClientIp } from "@/lib/rateLimit";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { logQuote } from "@/lib/googleSheets";
 
 export const runtime = "nodejs";
 
@@ -36,12 +37,22 @@ export async function POST(request: Request) {
 
         if (error) throw new Error(error.message);
 
-        // Notify admin via Resend
-        const resendKey = process.env.RESEND_API_KEY;
-        const contactEmail = process.env.CONTACT_EMAIL;
-        const senderEmail = process.env.SENDER_EMAIL ?? "SiteER <reports@yourdomain.com>";
+        // Log to Google Sheets (non-blocking)
+        void logQuote({
+            firstName: body.firstName,
+            lastName: body.lastName,
+            email: body.email,
+            phone: body.phone,
+            businessName: body.businessName,
+            websiteUrl: body.websiteUrl,
+        });
 
-        if (resendKey && contactEmail) {
+        // Notify team via Resend — both Jason and Frank receive every quote request
+        const resendKey = process.env.RESEND_API_KEY;
+        const senderEmail = process.env.SENDER_EMAIL ?? "SiteER <reports@siteer.dev>";
+        const notifyAddresses = ["jasonm@coaibakersfield.com", "frankh@coaibakersfield.com"];
+
+        if (resendKey) {
             await fetch("https://api.resend.com/emails", {
                 method: "POST",
                 headers: {
@@ -50,18 +61,27 @@ export async function POST(request: Request) {
                 },
                 body: JSON.stringify({
                     from: senderEmail,
-                    to: contactEmail,
-                    subject: `New Fix Quote Request — ${body.businessName}`,
+                    to: notifyAddresses,
+                    subject: `🔔 New Fix Quote Request — ${body.businessName}`,
                     html: `
-                        <h2>New Quote Request</h2>
-                        <table style="border-collapse:collapse;width:100%">
-                            <tr><td style="padding:8px;font-weight:bold">Name</td><td style="padding:8px">${body.firstName} ${body.lastName}</td></tr>
-                            <tr><td style="padding:8px;font-weight:bold">Email</td><td style="padding:8px">${body.email}</td></tr>
-                            <tr><td style="padding:8px;font-weight:bold">Phone</td><td style="padding:8px">${body.phone || "—"}</td></tr>
-                            <tr><td style="padding:8px;font-weight:bold">Business</td><td style="padding:8px">${body.businessName}</td></tr>
-                            <tr><td style="padding:8px;font-weight:bold">Website</td><td style="padding:8px">${body.websiteUrl || "—"}</td></tr>
-                        </table>
-                        <p style="margin-top:16px;color:#666">Submitted via SiteER — <a href="https://coaibakersfield.com">COAIBAKERSFIELD.COM</a></p>
+                        <div style="font-family:sans-serif;max-width:560px;margin:0 auto">
+                            <div style="background:#0f172a;padding:24px 28px;border-radius:12px 12px 0 0">
+                                <div style="color:#ff4d5e;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px">SiteER — New Lead</div>
+                                <h2 style="color:#eef7ff;margin:0;font-size:20px">Fix Quote Request</h2>
+                            </div>
+                            <div style="background:#1e293b;padding:24px 28px;border-radius:0 0 12px 12px">
+                                <table style="border-collapse:collapse;width:100%;font-size:14px">
+                                    <tr><td style="padding:8px 0;color:#94a3b8;width:110px">Name</td><td style="padding:8px 0;color:#eef7ff;font-weight:600">${body.firstName} ${body.lastName}</td></tr>
+                                    <tr><td style="padding:8px 0;color:#94a3b8">Email</td><td style="padding:8px 0;color:#6ee7ff"><a href="mailto:${body.email}" style="color:#6ee7ff">${body.email}</a></td></tr>
+                                    <tr><td style="padding:8px 0;color:#94a3b8">Phone</td><td style="padding:8px 0;color:#eef7ff">${body.phone || "—"}</td></tr>
+                                    <tr><td style="padding:8px 0;color:#94a3b8">Business</td><td style="padding:8px 0;color:#eef7ff;font-weight:600">${body.businessName}</td></tr>
+                                    <tr><td style="padding:8px 0;color:#94a3b8">Website</td><td style="padding:8px 0;color:#6ee7ff">${body.websiteUrl ? `<a href="${body.websiteUrl}" style="color:#6ee7ff">${body.websiteUrl}</a>` : "—"}</td></tr>
+                                </table>
+                                <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);font-size:12px;color:#64748b">
+                                    Submitted via SiteER · <a href="https://coaibakersfield.com" style="color:#94a3b8">COAIBAKERSFIELD.COM</a>
+                                </div>
+                            </div>
+                        </div>
                     `,
                 }),
             });
