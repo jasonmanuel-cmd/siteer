@@ -218,7 +218,7 @@ export default async function ReportPage({
                     >
                         Get a Fix Quote
                     </a>
-                    <p className="mt-3 text-xs text-black/50">Typical turnaround is 3-7 business days.</p>
+                    <p className="mt-3 text-xs text-black/50">Typical turnaround is 3-7 business days. Need the exact next steps first? Unlock the $20 Quick ER Audit below.</p>
 
                     {isPaid ? (
                         <a

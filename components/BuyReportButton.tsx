@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { quickAuditOffer } from "@/lib/offers";
 
 export default function BuyReportButton({ reportToken }: { reportToken: string }) {
     const [email, setEmail] = useState("");
@@ -33,15 +34,15 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
                 onClick={() => setOpen(true)}
                 className="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
             >
-                Buy Deep ER Report — $49
+                Buy {quickAuditOffer.name} — {quickAuditOffer.priceLabel}
             </button>
         );
     }
 
     return (
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <p className="text-sm font-semibold text-slate-800">Buy Deep ER Report — $49</p>
-            <p className="mt-1 text-xs text-slate-500">30-60 min human review + PDF report. Handled by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-red-600 hover:underline">COAIBAKERSFIELD.COM</a>.</p>
+            <p className="text-sm font-semibold text-slate-800">Buy {quickAuditOffer.name} — {quickAuditOffer.priceLabel}</p>
+            <p className="mt-1 text-xs text-slate-500">{quickAuditOffer.description} Handled by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-red-600 hover:underline">COAIBAKERSFIELD.COM</a>.</p>
             <form onSubmit={handlePurchase} className="mt-3 flex flex-col gap-2">
                 <input
                     required

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
+import { quickAuditOffer } from "@/lib/offers";
 
 export const metadata: Metadata = {
     title: "Contact | SiteER",
-    description: "Contact SiteER for website diagnostics, fixes, and implementation help.",
+    description: `Contact SiteER for website diagnostics, the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}, fixes, and implementation help.`,
     alternates: { canonical: "/contact" },
     robots: { index: true, follow: true },
 };
@@ -18,7 +19,7 @@ export default function ContactPage() {
                         Talk to SiteER about your website.
                     </h1>
                     <p className="mt-4 text-base leading-7 text-white/70">
-                        Use the form below if you want a scan, a quote, or help fixing the issues the scan uncovered. We respond as quickly as possible during business hours.
+                        Use the form below if you want a scan, the {quickAuditOffer.priceLabel} {quickAuditOffer.name}, a quote, or help fixing the issues the scan uncovered. We respond as quickly as possible during business hours.
                     </p>
                 </section>
 
@@ -68,7 +69,16 @@ export default function ContactPage() {
                                 Email: <a className="text-[#ffb15c] underline decoration-[#ffb15c]/40 underline-offset-4" href="mailto:jasonm@coaibakersfield.com">jasonm@coaibakersfield.com</a>
                             </p>
                             <p>Typical reply window: 1 business day.</p>
-                            <p>Best for scan requests, implementation help, and quote follow-ups.</p>
+                            <p>Best for scan requests, {quickAuditOffer.priceLabel} audit questions, implementation help, and quote follow-ups.</p>
+                        </div>
+                        <div className="mt-6 rounded-2xl border border-white/10 bg-[#071018] p-4">
+                            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#ffb15c]">Fastest paid step</div>
+                            <p className="mt-3 text-sm leading-6 text-white/72">
+                                If you only need human next steps and are not ready for the full fix package, start with the {quickAuditOffer.priceLabel} {quickAuditOffer.name} from your private scan report.
+                            </p>
+                            <a className="mt-4 inline-flex rounded-full bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-4 py-2 text-sm font-semibold text-[#19070a]" href="/#diagnosis">
+                                Run free scan
+                            </a>
                         </div>
                     </aside>
                 </section>

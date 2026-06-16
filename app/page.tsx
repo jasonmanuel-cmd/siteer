@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { quickAuditOffer } from "@/lib/offers";
 const SplashIntro = dynamic(() => import("@/components/SplashIntro"), { ssr: false, loading: () => null });
 const HeroUrlInput = dynamic(() => import("@/components/HeroUrlInput"), { ssr: false, loading: () => null });
 const UrlScanForm = dynamic(() => import("@/components/UrlScanForm"), { ssr: false, loading: () => null });
@@ -84,7 +85,7 @@ const structuredData = {
 export const metadata: Metadata = {
     title: "Website Audit Tool for SEO, Performance, and Trust Signals",
     description:
-        "SiteER gives businesses an instant website ER scan for SEO, speed, mobile, and trust issues with an actionable treatment plan and revenue-leak estimate.",
+        `SiteER gives businesses a free website ER scan, a shareable report, and a ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} for human next steps.`,
     alternates: {
         canonical: "/",
     },
@@ -138,23 +139,39 @@ export default function HomePage() {
                                     sick websites.
                                 </span>
                             </h1>
+                            <p style={{ marginTop: 20, color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 640, fontSize: "1.06rem" }}>
+                                Run the free scan first. If the numbers look bad, unlock the full report by email and add the {quickAuditOffer.priceLabel} {quickAuditOffer.name} for human next steps.
+                            </p>
                             <div style={{ marginTop: 24, display: "grid", gap: 12, maxWidth: 650 }}>
                                 <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
                                     <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
-                                    <span>See your site's A–F grade in 60 seconds</span>
+                                    <span>Run a free scan and see your site's A–F grade in 60 seconds</span>
                                 </p>
                                 <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
                                     <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
-                                    <span>Find the exact dollar amount you're losing every month</span>
+                                    <span>Unlock the full shareable report by email when you want every issue</span>
                                 </p>
                                 <p style={{ color: "var(--er-muted)", fontSize: "0.98rem", display: "flex", alignItems: "flex-start", gap: 12 }}>
                                     <span style={{ color: "var(--er-green)", fontWeight: 900, flexShrink: 0 }}>✓</span>
-                                    <span>Get a shareable report to send your developer</span>
+                                    <span>Add the {quickAuditOffer.priceLabel} {quickAuditOffer.name} if you want a human action plan</span>
                                 </p>
                             </div>
                             <HeroUrlInput />
+                            <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10, maxWidth: 710 }}>
+                                {[
+                                    { step: "Step 1", title: "Free scan", desc: "See grade and money leak." },
+                                    { step: "Step 2", title: "Email unlock", desc: "Open the full shareable report." },
+                                    { step: "Step 3", title: `${quickAuditOffer.priceLabel} audit`, desc: "Get human next steps if needed." },
+                                ].map((item) => (
+                                    <div key={item.step} style={{ borderRadius: 18, padding: "14px 16px", background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.12)" }}>
+                                        <div style={{ color: "#ffb6bf", fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 900 }}>{item.step}</div>
+                                        <strong style={{ display: "block", marginTop: 4, fontSize: "0.96rem" }}>{item.title}</strong>
+                                        <span style={{ display: "block", marginTop: 4, color: "var(--er-muted)", fontSize: "0.84rem", lineHeight: 1.45 }}>{item.desc}</span>
+                                    </div>
+                                ))}
+                            </div>
                             <div style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 14, color: "var(--er-muted-2)", fontSize: "0.92rem" }}>
-                                {["No credit card required", "No signup", "Results in 60 seconds"].map((item) => (
+                                {["Free scan in 60 seconds", "Email unlock for full report", `${quickAuditOffer.priceLabel} human review available`].map((item) => (
                                     <span key={item} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                                         <span style={{ color: "var(--er-green)", fontWeight: 900 }}>✓</span> {item}
                                     </span>
@@ -256,7 +273,7 @@ export default function HomePage() {
                                 <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Run a real <span className="cta-word">ER scan</span>.</h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
-                                This is the live product: URL in, triage checks, teaser report, then an email gate for the full shareable report.
+                                This is the live product: URL in, triage checks, teaser report, email unlock for the full report, then the {quickAuditOffer.priceLabel} {quickAuditOffer.name} inside the private report.
                             </p>
                         </div>
                         <UrlScanForm />
@@ -268,7 +285,7 @@ export default function HomePage() {
                     <div className="er-container">
                         <div style={{ marginBottom: 34 }}>
                             <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Why choose SiteER</div>
-                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>No credit card. No signup. Results in 60 seconds.</h2>
+                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>No credit card. Fast results. Human help if you need it.</h2>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 18, marginBottom: 48 }}>
                             {[
@@ -303,14 +320,14 @@ export default function HomePage() {
                     <div className="er-container">
                         <div style={{ marginBottom: 34 }}>
                             <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>How it works</div>
-                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Built for instant diagnosis and lead capture.</h2>
+                            <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Built for fast diagnosis, lead capture, and a low-ticket next step.</h2>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18, counterReset: "workflow" }}>
                             {[
                                 { title: "Fetch", desc: "Downloads the page HTML with a 12-second timeout, bot user-agent, and redirect following." },
                                 { title: "Analyze", desc: "Parses the HTML to inspect speed, mobile, SEO, trust, and technical signals across 20+ checks." },
                                 { title: "Score", desc: "Weights each issue by severity and category to create an A–F grade customers understand instantly." },
-                                { title: "Convert", desc: "Shows a free teaser first, then gates the full permanent report behind email capture." },
+                                { title: "Convert", desc: `Shows a free teaser first, unlocks the full permanent report by email, then offers the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}.` },
                             ].map((card, i) => (
                                 <article key={card.title} style={{ position: "relative", borderRadius: 24, padding: 24, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)", minHeight: 210 }}>
                                     <div style={{ display: "inline-flex", marginBottom: 28, color: "#071018", background: "linear-gradient(135deg, var(--er-cyan), var(--er-green))", borderRadius: 999, padding: "6px 10px", fontSize: "0.78rem", fontWeight: 950 }}>
@@ -333,13 +350,13 @@ export default function HomePage() {
                                 <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>The other pages live behind the diagnosis.</h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
-                                Use the homepage to start the scan, then move to the reports, pricing, and FAQ pages only when the user is ready.
+                                Use the homepage to start the scan, then move to the report, pricing, and FAQ pages once the visitor is ready to unlock the full report or buy the {quickAuditOffer.priceLabel} audit.
                             </p>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18 }}>
                             {[
                                 { title: "Reports", desc: "See what the shareable report includes after the scan.", href: "/reports" },
-                                { title: "Pricing", desc: "Compare free diagnosis, implementation, and manual review.", href: "/pricing" },
+                                { title: "Pricing", desc: "Compare free diagnosis, the $20 Quick ER Audit, and implementation.", href: "/pricing" },
                                 { title: "FAQ", desc: "Answer common questions without distracting from the funnel.", href: "/faq" },
                                 { title: "Blog", desc: "Read the content cluster that supports the homepage.", href: "/blog" },
                             ].map((item) => (

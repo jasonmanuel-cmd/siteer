@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { quickAuditOffer } from "@/lib/offers";
 
 const faqs = [
     {
@@ -48,8 +49,8 @@ const faqs = [
         a: "Yes. If we don't improve your grade by at least 20 points with the ER Fix Pack, you receive a full refund.",
     },
     {
-        q: "What's the difference between the Deep ER Report and ER Fix Pack?",
-        a: "Deep ER Report ($49): Manual review with written recommendations. ER Fix Pack ($497): We actually implement the fixes and re-scan to prove results.",
+        q: `What's the difference between the ${quickAuditOffer.name} and ER Fix Pack?`,
+        a: `${quickAuditOffer.name} (${quickAuditOffer.priceLabel}): Manual review with a short written action plan based on your scan. ER Fix Pack ($497): We actually implement the fixes and re-scan to prove results.`,
     },
 ];
 

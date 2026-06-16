@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
+import { quickAuditOffer } from "@/lib/offers";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { logPayment } from "@/lib/googleSheets";
 
@@ -99,12 +100,12 @@ export async function POST(request: Request) {
                 body: JSON.stringify({
                     from: senderEmail,
                     to: notifyAddresses,
-                    subject: `💰 $${(amountCents / 100).toFixed(2)} Deep ER Report Purchased — Action Required`,
+                    subject: `💰 $${(amountCents / 100).toFixed(2)} ${quickAuditOffer.name} Purchased — Action Required`,
                     html: `
                         <div style="font-family:sans-serif;max-width:560px;margin:0 auto">
                             <div style="background:#0f172a;padding:24px 28px;border-radius:12px 12px 0 0">
                                 <div style="color:#3ee28f;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px">SiteER — Payment Received</div>
-                                <h2 style="color:#eef7ff;margin:0;font-size:20px">Deep ER Report — Human Review Needed</h2>
+                                <h2 style="color:#eef7ff;margin:0;font-size:20px">${quickAuditOffer.name} — Human Review Needed</h2>
                             </div>
                             <div style="background:#1e293b;padding:24px 28px;border-radius:0 0 12px 12px">
                                 <table style="border-collapse:collapse;width:100%;font-size:14px">
@@ -120,8 +121,8 @@ export async function POST(request: Request) {
                                     </a>
                                 </div>
                                 <div style="margin-top:12px;font-size:13px;color:#94a3b8">
-                                    Open the report, review their scan data, and prepare the deep PDF review.<br/>
-                                    Reach out to <a href="mailto:${contactEmail}" style="color:#6ee7ff">${contactEmail}</a> within 30–60 minutes.
+                                    Open the report, review their scan data, and prepare the short PDF action plan.<br/>
+                                    Reach out to <a href="mailto:${contactEmail}" style="color:#6ee7ff">${contactEmail}</a> as soon as possible.
                                 </div>
                                 ` : `
                                 <div style="margin-top:12px;font-size:13px;color:#94a3b8">

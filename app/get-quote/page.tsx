@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { quickAuditOffer } from "@/lib/offers";
 const QuoteForm = dynamic(() => import("@/components/QuoteForm"), { ssr: false, loading: () => null });
 
 export const metadata: Metadata = {
     title: "Get a Fix Quote",
     description:
-        "Request a custom SiteER fix quote and get implementation support for your highest-impact SEO, speed, and conversion issues.",
+        `Request a custom SiteER fix quote for full implementation, or start with the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} if you only need human next steps.`,
     alternates: {
         canonical: "/get-quote",
     },
     openGraph: {
         title: "Get a Fix Quote | SiteER",
         description:
-            "Request a custom fix quote for your highest-impact website issues.",
+            `Request a custom fix quote for your highest-impact website issues, or start with the ${quickAuditOffer.name}.`,
         url: "https://siteer.dev/get-quote",
         siteName: "SiteER",
         type: "website",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Get a Fix Quote | SiteER",
         description:
-            "Request a custom fix quote for your highest-impact website issues.",
+            `Request a custom implementation quote, or start with the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}.`,
         images: ["/og-image.png"],
     },
 };
@@ -71,6 +72,21 @@ export default function GetQuotePage() {
                         </a>{" "}
                         handles every fix from your scan — speed, mobile, SEO, trust signals — then re-scans your site to prove the improvement in real numbers. Fill out the form below and we'll be in touch within 1 business day.
                     </p>
+
+                    <div style={{ marginBottom: 28, borderRadius: 18, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)", padding: 18 }}>
+                        <div style={{ color: "#ffb6bf", fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 800, marginBottom: 8 }}>
+                            Not ready for full implementation?
+                        </div>
+                        <p style={{ fontSize: "0.95rem", color: "#c7d2de", lineHeight: 1.6, marginBottom: 12 }}>
+                            Start with the {quickAuditOffer.priceLabel} {quickAuditOffer.name} instead. Run the free scan, unlock your private report by email, and buy the human review only if you want exact next steps first.
+                        </p>
+                        <a
+                            href="/#diagnosis"
+                            style={{ display: "inline-flex", alignItems: "center", borderRadius: 999, padding: "11px 16px", fontWeight: 800, fontSize: "0.9rem", color: "#19070a", background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", textDecoration: "none" }}
+                        >
+                            Run free scan for {quickAuditOffer.priceLabel} audit path →
+                        </a>
+                    </div>
 
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 36, fontSize: "0.9rem", color: "#9fb1c3" }}>
                         {["We do all the work — no tech skills needed", "Flat $497 — no surprises", "+20 pts guaranteed or full refund"].map((item) => (

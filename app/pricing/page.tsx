@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { quickAuditOffer } from "@/lib/offers";
 
 export const metadata: Metadata = {
     title: "Pricing",
     description:
-        "See SiteER pricing for free website diagnosis, ER Fix Pack implementation, and deep manual reports powered by COAIBAKERSFIELD.COM.",
+        `See SiteER pricing for free website diagnosis, the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}, and ER Fix Pack implementation powered by COAIBAKERSFIELD.COM.`,
     alternates: {
         canonical: "/pricing",
     },
     openGraph: {
         title: "Pricing | SiteER",
         description:
-            "Compare the free scan, ER Fix Pack, and Deep ER Report options.",
+            `Compare the free scan, ${quickAuditOffer.name}, and ER Fix Pack options.`,
         url: "https://siteer.dev/pricing",
         siteName: "SiteER",
         type: "website",
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Pricing | SiteER",
         description:
-            "Compare the free scan, ER Fix Pack, and Deep ER Report options.",
+            `Compare the free scan, ${quickAuditOffer.name}, and ER Fix Pack options.`,
         images: ["/og-image.png"],
     },
 };
@@ -66,7 +67,7 @@ export default function PricingPage() {
             <section className="mt-10">
                 <h1 className="text-4xl font-semibold md:text-5xl">Stop the bleeding.</h1>
                 <p className="mt-3 max-w-2xl text-black/65">
-                    SiteER diagnosis is free. Pay only when you want implementation or a deeper manual review. 
+                    SiteER diagnosis is free. Pay only when you want implementation or a fast human review. 
                     All fixes are built and verified by Bakersfield's trusted web team at{" "}
                     <a
                         href="https://coaibakersfield.com"
@@ -102,7 +103,7 @@ export default function PricingPage() {
 
                 <article className="relative card-dark" style={{ background: "linear-gradient(180deg,#7c1414,#a82700)", color: "white" }}>
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-1 text-xs font-bold text-red-900">
-                        MOST POPULAR
+                        DONE FOR YOU
                     </div>
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-red-100">
                         ER Fix Pack
@@ -129,24 +130,26 @@ export default function PricingPage() {
 
                 <article className="card-dark">
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-black/55">
-                        Deep ER Report
+                        Quick Human Review
                     </h2>
-                    <p className="mt-2 text-3xl font-semibold">$49</p>
+                    <p className="mt-2 text-3xl font-semibold">{quickAuditOffer.priceLabel}</p>
+                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-red-600">Best first paid step</p>
                     <p className="mt-2 text-sm text-black/65">
-                        30–60 minute human review layered on top of your automated scan.
+                        {quickAuditOffer.name} gives you a low-friction second set of eyes after the free scan.
                     </p>
                     <ul className="mt-4 space-y-2 text-sm text-black/65">
                         <li>✓ Manual review by web expert</li>
-                        <li>✓ Copy and offer clarity notes</li>
-                        <li>✓ Local SEO quick wins</li>
-                        <li>✓ PDF report delivered</li>
+                        <li>✓ Top 3 revenue leaks prioritized</li>
+                        <li>✓ Copy, trust, and local SEO notes</li>
+                        <li>✓ Short PDF action plan</li>
                     </ul>
                     <a
                         className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white"
-                        href="/get-quote"
+                        href="/#diagnosis"
                     >
-                        Get Deep ER Report →
+                        Run free scan to unlock it →
                     </a>
+                    <p className="mt-3 text-xs text-black/50">Purchase happens from your private scan report.</p>
                 </article>
             </section>
 

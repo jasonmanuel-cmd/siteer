@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { quickAuditOffer } from "@/lib/offers";
 
 export default function ExitIntentPopup() {
     const [isVisible, setIsVisible] = useState(false);
@@ -77,7 +78,7 @@ export default function ExitIntentPopup() {
                     Wait! Don't leave yet.
                 </h2>
                 <p style={{ color: "var(--er-muted)", marginBottom: 24, fontSize: "0.95rem", lineHeight: 1.6 }}>
-                    Get a free scan of your website in under 60 seconds. See your grade, money leak estimate, and actionable fixes — no credit card required.
+                    Get a free scan of your website in under 60 seconds. See your grade, money leak estimate, and actionable fixes, then decide if you want the {quickAuditOffer.priceLabel} {quickAuditOffer.name}.
                 </p>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
                     <button
@@ -96,7 +97,7 @@ export default function ExitIntentPopup() {
                             minWidth: 140,
                         }}
                     >
-                        Get Free Scan →
+                        Run Free Scan →
                     </button>
                     <button
                         onClick={handleClose}

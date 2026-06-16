@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
+import { quickAuditOffer } from "@/lib/offers";
 import "@/app/globals.css";
 
 const TextSizeToggle = dynamic(() => import("@/components/TextSizeToggle"), { ssr: false });
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
         template: "%s | SiteER",
     },
     description:
-        "Paste any URL and SiteER instantly finds broken performance, mobile, SEO, and trust signals — then translates the damage into a plain-English grade and estimated monthly revenue leak.",
+        `Paste any URL and SiteER instantly finds broken performance, mobile, SEO, and trust signals, then guides visitors from a free scan to a ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} or full implementation.`,
     applicationName: "SiteER",
     keywords: [
         "website audit",
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
         siteName: "SiteER",
         title: "SiteER — The Emergency Room for Sick Websites",
         description:
-            "Run an instant website ER scan for performance, mobile, SEO, and trust issues with a business-impact score and money-leak estimate.",
+            `Run an instant website ER scan with a money-leak estimate, then move into the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} or full implementation.`,
         images: [
             {
                 url: "/og-image.png",
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "SiteER — The Emergency Room for Sick Websites",
         description:
-            "Find high-impact website issues in under 60 seconds and turn them into an actionable treatment plan.",
+            `Find high-impact website issues in under 60 seconds, unlock the full report by email, and offer the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}.`,
         images: ["/og-image.png"],
     },
     robots: {

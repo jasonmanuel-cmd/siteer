@@ -1,20 +1,28 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { quickAuditOffer } from "@/lib/offers";
 
 export const metadata: Metadata = {
     title: "Reports",
     description:
-        "What SiteER reports include and how the unlock flow works after the homepage diagnosis.",
+        `What SiteER reports include, how the unlock flow works, and where the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} fits after the homepage diagnosis.`,
     alternates: {
         canonical: "/reports",
     },
     openGraph: {
         title: "Reports | SiteER",
         description:
-            "What the report includes and how to unlock it from the diagnosis funnel.",
+            `What the report includes, how to unlock it, and how the ${quickAuditOffer.name} fits into the diagnosis funnel.`,
         url: "https://siteer.dev/reports",
         siteName: "SiteER",
         type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Reports | SiteER",
+        description:
+            `See what the report includes, how email unlock works, and where the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} fits next.`,
+        images: ["/og-image.png"],
     },
 };
 
@@ -74,7 +82,7 @@ export default function ReportsPage() {
                         Send this report to your developer (or us) and get your site fixed in days, not months.
                     </h1>
                     <p className="mt-4 max-w-2xl text-lg text-black/65">
-                        The one PDF that gets your team to actually fix what's broken. Includes the grade, every issue prioritized, revenue-leak estimate, and a clear treatment plan.
+                        The one report that gets your team to actually fix what's broken. Includes the grade, every issue prioritized, revenue-leak estimate, and a clear treatment plan, plus the option to add the {quickAuditOffer.priceLabel} {quickAuditOffer.name} for human next steps.
                     </p>
                     <div className="mt-6 flex flex-wrap gap-3">
                         <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/#diagnosis">
@@ -120,7 +128,7 @@ export default function ReportsPage() {
                 </article>
                 <article>
                     <h2 className="text-lg font-semibold">Tied to action</h2>
-                    <p style={{ marginTop: 8, color: 'var(--er-muted)', fontSize: '0.95rem' }}>Every report links to pricing, FAQ, and implementation options. Drives conversions at every stage.</p>
+                    <p style={{ marginTop: 8, color: 'var(--er-muted)', fontSize: '0.95rem' }}>Every report links to pricing, FAQ, the {quickAuditOffer.priceLabel} audit, and implementation options. Drives conversions at every stage.</p>
                 </article>
             </section>
 

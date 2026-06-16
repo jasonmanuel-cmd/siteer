@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function normalizeInputUrl(input: string): string {
     const trimmed = input.trim();
@@ -9,37 +9,8 @@ function normalizeInputUrl(input: string): string {
     return `https://${trimmed}`;
 }
 
-// A/B test variants
-const CTA_VARIANTS = [
-    { text: "See My Site's Health Score →", trackingId: "v1-health-score" },
-    { text: "Diagnose My Site in 60 Seconds →", trackingId: "v2-diagnose" },
-    { text: "Start Free Website Scan →", trackingId: "v3-scan" },
-];
-
 export default function HeroUrlInput() {
     const [url, setUrl] = useState("");
-    const [ctaVariant, setCtaVariant] = useState(CTA_VARIANTS[0]);
-
-    // Initialize A/B test variant
-    useEffect(() => {
-        const storedVariant = localStorage.getItem("cta_variant");
-        if (storedVariant) {
-            const variant = CTA_VARIANTS.find((v) => v.trackingId === storedVariant);
-            if (variant) setCtaVariant(variant);
-        } else {
-            // Randomly assign a variant
-            const randomVariant = CTA_VARIANTS[Math.floor(Math.random() * CTA_VARIANTS.length)];
-            setCtaVariant(randomVariant);
-            localStorage.setItem("cta_variant", randomVariant.trackingId);
-            // Track in analytics if available
-            if (typeof window !== "undefined" && (window as any).gtag) {
-                (window as any).gtag("event", "ab_test", {
-                    test_name: "hero_cta_variant",
-                    variant: randomVariant.trackingId,
-                });
-            }
-        }
-    }, []);
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -50,7 +21,8 @@ export default function HeroUrlInput() {
         // Track CTA click
         if (typeof window !== "undefined" && (window as any).gtag) {
             (window as any).gtag("event", "hero_cta_click", {
-                cta_variant: ctaVariant.trackingId,
+                cta_variant: "run-free-scan",
+                cta_label: "Run Free Scan",
             });
         }
         
@@ -121,7 +93,7 @@ export default function HeroUrlInput() {
                     flex: "0 0 210px",
                 }}
             >
-                {ctaVariant.text}
+                Run Free Scan →
             </button>
         </form>
     );

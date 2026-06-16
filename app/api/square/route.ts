@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { quickAuditOffer } from "@/lib/offers";
 import { consumeRateLimit, getClientIp } from "@/lib/rateLimit";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -55,10 +56,10 @@ export async function POST(request: Request) {
             },
             body: JSON.stringify({
                 idempotency_key: crypto.randomBytes(16).toString("hex"),
-                description: "Deep ER Report — Human review of your SiteER scan by COAIBAKERSFIELD.COM",
+                description: `${quickAuditOffer.name} — ${quickAuditOffer.description} by COAIBAKERSFIELD.COM`,
                 quick_pay: {
-                    name: "Deep ER Report",
-                    price_money: { amount: 4900, currency: "USD" },
+                    name: quickAuditOffer.name,
+                    price_money: { amount: quickAuditOffer.priceCents, currency: "USD" },
                     location_id: locationId,
                 },
                 checkout_options: {
@@ -81,7 +82,7 @@ export async function POST(request: Request) {
             report_token: body.reportToken,
             email: body.email ?? null,
             square_link_id: squareData.payment_link.id,
-            amount_cents: 4900,
+            amount_cents: quickAuditOffer.priceCents,
             status: "pending",
         });
 

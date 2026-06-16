@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState, useRef } from "react";
+import { quickAuditOffer } from "@/lib/offers";
 
 const ReportTeaser = dynamic(() => import("./ReportTeaser"), { ssr: false, loading: () => null });
 const ScanningOverlay = dynamic(() => import("./ScanningOverlay"), { ssr: false, loading: () => null });
@@ -171,18 +172,20 @@ export default function UrlScanForm() {
         <div style={{ display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: 22, alignItems: "stretch" }} className="!grid-cols-1 md:!grid-cols-[0.9fr_1.1fr]">
             {/* Left: Intake panel */}
             <div style={{ borderRadius: 30, background: "rgba(255,255,255,.075)", border: "1px solid rgba(255,255,255,.14)", boxShadow: "0 24px 80px rgba(0,0,0,.38)", padding: 26, overflow: "hidden" }}>
-                <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Your Information</h3>
-                <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>We'll scan your website and email you the results. This takes about 60 seconds.</p>
+                <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Start your free scan</h3>
+                <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>
+                    We scan your site in about 60 seconds, unlock the full report by email, and give you the option to add the {quickAuditOffer.priceLabel} {quickAuditOffer.name} from your private report.
+                </p>
 
                 <div style={{ display: "grid", gap: 9, marginBottom: 20 }}>
                     <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
-                        <strong style={{ color: "white" }}>1.</strong> Fill in your name and email below
+                        <strong style={{ color: "white" }}>1.</strong> Enter your name, email, and website below
                     </div>
                     <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
-                        <strong style={{ color: "white" }}>2.</strong> Paste your website URL (like: mywebsite.com)
+                        <strong style={{ color: "white" }}>2.</strong> Get the free scan preview with your grade, money leak, and top issues
                     </div>
                     <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
-                        <strong style={{ color: "white" }}>3.</strong> Click "Scan Your Website Now" to start
+                        <strong style={{ color: "white" }}>3.</strong> Open the full report and add the {quickAuditOffer.priceLabel} {quickAuditOffer.name} if you want human next steps
                     </div>
                 </div>
 
@@ -301,7 +304,7 @@ export default function UrlScanForm() {
                         disabled={loading || !url || !name.trim() || !leadEmail.trim()}
                         style={{ width: "100%", marginTop: 18, border: 0, cursor: loading || !url || !name.trim() || !leadEmail.trim() ? "not-allowed" : "pointer", borderRadius: 999, padding: "20px 24px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", opacity: loading || !url || !name.trim() || !leadEmail.trim() ? 0.7 : 1, fontSize: "1.05rem", minHeight: 60, transition: "transform .2s, box-shadow .2s" }}
                     >
-                        {loading ? "Scanning…" : "Scan Your Website Now"}
+                        {loading ? "Scanning…" : "Run Free Scan →"}
                     </button>
                 </form>
 
@@ -355,8 +358,10 @@ export default function UrlScanForm() {
 
             {/* Right: Results panel */}
             <div style={{ borderRadius: 30, background: "rgba(255,255,255,.075)", border: "1px solid rgba(255,255,255,.14)", boxShadow: "0 24px 80px rgba(0,0,0,.38)", padding: 26, overflow: "hidden" }}>
-                <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Free teaser report</h3>
-                <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>Your grade, top three issues, and money leak appear immediately after the scan.</p>
+                <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Free scan preview</h3>
+                <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>
+                    Your grade, top three issues, and money leak appear immediately after the scan. The full report and {quickAuditOffer.priceLabel} human review option come next.
+                </p>
 
                 {!teaser ? (
                     <div style={{ minHeight: 360, display: "grid", placeItems: "center", textAlign: "center", color: "var(--er-muted)", border: "1px dashed rgba(255,255,255,.14)", borderRadius: 24, padding: 28 }}>
@@ -365,7 +370,7 @@ export default function UrlScanForm() {
                                 <rect x="10" y="10" width="52" height="52" rx="18" fill="rgba(255,77,94,.16)" stroke="rgba(255,77,94,.38)" />
                                 <path d="M36 21V51M21 36H51" stroke="#ff7380" strokeWidth="6" strokeLinecap="round" />
                             </svg>
-                            <p style={{ marginTop: 14 }}>Scan results will appear here after the diagnostic sequence.</p>
+                            <p style={{ marginTop: 14 }}>Run the free scan to see the preview here, then unlock the full report and {quickAuditOffer.priceLabel} audit path.</p>
                         </div>
                     </div>
                 ) : (
@@ -400,9 +405,11 @@ export default function UrlScanForm() {
                                         ${lossLow.toLocaleString()}–${lossHigh.toLocaleString()}/mo
                                     </strong>
                                 </div>
-                                <a href="/get-quote" style={{ border: "1px solid rgba(255,255,255,.2)", borderRadius: 999, padding: "10px 16px", fontWeight: 800, fontSize: "0.88rem", color: "white", background: "rgba(255,255,255,.08)", whiteSpace: "nowrap" }}>
-                                    Get fixes
-                                </a>
+                                <div style={{ border: "1px solid rgba(255,255,255,.2)", borderRadius: 18, padding: "10px 14px", background: "rgba(255,255,255,.08)", minWidth: 150 }}>
+                                    <div style={{ color: "var(--er-muted)", fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 800 }}>Next step</div>
+                                    <strong style={{ display: "block", fontSize: "0.95rem", marginTop: 3 }}>{quickAuditOffer.priceLabel} {quickAuditOffer.name}</strong>
+                                    <span style={{ color: "var(--er-muted)", fontSize: "0.8rem" }}>Inside full report</span>
+                                </div>
                             </div>
                         )}
 
@@ -429,9 +436,9 @@ export default function UrlScanForm() {
                         <div style={{ marginTop: 8, padding: 16, borderRadius: 22, background: "rgba(0,0,0,.18)", border: "1px solid rgba(255,255,255,.1)" }}>
                             {!reportUrl ? (
                                 <form onSubmit={captureLead}>
-                                    <strong style={{ fontSize: "0.95rem" }}>Unlock the full shareable treatment plan</strong>
+                                    <strong style={{ fontSize: "0.95rem" }}>Unlock the full shareable report</strong>
                                     <p style={{ margin: "6px 0 12px", color: "var(--er-muted)", lineHeight: 1.55, fontSize: "0.88rem" }}>
-                                        Enter your email to receive the permanent report link with every issue and recommendation.
+                                        Enter your email to receive the permanent report link with every issue and recommendation. The full report also includes the {quickAuditOffer.priceLabel} {quickAuditOffer.name} if you want a human action plan.
                                     </p>
                                     <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                                         <input
@@ -447,7 +454,7 @@ export default function UrlScanForm() {
                                             disabled={submitting || !leadEmail}
                                             style={{ border: 0, cursor: submitting || !leadEmail ? "not-allowed" : "pointer", borderRadius: 999, padding: "13px 18px", fontWeight: 800, fontSize: "0.88rem", color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", opacity: submitting || !leadEmail ? 0.7 : 1 }}
                                         >
-                                            {submitting ? "Sending…" : "Send report"}
+                                            {submitting ? "Sending…" : "Send Full Report"}
                                         </button>
                                     </div>
                                     {leadError && <p style={{ marginTop: 8, color: "#ff8792", fontSize: "0.85rem" }}>{leadError}</p>}
@@ -456,7 +463,7 @@ export default function UrlScanForm() {
                                 <div>
                                     <strong style={{ fontSize: "0.95rem", color: "var(--er-green)" }}>Report ready</strong>
                                     <p style={{ margin: "6px 0 12px", color: "var(--er-muted)", lineHeight: 1.55, fontSize: "0.88rem" }}>
-                                        Open your full report and share it with your team.
+                                        Open your full report, share it with your team, and use the built-in {quickAuditOffer.priceLabel} {quickAuditOffer.name} option if you want human next steps.
                                     </p>
                                     <a href={reportUrl} style={{ display: "block", borderRadius: 14, border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.06)", padding: "12px 16px", fontSize: "0.85rem", wordBreak: "break-all", color: "var(--er-cyan)", marginBottom: 12 }}>
                                         {reportUrl}
