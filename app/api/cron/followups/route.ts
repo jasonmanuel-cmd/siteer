@@ -5,6 +5,7 @@ import {
     markLeadFollowupsConverted,
     sendLeadFollowupEmail,
 } from "@/lib/leadFollowups";
+import { flushQueuedSheetEvents } from "@/lib/googleSheets";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const runtime = "nodejs";
@@ -130,6 +131,8 @@ export async function GET(request: Request) {
             }
         }
 
+        const sheetSync = await flushQueuedSheetEvents();
+
         return NextResponse.json({
             ok: true,
             due: dueRows?.length ?? 0,
@@ -137,6 +140,7 @@ export async function GET(request: Request) {
             sent,
             skipped,
             failed,
+            sheetSync,
         });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Follow-up cron failed";

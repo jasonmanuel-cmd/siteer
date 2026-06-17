@@ -1,46 +1,71 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import SiteChrome from "@/components/SiteChrome";
+import PageSignalBar from "@/components/PageSignalBar";
 import { quickAuditOffer } from "@/lib/offers";
 import { fixPackDepositOffer } from "@/lib/offers";
+import {
+    buildPageMetadata,
+    buildPageStructuredData,
+    buildServiceSchema,
+} from "@/lib/siteSeo";
 const QuoteForm = dynamic(() => import("@/components/QuoteForm"), { ssr: false, loading: () => null });
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
     title: "Get a Fix Quote",
     description:
-        `Request a custom SiteER fix quote for full implementation, or start with the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} if you only need human next steps.`,
-    alternates: {
-        canonical: "/get-quote",
+        `Request a SiteER implementation quote, pay the ${fixPackDepositOffer.priceLabel} deposit, and move directly into a Bakersfield-built website fix plan.`,
+    path: "/get-quote",
+    keywords: [
+        "website fix quote",
+        "Bakersfield web design quote",
+        "website seo fix quote",
+        "SiteER implementation",
+    ],
+});
+
+const quoteFaqs = [
+    {
+        question: "Who should use the implementation quote form?",
+        answer: "Use the quote form when you already know you want SiteER to do the work rather than handing the report to someone else.",
     },
-    openGraph: {
-        title: "Get a Fix Quote | SiteER",
-        description:
-            `Request a custom fix quote for your highest-impact website issues, or start with the ${quickAuditOffer.name}.`,
-        url: "https://siteer.dev/get-quote",
-        siteName: "SiteER",
-        type: "website",
-        images: [
-            {
-                url: "/og-image.png",
-                width: 1200,
-                height: 630,
-                alt: "SiteER quote preview",
-            },
-        ],
+    {
+        question: "What happens after the $200 deposit?",
+        answer: "The deposit reserves the work, gets applied to the final total, and triggers a follow-up with scope, scheduling, and the remaining balance.",
     },
-    twitter: {
-        card: "summary_large_image",
-        title: "Get a Fix Quote | SiteER",
-        description:
-            `Request a custom implementation quote, or start with the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}.`,
-        images: ["/og-image.png"],
+    {
+        question: "What if I only want advice and not implementation?",
+        answer: "Run the free scan and unlock the $20 Quick ER Audit instead of booking the full implementation path.",
     },
-};
+] as const;
+
+const structuredData = buildPageStructuredData({
+    path: "/get-quote",
+    title: "Get a SiteER Fix Quote",
+    description: "Implementation quote and deposit path for local businesses that want SiteER to fix website speed, mobile, SEO, and trust issues.",
+    breadcrumbs: [
+        { name: "Home", path: "/" },
+        { name: "Get a Fix Quote", path: "/get-quote" },
+    ],
+    faqs: quoteFaqs.map((faq) => ({ question: faq.question, answer: faq.answer })),
+    extras: [
+        buildServiceSchema({
+            path: "/get-quote",
+            name: "SiteER ER Fix Pack",
+            description: "Website repair and implementation service for local business sites that need speed, SEO, trust, and mobile fixes.",
+            serviceType: "Website repair service",
+        }),
+    ],
+});
 
 export default function GetQuotePage() {
     return (
         <SiteChrome>
             <main className="er-page er-page-narrow">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+                />
                 <section className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
                     <div>
                         <p className="er-kicker">Implementation</p>
@@ -81,6 +106,13 @@ export default function GetQuotePage() {
                     </aside>
                 </section>
 
+                <PageSignalBar
+                    primaryCtaHref="/#diagnosis"
+                    primaryCtaLabel="Run scan first"
+                    secondaryCtaHref="/pricing"
+                    secondaryCtaLabel="Compare paths"
+                />
+
                 <section className="mt-10 er-panel">
                     <div className="mb-6">
                         <p className="er-kicker">Reserve the work</p>
@@ -92,6 +124,19 @@ export default function GetQuotePage() {
                         </p>
                     </div>
                     <QuoteForm />
+                </section>
+
+                <section className="mt-12 grid gap-5 md:grid-cols-3">
+                    {[
+                        ["Best fit", "You want the fixes done for you and do not want to manage screenshots, developer tasks, or back-and-forth prioritization."],
+                        ["Maybe not yet", `If you still need to see the damage first, run the free scan and use the ${quickAuditOffer.priceLabel} audit as the lower-risk step.`],
+                        ["What you get", "A direct handoff into scope, schedule, and the implementation plan after the deposit is paid."],
+                    ].map(([title, text]) => (
+                        <article key={title} className="er-link-card">
+                            <h2 className="text-lg font-semibold text-white">{title}</h2>
+                            <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{text}</p>
+                        </article>
+                    ))}
                 </section>
             </main>
         </SiteChrome>

@@ -1,3 +1,6 @@
+import type { Json } from "@/lib/database.types";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+
 /**
  * Google Sheets integration via Apps Script webhook.
  * No service account keys, no OAuth, no Google Cloud credentials needed.
@@ -64,8 +67,15 @@
  * ═════════════════════════════════════════════════════════════
  */
 
+type SheetName = "Leads" | "Quotes" | "Payments";
+
+type QueueResult = {
+    id: string;
+    status: "queued" | "processing" | "sent";
+};
+
 function getWebhookUrl(): string | null {
-    const value = process.env.GOOGLE_SHEETS_WEBHOOK_URL?.trim();
+    const value = process.env.GOOGLE_SHEETS_WEBHOOK_URL?.trim().replace(/^"+|"+$/g, "");
     return value ? value : null;
 }
 
@@ -79,22 +89,38 @@ function parseWebhookPayload(body: string): { ok?: boolean; error?: string } | n
 }
 
 async function sendToSheet(
-    sheet: "Leads" | "Quotes" | "Payments",
+    sheet: SheetName,
     row: (string | number)[],
 ): Promise<void> {
     const webhookUrl = getWebhookUrl();
     if (!webhookUrl) {
-        console.warn(`[googleSheets] GOOGLE_SHEETS_WEBHOOK_URL is not set. Skipping ${sheet} row.`);
-        return;
+        throw new Error(`GOOGLE_SHEETS_WEBHOOK_URL is not set for ${sheet}`);
     }
 
-    const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sheet, row }),
-    });
-    const responseText = await response.text();
-    const payload = parseWebhookPayload(responseText);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12_000);
+
+    let responseText = "";
+    let payload: { ok?: boolean; error?: string } | null = null;
+    let response: Response;
+
+    try {
+        response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "Cache-Control": "no-store",
+            },
+            body: JSON.stringify({ sheet, row }),
+            redirect: "follow",
+            signal: controller.signal,
+        });
+        responseText = await response.text();
+        payload = parseWebhookPayload(responseText);
+    } finally {
+        clearTimeout(timeout);
+    }
 
     if (!response.ok) {
         throw new Error(
@@ -102,8 +128,104 @@ async function sendToSheet(
         );
     }
 
-    if (payload && payload.ok === false) {
-        throw new Error(payload.error || "Webhook rejected the sheet row");
+    if (!payload || payload.ok !== true) {
+        const compactBody = responseText.replace(/\s+/g, " ").slice(0, 180);
+        throw new Error(
+            `Webhook did not confirm success for ${sheet}${compactBody ? `: ${compactBody}` : ""}`,
+        );
+    }
+}
+
+async function queueSheetEvent(
+    sheet: SheetName,
+    row: (string | number)[],
+): Promise<QueueResult | null> {
+    try {
+        const supabaseAdmin = getSupabaseAdmin();
+        const { data, error } = await supabaseAdmin
+            .from("sheet_sync_events")
+            .insert({
+                sheet,
+                row: row as Json,
+                status: "queued",
+            })
+            .select("id,status")
+            .single();
+
+        if (error) {
+            throw new Error(error.message || "Failed to queue sheet event");
+        }
+
+        return data as QueueResult;
+    } catch (error) {
+        console.warn(
+            "[googleSheets.queueSheetEvent]",
+            error instanceof Error ? error.message : error,
+        );
+        return null;
+    }
+}
+
+async function updateSheetEvent(
+    id: string,
+    updates: {
+        status: "queued" | "processing" | "sent";
+        attemptCount?: number;
+        lastError?: string | null;
+        sentAt?: string | null;
+    },
+): Promise<void> {
+    try {
+        const supabaseAdmin = getSupabaseAdmin();
+        const payload: Record<string, string | number | null> = {
+            status: updates.status,
+        };
+
+        if (typeof updates.attemptCount === "number") payload.attempt_count = updates.attemptCount;
+        if ("lastError" in updates) payload.last_error = updates.lastError ?? null;
+        if ("sentAt" in updates) payload.sent_at = updates.sentAt ?? null;
+
+        const { error } = await supabaseAdmin
+            .from("sheet_sync_events")
+            .update(payload)
+            .eq("id", id);
+
+        if (error) {
+            throw new Error(error.message || "Failed to update sheet event");
+        }
+    } catch (error) {
+        console.warn(
+            "[googleSheets.updateSheetEvent]",
+            error instanceof Error ? error.message : error,
+        );
+    }
+}
+
+async function deliverSheetRow(
+    sheet: SheetName,
+    row: (string | number)[],
+): Promise<void> {
+    const queued = await queueSheetEvent(sheet, row);
+
+    try {
+        await sendToSheet(sheet, row);
+        if (queued) {
+            await updateSheetEvent(queued.id, {
+                status: "sent",
+                attemptCount: 1,
+                lastError: null,
+                sentAt: new Date().toISOString(),
+            });
+        }
+    } catch (error) {
+        if (queued) {
+            await updateSheetEvent(queued.id, {
+                status: "queued",
+                attemptCount: 1,
+                lastError: error instanceof Error ? error.message.slice(0, 500) : "Unknown sheet delivery error",
+            });
+        }
+        throw error;
     }
 }
 
@@ -127,7 +249,7 @@ export async function logLead(data: {
     reportUrl: string;
 }): Promise<void> {
     try {
-        await sendToSheet("Leads", [timestamp(), data.email, data.scanId, data.reportUrl]);
+        await deliverSheetRow("Leads", [timestamp(), data.email, data.scanId, data.reportUrl]);
     } catch (err) {
         console.error("[googleSheets.logLead]", err instanceof Error ? err.message : err);
     }
@@ -142,7 +264,7 @@ export async function logQuote(data: {
     websiteUrl?: string;
 }): Promise<void> {
     try {
-        await sendToSheet("Quotes", [
+        await deliverSheetRow("Quotes", [
             timestamp(),
             data.firstName,
             data.lastName,
@@ -163,7 +285,7 @@ export async function logPayment(data: {
     status: string;
 }): Promise<void> {
     try {
-        await sendToSheet("Payments", [
+        await deliverSheetRow("Payments", [
             timestamp(),
             data.email,
             data.reportToken,
@@ -172,5 +294,75 @@ export async function logPayment(data: {
         ]);
     } catch (err) {
         console.error("[googleSheets.logPayment]", err instanceof Error ? err.message : err);
+    }
+}
+
+export async function flushQueuedSheetEvents(limit = 30): Promise<{
+    processed: number;
+    sent: number;
+    failed: number;
+}> {
+    try {
+        const supabaseAdmin = getSupabaseAdmin();
+        const { data: queuedRows, error } = await supabaseAdmin
+            .from("sheet_sync_events")
+            .select("id,sheet,row,attempt_count")
+            .eq("status", "queued")
+            .order("created_at", { ascending: true })
+            .limit(limit);
+
+        if (error) {
+            throw new Error(error.message || "Failed to load queued sheet events");
+        }
+
+        let processed = 0;
+        let sent = 0;
+        let failed = 0;
+
+        for (const row of queuedRows ?? []) {
+            const { data: claimed, error: claimError } = await supabaseAdmin
+                .from("sheet_sync_events")
+                .update({
+                    status: "processing",
+                    last_error: null,
+                })
+                .eq("id", row.id)
+                .eq("status", "queued")
+                .select("id,sheet,row,attempt_count")
+                .maybeSingle();
+
+            if (claimError || !claimed) {
+                failed += 1;
+                continue;
+            }
+
+            processed += 1;
+
+            try {
+                const rowValues = Array.isArray(claimed.row) ? claimed.row : [];
+                await sendToSheet(claimed.sheet as SheetName, rowValues as (string | number)[]);
+                await updateSheetEvent(claimed.id, {
+                    status: "sent",
+                    attemptCount: claimed.attempt_count + 1,
+                    lastError: null,
+                    sentAt: new Date().toISOString(),
+                });
+                sent += 1;
+            } catch (queueError) {
+                failed += 1;
+                await updateSheetEvent(claimed.id, {
+                    status: "queued",
+                    attemptCount: claimed.attempt_count + 1,
+                    lastError: queueError instanceof Error
+                        ? queueError.message.slice(0, 500)
+                        : "Unknown queued sheet delivery error",
+                });
+            }
+        }
+
+        return { processed, sent, failed };
+    } catch (error) {
+        console.error("[googleSheets.flushQueuedSheetEvents]", error instanceof Error ? error.message : error);
+        return { processed: 0, sent: 0, failed: 1 };
     }
 }

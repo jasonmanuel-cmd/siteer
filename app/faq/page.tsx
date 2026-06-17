@@ -1,29 +1,55 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
 import FaqAccordion from "@/components/FaqAccordion";
+import PageSignalBar from "@/components/PageSignalBar";
 import { quickAuditOffer } from "@/lib/offers";
+import { siteFaqs } from "@/lib/siteFaqs";
+import {
+    buildPageMetadata,
+    buildPageStructuredData,
+    buildServiceSchema,
+} from "@/lib/siteSeo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
     title: "FAQ",
     description:
-        "Answers to common questions about the SiteER diagnosis funnel, report delivery, pricing, and implementation.",
-    alternates: {
-        canonical: "/faq",
-    },
-    openGraph: {
-        title: "FAQ | SiteER",
-        description:
-            "Answers to common questions about the diagnosis funnel and reports.",
-        url: "https://siteer.dev/faq",
-        siteName: "SiteER",
-        type: "website",
-    },
-};
+        "Answers to common questions about SiteER scans, report delivery, pricing, and implementation for local business websites.",
+    path: "/faq",
+    keywords: [
+        "website audit faq",
+        "local SEO faq",
+        "SiteER questions",
+        "Bakersfield website audit",
+    ],
+});
+
+const structuredData = buildPageStructuredData({
+    path: "/faq",
+    title: "SiteER FAQ",
+    description: "Frequently asked questions about SiteER scans, human audits, and implementation.",
+    breadcrumbs: [
+        { name: "Home", path: "/" },
+        { name: "FAQ", path: "/faq" },
+    ],
+    faqs: siteFaqs.map((faq) => ({ question: faq.q, answer: faq.a })),
+    extras: [
+        buildServiceSchema({
+            path: "/faq",
+            name: "SiteER FAQ",
+            description: "Question and answer library for SiteER website audit buyers.",
+            serviceType: "Website audit support",
+        }),
+    ],
+});
 
 export default function FaqPage() {
     return (
         <SiteChrome>
             <main className="er-page er-page-narrow">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+                />
                 <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
                     <div>
                         <p className="er-kicker">FAQ</p>
@@ -51,6 +77,13 @@ export default function FaqPage() {
                         </div>
                     </aside>
                 </section>
+
+                <PageSignalBar
+                    primaryCtaHref="/#diagnosis"
+                    primaryCtaLabel="Run Free Scan →"
+                    secondaryCtaHref="/pricing"
+                    secondaryCtaLabel="See pricing"
+                />
 
                 <section className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
                     <div>
@@ -80,6 +113,19 @@ export default function FaqPage() {
                             </a>
                         </div>
                     </aside>
+                </section>
+
+                <section className="mt-12 grid gap-5 md:grid-cols-3">
+                    {[
+                        ["Free scan answers the urgency question.", "SiteER grades the website and estimates the monthly leak so the owner knows whether this is a real business problem."],
+                        [`${quickAuditOffer.name} answers the next-step question.`, `The ${quickAuditOffer.priceLabel} audit converts the scan into a short human action plan when the owner wants direction before implementation.`],
+                        ["The Fix Pack answers the execution question.", "The implementation path is for owners who do not want to manage a developer and just want the work completed."],
+                    ].map(([title, text]) => (
+                        <article key={title} className="er-link-card">
+                            <h2 className="text-lg font-semibold text-white">{title}</h2>
+                            <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{text}</p>
+                        </article>
+                    ))}
                 </section>
 
                 <section className="mt-12 er-panel-accent">

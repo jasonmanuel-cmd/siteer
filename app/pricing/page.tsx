@@ -1,40 +1,86 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
+import PageSignalBar from "@/components/PageSignalBar";
 import { fixPackDepositOffer, quickAuditOffer } from "@/lib/offers";
+import {
+    buildPageMetadata,
+    buildPageStructuredData,
+    buildServiceSchema,
+} from "@/lib/siteSeo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
     title: "Pricing",
     description:
-        `See SiteER pricing for free website diagnosis, the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}, and ER Fix Pack implementation powered by COAIBAKERSFIELD.COM.`,
-    alternates: {
-        canonical: "/pricing",
-    },
-    openGraph: {
-        title: "Pricing | SiteER",
-        description:
-            `Compare the free scan, ${quickAuditOffer.name}, and ER Fix Pack options.`,
-        url: "https://siteer.dev/pricing",
-        siteName: "SiteER",
-        type: "website",
-        images: [
-            {
-                url: "/og-image.png",
-                width: 1200,
-                height: 630,
-                alt: "SiteER pricing preview",
-            },
-        ],
-    },
-    twitter: {
-        card: "summary_large_image",
-        title: "Pricing | SiteER",
-        description:
-            `Compare the free scan, ${quickAuditOffer.name}, and ER Fix Pack options.`,
-        images: ["/og-image.png"],
-    },
-};
+        `Compare the free SiteER scan, the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}, and the Bakersfield-built ER Fix Pack implementation path.`,
+    path: "/pricing",
+    keywords: [
+        "website audit pricing",
+        "Bakersfield website fixes",
+        "local SEO pricing",
+        "website performance audit cost",
+        "SiteER pricing",
+    ],
+});
 
 const fixPackTotalLabel = "$497";
+const pricingFaqs = [
+    {
+        question: "What is the cheapest way to start with SiteER?",
+        answer: "Start with the free scan. It gives you the grade, money-leak estimate, and the first signal on whether you need the $20 audit or the Fix Pack.",
+    },
+    {
+        question: "When should I buy the $20 Quick ER Audit?",
+        answer: "Buy it when the free scan shows real damage and you want a human to rank the fastest fixes before paying for implementation.",
+    },
+    {
+        question: "How does the $200 deposit work?",
+        answer: "The $200 ER Fix Pack deposit reserves the project and is credited toward the full implementation total.",
+    },
+] as const;
+
+const structuredData = buildPageStructuredData({
+    path: "/pricing",
+    title: "SiteER Pricing",
+    description:
+        "SiteER pricing shows the free website scan, the $20 Quick ER Audit, and the $200 ER Fix Pack deposit path for local business websites.",
+    breadcrumbs: [
+        { name: "Home", path: "/" },
+        { name: "Pricing", path: "/pricing" },
+    ],
+    faqs: pricingFaqs.map((faq) => ({ question: faq.question, answer: faq.answer })),
+    extras: [
+        buildServiceSchema({
+            path: "/pricing",
+            name: "SiteER Pricing",
+            description: "Pricing and offer comparison for SiteER diagnostics, human audit, and website implementation.",
+            serviceType: "Website audit pricing",
+        }),
+        {
+            "@type": "OfferCatalog",
+            name: "SiteER Care Levels",
+            itemListElement: [
+                {
+                    "@type": "Offer",
+                    name: "Free ER Scan",
+                    price: "0",
+                    priceCurrency: "USD",
+                },
+                {
+                    "@type": "Offer",
+                    name: quickAuditOffer.name,
+                    price: "20",
+                    priceCurrency: "USD",
+                },
+                {
+                    "@type": "Offer",
+                    name: "ER Fix Pack Deposit",
+                    price: "200",
+                    priceCurrency: "USD",
+                },
+            ],
+        },
+    ],
+});
 
 const careLevels = [
     {
@@ -91,6 +137,10 @@ export default function PricingPage() {
     return (
         <SiteChrome>
             <main className="er-page">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+                />
                 <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
                     <div>
                         <p className="er-kicker">Pricing</p>
@@ -135,6 +185,13 @@ export default function PricingPage() {
                         </p>
                     </aside>
                 </section>
+
+                <PageSignalBar
+                    primaryCtaHref="/#diagnosis"
+                    primaryCtaLabel="Run Free Scan →"
+                    secondaryCtaHref="/get-quote"
+                    secondaryCtaLabel="Book implementation"
+                />
 
                 <section className="mt-12 grid gap-5 xl:grid-cols-3">
                     {careLevels.map((level) => (
@@ -189,6 +246,27 @@ export default function PricingPage() {
                                 <div className="text-sm leading-6 text-[#c8d5e1]">{free}</div>
                                 <div className="text-sm leading-6 text-[#c8d5e1]">{audit}</div>
                                 <div className="text-sm leading-6 text-[#c8d5e1]">{fixPack}</div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-8 grid gap-4 lg:grid-cols-3">
+                        {[
+                            {
+                                title: "Free scan identifies the problem.",
+                                body: "SiteER grades the site, estimates the leak, and shows whether this is a mild cleanup or a serious revenue problem.",
+                            },
+                            {
+                                title: `${quickAuditOffer.name} ranks the next moves.`,
+                                body: "The human audit translates the free scan into a plain-English action order your owner or developer can actually follow.",
+                            },
+                            {
+                                title: "ER Fix Pack applies the fixes.",
+                                body: "The implementation path turns the diagnosis into work completed, then proves the improvement with a follow-up scan.",
+                            },
+                        ].map((item) => (
+                            <div key={item.title} className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5">
+                                <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+                                <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{item.body}</p>
                             </div>
                         ))}
                     </div>
@@ -259,6 +337,19 @@ export default function PricingPage() {
                             ))}
                         </div>
                     </div>
+                </section>
+
+                <section className="mt-12 grid gap-5 lg:grid-cols-3">
+                    {[
+                        ["/reports", "See the report anatomy", "Understand what the owner and developer actually receive after the scan."],
+                        ["/faq", "Read the FAQ", "Use the answers page to handle objections before someone gets stuck."],
+                        ["/get-quote", "Jump to implementation", "Skip the reading and reserve the work if the problem is already obvious."],
+                    ].map(([href, title, text]) => (
+                        <a key={href} href={href} className="er-link-card">
+                            <div className="text-base font-semibold text-white">{title}</div>
+                            <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{text}</p>
+                        </a>
+                    ))}
                 </section>
 
                 <p className="mt-8 text-sm leading-6 text-[color:var(--er-muted-2)]">

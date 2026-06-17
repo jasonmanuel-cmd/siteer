@@ -1,30 +1,59 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
+import PageSignalBar from "@/components/PageSignalBar";
 import { quickAuditOffer } from "@/lib/offers";
+import {
+    buildPageMetadata,
+    buildPageStructuredData,
+    buildServiceSchema,
+} from "@/lib/siteSeo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
     title: "Reports",
     description:
-        `What SiteER reports include, how the unlock flow works, and where the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} fits after the homepage diagnosis.`,
-    alternates: {
-        canonical: "/reports",
+        `See what the SiteER report includes, how the email unlock works, and where the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} fits after the scan.`,
+    path: "/reports",
+    keywords: [
+        "website audit report",
+        "SEO report example",
+        "SiteER report",
+        "local business website report",
+    ],
+});
+
+const reportFaqs = [
+    {
+        question: "What does the free SiteER report show first?",
+        answer: "The free view shows the grade, the money-leak estimate, and the top symptoms so the owner can judge the severity immediately.",
     },
-    openGraph: {
-        title: "Reports | SiteER",
-        description:
-            `What the report includes, how to unlock it, and how the ${quickAuditOffer.name} fits into the diagnosis funnel.`,
-        url: "https://siteer.dev/reports",
-        siteName: "SiteER",
-        type: "website",
+    {
+        question: "Why does the report unlock by email?",
+        answer: "The email unlock keeps the report private, makes it shareable, and lets the owner reopen it later without rerunning the scan.",
     },
-    twitter: {
-        card: "summary_large_image",
-        title: "Reports | SiteER",
-        description:
-            `See what the report includes, how email unlock works, and where the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} fits next.`,
-        images: ["/og-image.png"],
+    {
+        question: "Where does the $20 audit appear?",
+        answer: "The Quick ER Audit appears inside the full report as the next paid step when the owner wants human prioritization.",
     },
-};
+] as const;
+
+const structuredData = buildPageStructuredData({
+    path: "/reports",
+    title: "SiteER Reports",
+    description: "What SiteER reports include, how the email unlock works, and how the report leads into the human audit or implementation path.",
+    breadcrumbs: [
+        { name: "Home", path: "/" },
+        { name: "Reports", path: "/reports" },
+    ],
+    faqs: reportFaqs.map((faq) => ({ question: faq.question, answer: faq.answer })),
+    extras: [
+        buildServiceSchema({
+            path: "/reports",
+            name: "SiteER Reports",
+            description: "Private website reports for speed, mobile, SEO, trust, and revenue-leak analysis.",
+            serviceType: "Website audit reporting",
+        }),
+    ],
+});
 
 const reportFeatures = [
     {
@@ -49,6 +78,10 @@ export default function ReportsPage() {
     return (
         <SiteChrome>
             <main className="er-page">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+                />
                 <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
                     <div>
                         <p className="er-kicker">Reports</p>
@@ -86,6 +119,13 @@ export default function ReportsPage() {
                     </div>
                 </section>
 
+                <PageSignalBar
+                    primaryCtaHref="/#diagnosis"
+                    primaryCtaLabel="Run Free Scan →"
+                    secondaryCtaHref="/pricing"
+                    secondaryCtaLabel="Compare offers"
+                />
+
                 <section className="mt-12 grid gap-5 md:grid-cols-3">
                     {[
                         ["Unlocked by email", "The free teaser shows the grade and top symptoms. The full ER chart unlocks by email so the report can stay private and shareable."],
@@ -121,6 +161,18 @@ export default function ReportsPage() {
                             </div>
                         ))}
                     </div>
+                    <div className="mt-8 grid gap-4 lg:grid-cols-3">
+                        {[
+                            ["Owners use it to decide", "The grade and leak estimate tell the owner whether this is a cosmetic issue or a revenue issue."],
+                            ["Developers use it to prioritize", "The ranked symptoms turn vague frustration into a clear order of work."],
+                            ["Agencies use it to close work", "A private report is easier to forward and discuss than a loose collection of screenshots and opinions."],
+                        ].map(([title, text]) => (
+                            <div key={title} className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5">
+                                <h3 className="text-lg font-semibold text-white">{title}</h3>
+                                <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{text}</p>
+                            </div>
+                        ))}
+                    </div>
                 </section>
 
                 <section className="mt-12 er-panel-accent">
@@ -129,6 +181,19 @@ export default function ReportsPage() {
                         “I sent this to my web guy and he fixed 4 issues in a day. Best $0 I ever spent. Then we got the ER Fix Pack and our site jumped from a D to a B. Now we&apos;re getting 30% more calls.”
                     </blockquote>
                     <footer className="mt-4 text-sm font-semibold text-[#fff0d7]">— Mike D., Local Contractor</footer>
+                </section>
+
+                <section className="mt-12 grid gap-5 lg:grid-cols-3">
+                    {[
+                        ["/pricing", "Compare pricing", "Use the pricing page when you need to decide between scan, audit, and implementation."],
+                        ["/faq", "Handle objections", "Use the FAQ when the owner wants practical answers before taking the next step."],
+                        ["/get-quote", "Move to implementation", "Go straight to the quote form when the report already made the case."],
+                    ].map(([href, title, text]) => (
+                        <a key={href} href={href} className="er-link-card">
+                            <div className="text-base font-semibold text-white">{title}</div>
+                            <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{text}</p>
+                        </a>
+                    ))}
                 </section>
             </main>
         </SiteChrome>

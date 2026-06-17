@@ -103,6 +103,20 @@ create unique index if not exists lead_followups_email_token_stage_idx
 create index if not exists lead_followups_status_send_at_idx
     on public.lead_followups(status, send_at);
 
+create table if not exists public.sheet_sync_events (
+    id uuid primary key default uuid_generate_v4(),
+    sheet text not null,
+    row jsonb not null,
+    status text not null default 'queued',
+    attempt_count int not null default 0,
+    last_error text,
+    sent_at timestamptz,
+    created_at timestamptz default now()
+);
+
+create index if not exists sheet_sync_events_status_created_idx
+    on public.sheet_sync_events(status, created_at);
+
 -- Row Level Security
 -- All app operations use the service_role key (which bypasses RLS).
 -- RLS is enabled here to block direct anon-key access to every table.
@@ -115,3 +129,37 @@ alter table public.reports enable row level security;
 alter table public.quotes enable row level security;
 alter table public.payments enable row level security;
 alter table public.lead_followups enable row level security;
+alter table public.sheet_sync_events enable row level security;
+
+do $$
+begin
+    if not exists (
+        select 1
+        from pg_policies
+        where schemaname = 'public'
+            and tablename = 'lead_followups'
+            and policyname = 'siteer_server_access_lead_followups'
+    ) then
+        create policy siteer_server_access_lead_followups
+            on public.lead_followups
+            for all
+            to anon
+            using (siteer_has_server_access())
+            with check (siteer_has_server_access());
+    end if;
+
+    if not exists (
+        select 1
+        from pg_policies
+        where schemaname = 'public'
+            and tablename = 'sheet_sync_events'
+            and policyname = 'siteer_server_access_sheet_sync_events'
+    ) then
+        create policy siteer_server_access_sheet_sync_events
+            on public.sheet_sync_events
+            for all
+            to anon
+            using (siteer_has_server_access())
+            with check (siteer_has_server_access());
+    end if;
+end $$;

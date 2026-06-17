@@ -303,6 +303,39 @@ export type Database = {
                 };
                 Relationships: [];
             };
+            sheet_sync_events: {
+                Row: {
+                    id: string;
+                    sheet: string;
+                    row: Json;
+                    status: string;
+                    attempt_count: number;
+                    last_error: string | null;
+                    sent_at: string | null;
+                    created_at: string;
+                };
+                Insert: {
+                    id?: string;
+                    sheet: string;
+                    row: Json;
+                    status?: string;
+                    attempt_count?: number;
+                    last_error?: string | null;
+                    sent_at?: string | null;
+                    created_at?: string;
+                };
+                Update: {
+                    id?: string;
+                    sheet?: string;
+                    row?: Json;
+                    status?: string;
+                    attempt_count?: number;
+                    last_error?: string | null;
+                    sent_at?: string | null;
+                    created_at?: string;
+                };
+                Relationships: [];
+            };
         };
         Views: {
             [_ in never]: never;
