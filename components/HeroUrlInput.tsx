@@ -16,7 +16,10 @@ export default function HeroUrlInput() {
         e.preventDefault();
         const normalized = normalizeInputUrl(url);
         const demoInput = document.getElementById("demoUrl") as HTMLInputElement | null;
-        if (demoInput) demoInput.value = normalized;
+        if (demoInput) {
+            demoInput.value = normalized;
+            demoInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
         
         // Track CTA click
         if (typeof window !== "undefined" && (window as any).gtag) {

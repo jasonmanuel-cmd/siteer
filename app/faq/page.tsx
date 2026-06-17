@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import SiteChrome from "@/components/SiteChrome";
 import FaqAccordion from "@/components/FaqAccordion";
+import { quickAuditOffer } from "@/lib/offers";
 
 export const metadata: Metadata = {
     title: "FAQ",
@@ -21,64 +22,82 @@ export const metadata: Metadata = {
 
 export default function FaqPage() {
     return (
-        <main className="mx-auto max-w-5xl px-5 py-8 md:px-8 md:py-12">
-                <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-                    <div className="er-container">
-                        <nav style={{ height: 76, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
-                            <a href="/" style={{ display: "flex", alignItems: "center", gap: 12 }} aria-label="SiteER home">
-                                <Image
-                                    src="/siteer-logo.png"
-                                    alt="SiteER logo"
-                                    width={280}
-                                    height={80}
-                                    priority
-                                    style={{ width: "auto", height: 42 }}
-                                />
-                            </a>
-                            <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
-                                <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
-                                <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
-                                <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
-                            </div>
-                            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                <a href="/#diagnosis" style={{ border: 0, borderRadius: 999, padding: "14px 22px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "0.95rem", minHeight: 48 }}>
-                                    <span className="cta-word-dark">Scan a Site</span>
-                                </a>
-                            </div>
-                        </nav>
+        <SiteChrome>
+            <main className="er-page er-page-narrow">
+                <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+                    <div>
+                        <p className="er-kicker">FAQ</p>
+                        <h1 className="er-heading mt-3">
+                            Questions about SiteER? We&apos;ve got answers.
+                        </h1>
+                        <p className="er-copy mt-4">
+                            This page exists to remove hesitation, not bury you in policy copy. If you want the practical version of how the scan, the report, the {quickAuditOffer.priceLabel} audit, and the Fix Pack work, start here.
+                        </p>
                     </div>
-                </header>
 
-            <section className="mt-10 max-w-2xl">
-                <p className="text-xs font-bold uppercase tracking-wider text-red-600">Questions</p>
-                <h1 className="mt-2 text-4xl font-bold text-balance md:text-5xl">
-                    Questions about SiteER? We've got answers.
-                </h1>
-                <p className="mt-4 text-lg text-black/65">
-                    Find practical details about how the scan works, what you'll get, and what's next.
-                </p>
-            </section>
+                    <aside className="er-panel">
+                        <div className="er-kicker">Fast answers</div>
+                        <div className="mt-4 grid gap-3">
+                            {[
+                                "The scan takes about 60 seconds.",
+                                "Any public website works, including Wix, Shopify, and Webflow.",
+                                "Your report stays private and can be shared with your developer.",
+                                `${quickAuditOffer.priceLabel} human review is optional, not forced.`,
+                            ].map((item) => (
+                                <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.04] px-4 py-3 text-sm leading-6 text-[#d5e0ea]">
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    </aside>
+                </section>
 
-            <section className="mt-10">
-                <FaqAccordion />
-            </section>
+                <section className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+                    <div>
+                        <FaqAccordion />
+                    </div>
 
-            <section className="mt-12 grid gap-4 md:grid-cols-2">
-                <div>
-                    <h2 className="text-xl font-semibold">Need the next step?</h2>
-                    <p style={{ marginTop: 8, color: 'var(--er-muted)', fontSize: '0.95rem' }}>
-                        Run a scan on the homepage, then unlock the report with your email.
-                    </p>
-                </div>
-                <div className="flex flex-wrap gap-3 md:justify-end">
-                    <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/#diagnosis">
-                        Run a diagnosis
-                    </a>
-                    <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/pricing">
-                        View pricing
-                    </a>
-                </div>
-            </section>
-        </main>
+                    <aside className="grid gap-5">
+                        <div className="er-panel">
+                            <div className="er-kicker">Start here if you are unsure</div>
+                            <h2 className="mt-3 text-2xl font-semibold text-white">Do the free scan first.</h2>
+                            <p className="mt-3 text-sm leading-6 text-[#c8d5e1]">
+                                It gives you the only answer that matters: is the site mildly off, or is it quietly bleeding money every month?
+                            </p>
+                            <a className="er-button-primary mt-5 w-full" href="/#diagnosis">
+                                Run Free Scan →
+                            </a>
+                        </div>
+
+                        <div className="er-panel">
+                            <div className="er-kicker">Need a human next step?</div>
+                            <h2 className="mt-3 text-2xl font-semibold text-white">{quickAuditOffer.name}</h2>
+                            <p className="mt-3 text-sm leading-6 text-[#c8d5e1]">
+                                If the numbers scare you but you are not ready for the full fix package, buy the {quickAuditOffer.priceLabel} audit from your private report and get plain-English next moves.
+                            </p>
+                            <a className="er-button-secondary mt-5 w-full" href="/pricing">
+                                See pricing
+                            </a>
+                        </div>
+                    </aside>
+                </section>
+
+                <section className="mt-12 er-panel-accent">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
+                        <div>
+                            <p className="er-kicker">Still deciding?</p>
+                            <h2 className="mt-3 text-3xl font-semibold text-white">Run the scan, then decide with real numbers.</h2>
+                            <p className="mt-3 max-w-[620px] text-sm leading-6 text-[#fff0d7]">
+                                Most objections disappear once the owner sees the grade, the leak estimate, and the top symptoms in one screen.
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap gap-3">
+                            <a className="er-button-primary" href="/#diagnosis">Run Free Scan →</a>
+                            <a className="er-button-secondary" href="/reports">See what the report looks like</a>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </SiteChrome>
     );
 }

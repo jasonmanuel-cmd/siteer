@@ -11,6 +11,8 @@ import type { Issue } from "@/lib/scan/analyzeHtml";
 type TeaserPayload = {
     ok: boolean;
     scanId: string;
+    scanSource?: "pagespeed" | "heuristic";
+    scanNote?: string;
     grade: string;
     scores: { speed: number; mobile: number; seo: number; trust: number; overall: number };
     money: { lossLow: number; lossHigh: number; lossPct: number; visitors: number; conv: number; avg: number };
@@ -20,8 +22,8 @@ type TeaserPayload = {
 
 const STEPS = [
     "🔍 Checking your website...",
-    "⚡ Running speed tests...",
-    "🎯 Analyzing SEO & trust...",
+    "⚡ Checking performance signals...",
+    "🎯 Analyzing SEO, mobile & trust...",
     "✅ Creating your report...",
 ];
 
@@ -74,7 +76,6 @@ export default function UrlScanForm() {
     const [doneSteps, setDoneSteps] = useState<Set<number>>(new Set());
     const [teaser, setTeaser] = useState<TeaserPayload | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [email, setEmail] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [reportUrl, setReportUrl] = useState<string | null>(null);
     const [leadError, setLeadError] = useState<string | null>(null);
@@ -95,7 +96,6 @@ export default function UrlScanForm() {
         setError(null);
         setTeaser(null);
         setReportUrl(null);
-        setEmail("");
         setLeadError(null);
         setActiveStep(0);
         setDoneSteps(new Set());
@@ -174,18 +174,18 @@ export default function UrlScanForm() {
             <div style={{ borderRadius: 30, background: "rgba(255,255,255,.075)", border: "1px solid rgba(255,255,255,.14)", boxShadow: "0 24px 80px rgba(0,0,0,.38)", padding: 26, overflow: "hidden" }}>
                 <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Start your free scan</h3>
                 <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>
-                    We scan your site in about 60 seconds, unlock the full report by email, and give you the option to add the {quickAuditOffer.priceLabel} {quickAuditOffer.name} from your private report.
+                    In about 60 seconds, you'll see your A–F grade, estimated monthly money leak, and top 3 critical symptoms. The full ER chart and {quickAuditOffer.priceLabel} human audit option come right after.
                 </p>
 
                 <div style={{ display: "grid", gap: 9, marginBottom: 20 }}>
                     <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
-                        <strong style={{ color: "white" }}>1.</strong> Enter your name, email, and website below
+                        <strong style={{ color: "white" }}>1.</strong> Your A–F grade, so you know how sick the site really is
                     </div>
                     <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
-                        <strong style={{ color: "white" }}>2.</strong> Get the free scan preview with your grade, money leak, and top issues
+                        <strong style={{ color: "white" }}>2.</strong> Estimated monthly money leak, so the damage is easy to understand
                     </div>
                     <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
-                        <strong style={{ color: "white" }}>3.</strong> Open the full report and add the {quickAuditOffer.priceLabel} {quickAuditOffer.name} if you want human next steps
+                        <strong style={{ color: "white" }}>3.</strong> Top symptoms now, then the full ER chart and {quickAuditOffer.priceLabel} human action plan
                     </div>
                 </div>
 
@@ -199,18 +199,24 @@ export default function UrlScanForm() {
                         style={{ display: "none" }}
                     />
 
-                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Name <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span></label>
+                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>
+                        First name <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span>
+                        <span style={{ color: "var(--er-muted-2)", fontWeight: 500 }}> {" "}— so we can label your private report</span>
+                    </label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Jane Smith"
+                        placeholder="Jane"
                         required
                         maxLength={100}
                         style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 16, fontSize: "1rem" }}
                     />
 
-                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Email <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span></label>
+                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>
+                        Email <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span>
+                        <span style={{ color: "var(--er-muted-2)", fontWeight: 500 }}> {" "}— where we send your private ER chart</span>
+                    </label>
                     <input
                         type="email"
                         value={leadEmail}
@@ -221,7 +227,10 @@ export default function UrlScanForm() {
                         style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 16, fontSize: "1rem" }}
                     />
 
-                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>Website URL <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span></label>
+                    <label style={{ display: "block", color: "#ccdae7", fontWeight: 700, marginBottom: 9, fontSize: "0.9rem" }}>
+                        Website URL <span style={{ color: "var(--er-red)", fontSize: "1.1em" }}>*</span>
+                        <span style={{ color: "var(--er-muted-2)", fontWeight: 500 }}> {" "}— homepage or highest-traffic page</span>
+                    </label>
                     <input
                         id="demoUrl"
                         type="text"
@@ -306,6 +315,9 @@ export default function UrlScanForm() {
                     >
                         {loading ? "Scanning…" : "Run Free Scan →"}
                     </button>
+                    <p style={{ marginTop: 12, color: "var(--er-muted-2)", fontSize: "0.84rem", lineHeight: 1.55 }}>
+                        No credit card. Your report is private. We do not share it, post it, or sell your data.
+                    </p>
                 </form>
 
                 {(loading || doneSteps.size > 0) && (
@@ -358,20 +370,43 @@ export default function UrlScanForm() {
 
             {/* Right: Results panel */}
             <div style={{ borderRadius: 30, background: "rgba(255,255,255,.075)", border: "1px solid rgba(255,255,255,.14)", boxShadow: "0 24px 80px rgba(0,0,0,.38)", padding: 26, overflow: "hidden" }}>
-                <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Free scan preview</h3>
+                <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Your free preview looks like this</h3>
                 <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>
-                    Your grade, top three issues, and money leak appear immediately after the scan. The full report and {quickAuditOffer.priceLabel} human review option come next.
+                    The moment your scan completes, you'll see your grade, estimated money leak, and top 3 critical symptoms right on this page.
                 </p>
 
                 {!teaser ? (
-                    <div style={{ minHeight: 360, display: "grid", placeItems: "center", textAlign: "center", color: "var(--er-muted)", border: "1px dashed rgba(255,255,255,.14)", borderRadius: 24, padding: 28 }}>
-                        <div>
-                            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" aria-hidden="true">
-                                <rect x="10" y="10" width="52" height="52" rx="18" fill="rgba(255,77,94,.16)" stroke="rgba(255,77,94,.38)" />
-                                <path d="M36 21V51M21 36H51" stroke="#ff7380" strokeWidth="6" strokeLinecap="round" />
-                            </svg>
-                            <p style={{ marginTop: 14 }}>Run the free scan to see the preview here, then unlock the full report and {quickAuditOffer.priceLabel} audit path.</p>
+                    <div style={{ minHeight: 360, display: "grid", gap: 16, color: "var(--er-muted)", border: "1px dashed rgba(255,255,255,.14)", borderRadius: 24, padding: 24 }}>
+                        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 18 }}>
+                            <div>
+                                <strong style={{ display: "block", color: "white", fontSize: "1.05rem" }}>Example preview</strong>
+                                <p style={{ marginTop: 6, fontSize: "0.9rem", lineHeight: 1.6 }}>
+                                    Owners who see anything below a B usually unlock the full ER chart. The ones with leaks over $1,000/mo almost always add the {quickAuditOffer.priceLabel} audit.
+                                </p>
+                            </div>
+                            <div style={{ width: 78, height: 78, borderRadius: 22, display: "grid", placeItems: "center", fontSize: "2.7rem", fontWeight: 900, letterSpacing: "-.08em", color: "#1b080a", background: "linear-gradient(135deg, #ffb15c, #ff4d5e)", flexShrink: 0 }}>
+                                C-
+                            </div>
                         </div>
+                        <div style={{ borderRadius: 22, background: "linear-gradient(135deg, rgba(255,77,94,.15), rgba(255,177,92,.1))", border: "1px solid rgba(255,77,94,.22)", padding: 18 }}>
+                            <span style={{ color: "var(--er-muted)", display: "block", marginBottom: 4, fontSize: "0.9rem" }}>Estimated monthly revenue leak</span>
+                            <strong style={{ fontSize: "2rem", letterSpacing: "-.06em", color: "#ffd0d5" }}>$4,820/mo</strong>
+                        </div>
+                        <div style={{ display: "grid", gap: 10 }}>
+                            {[
+                                "Slow mobile load is bleeding impatient traffic",
+                                "Missing trust signals create hesitation before calls",
+                                "Weak meta titles bury the site in local search",
+                            ].map((item) => (
+                                <div key={item} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: 13, borderRadius: 17, background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.08)" }}>
+                                    <span style={{ width: 28, height: 28, display: "grid", placeItems: "center", borderRadius: 10, fontWeight: 900, flexShrink: 0, background: "rgba(255,77,94,.18)", color: "#ff7d89" }}>!</span>
+                                    <div style={{ fontSize: "0.93rem", color: "white" }}>{item}</div>
+                                </div>
+                            ))}
+                        </div>
+                        <p style={{ fontSize: "0.88rem", lineHeight: 1.55 }}>
+                            Run the free scan to replace this example with your real numbers.
+                        </p>
                     </div>
                 ) : (
                     <div className="fade-up">
@@ -381,7 +416,16 @@ export default function UrlScanForm() {
                                 <h3 style={{ fontSize: "1.2rem", letterSpacing: "-.03em" }}>
                                     {name.trim() ? `${name.trim()}, ` : ""}{getSiteLabel(url)}
                                 </h3>
-                                <p style={{ color: "var(--er-muted)", fontSize: "0.9rem", marginTop: 4 }}>Automated scan complete · 20+ checks performed</p>
+                                <p style={{ color: "var(--er-muted)", fontSize: "0.9rem", marginTop: 4 }}>
+                                    {teaser.scanSource === "pagespeed"
+                                        ? "PageSpeed-backed scan complete"
+                                        : "Quick structural scan complete"}
+                                </p>
+                                {teaser.scanNote && (
+                                    <p style={{ color: "var(--er-muted-2)", fontSize: "0.8rem", marginTop: 6, lineHeight: 1.55 }}>
+                                        {teaser.scanNote}
+                                    </p>
+                                )}
                             </div>
                             <div style={{ width: 92, height: 92, borderRadius: 25, display: "grid", placeItems: "center", fontSize: "3.3rem", fontWeight: 900, letterSpacing: "-.08em", color: "#1b080a", background: `linear-gradient(135deg, ${gradeColor(teaser.grade)}, ${gradeColor(teaser.grade)}cc)`, flexShrink: 0 }}>
                                 {teaser.grade}

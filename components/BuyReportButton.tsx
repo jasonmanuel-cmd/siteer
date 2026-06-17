@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { quickAuditOffer } from "@/lib/offers";
+import { PAYMENT_RETURN_STORAGE_KEY, type PaymentReturnState } from "@/lib/paymentReturn";
 
 export default function BuyReportButton({ reportToken }: { reportToken: string }) {
     const [email, setEmail] = useState("");
@@ -19,8 +20,26 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({ reportToken, email }),
             });
-            const data = await res.json();
+            const data = await res.json() as {
+                checkoutUrl?: string;
+                buyerEmail?: string;
+                confirmToken?: string;
+                error?: string;
+            };
             if (!res.ok || !data.checkoutUrl) throw new Error(data.error || "Payment setup failed");
+            if (!data.buyerEmail || !data.confirmToken) {
+                throw new Error("Payment return details were missing. Please try again.");
+            }
+
+            const returnState: PaymentReturnState = {
+                reportToken,
+                email: data.buyerEmail,
+                confirmToken: data.confirmToken,
+            };
+            window.sessionStorage.setItem(
+                PAYMENT_RETURN_STORAGE_KEY,
+                JSON.stringify(returnState),
+            );
             window.location.href = data.checkoutUrl;
         } catch (err) {
             setError(err instanceof Error ? err.message : "Payment setup failed");
@@ -53,6 +72,15 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
                     className="rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-red-400 focus:outline-none"
                 />
                 {error && <p className="text-xs text-red-600">{error}</p>}
+                {error ? (
+                    <p className="text-xs text-slate-600">
+                        Need the audit now?{" "}
+                        <a href="/get-quote" className="font-medium text-red-600 hover:underline">
+                            Request it here
+                        </a>
+                        {" "}and we can follow up manually.
+                    </p>
+                ) : null}
                 <div className="flex gap-2">
                     <button
                         type="submit"

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { fixPackDepositOffer } from "@/lib/offers";
 
 type FormState = {
     firstName: string;
@@ -17,9 +19,12 @@ const empty: FormState = {
 };
 
 export default function QuoteForm() {
+    const searchParams = useSearchParams();
     const [form, setForm] = useState<FormState>(empty);
-    const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+    const [status, setStatus] = useState<"idle" | "submitting" | "redirecting" | "success" | "error">("idle");
     const [errorMsg, setErrorMsg] = useState("");
+    const depositPaid = searchParams.get("deposit") === "paid";
+    const paidQuoteId = searchParams.get("quote");
 
     function set(field: keyof FormState, value: string) {
         setForm((f) => ({ ...f, [field]: value }));
@@ -37,11 +42,43 @@ export default function QuoteForm() {
             });
             const data = await res.json();
             if (!res.ok || !data.ok) throw new Error(data.error || "Submission failed");
+
+            if (typeof data.checkoutUrl === "string") {
+                setStatus("redirecting");
+                window.location.href = data.checkoutUrl;
+                return;
+            }
+
             setStatus("success");
         } catch (err) {
             setErrorMsg(err instanceof Error ? err.message : "Submission failed");
             setStatus("error");
         }
+    }
+
+    if (depositPaid) {
+        return (
+            <div style={{ borderRadius: 16, border: "1px solid rgba(62,226,143,0.3)", background: "rgba(62,226,143,0.08)", padding: "40px 24px", textAlign: "center" }}>
+                <div style={{ fontSize: "2.5rem", marginBottom: 12 }}>✓</div>
+                <h2 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#eef7ff", marginBottom: 10 }}>Deposit received.</h2>
+                <p style={{ color: "#9fb1c3", maxWidth: 460, margin: "0 auto", lineHeight: 1.65, fontSize: "0.95rem" }}>
+                    Your {fixPackDepositOffer.priceLabel} ER Fix Pack deposit is in. We have your project request and will follow up within 1 business day with the implementation plan and remaining balance details.
+                    {paidQuoteId ? ` Quote reference: ${paidQuoteId}.` : ""}
+                </p>
+            </div>
+        );
+    }
+
+    if (status === "redirecting") {
+        return (
+            <div style={{ borderRadius: 16, border: "1px solid rgba(255,177,92,0.32)", background: "rgba(255,177,92,0.08)", padding: "40px 24px", textAlign: "center" }}>
+                <div style={{ fontSize: "2.5rem", marginBottom: 12 }}>↗</div>
+                <h2 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#eef7ff", marginBottom: 10 }}>Redirecting to secure checkout…</h2>
+                <p style={{ color: "#9fb1c3", maxWidth: 420, margin: "0 auto", lineHeight: 1.65, fontSize: "0.95rem" }}>
+                    Your quote request is saved. We’re taking you to Square now for the {fixPackDepositOffer.priceLabel} deposit.
+                </p>
+            </div>
+        );
     }
 
     if (status === "success") {
@@ -155,11 +192,11 @@ export default function QuoteForm() {
                 disabled={status === "submitting"}
                 style={{ width: "100%", borderRadius: 12, background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", border: "none", padding: "14px 24px", fontSize: "0.9rem", fontWeight: 700, color: "#1b080a", cursor: "pointer", opacity: status === "submitting" ? 0.6 : 1, letterSpacing: "-0.02em", boxShadow: "0 12px 36px rgba(255,77,94,0.28)" }}
             >
-                {status === "submitting" ? "Sending..." : "Request My Fix Quote →"}
+                {status === "submitting" ? "Saving your quote..." : `Continue to ${fixPackDepositOffer.priceLabel} Deposit →`}
             </button>
 
             <p className="text-center text-xs" style={{ color: "#4b5e6d" }}>
-                No obligation. Our team at{" "}
+                Your {fixPackDepositOffer.priceLabel} deposit is applied to the final implementation total. Our team at{" "}
                 <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" style={{ color: "#71869a", fontWeight: 600 }}>
                     COAIBAKERSFIELD.COM
                 </a>{" "}

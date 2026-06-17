@@ -15,5 +15,11 @@
         "maxLambdaSize": "15mb"
       }
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/followups",
+      "schedule": "5 17 * * *"
+    }
   ]
 }

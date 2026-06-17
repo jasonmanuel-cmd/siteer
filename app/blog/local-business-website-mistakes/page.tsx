@@ -69,7 +69,7 @@ const breadcrumbSchema = {
 export default function Page() {
     return (
         <SiteChrome>
-            <main className="mx-auto max-w-4xl px-5 py-8 md:px-8 md:py-12">
+            <main className="er-page er-page-tight">
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -95,14 +95,14 @@ export default function Page() {
                             ["Vague offers", "If users do not understand the service, they do not convert."],
                             ["Weak CTAs", "Make actions explicit and repeat them near the footer."],
                         ].map(([title, desc]) => (
-                            <section key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                            <section key={title} className="er-link-card p-5">
                                 <h2 className="text-lg font-semibold text-white">{title}</h2>
                                 <p className="mt-2 text-sm text-white/68">{desc}</p>
                             </section>
                         ))}
                     </section>
 
-                    <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                    <section className="mt-8 er-panel">
                         <h2 className="text-xl font-semibold text-white">What to fix first</h2>
                         <ol className="mt-4 space-y-2 text-sm text-white/68">
                             <li>1. Make the mobile hero simple, short, and easy to act on.</li>
@@ -113,13 +113,13 @@ export default function Page() {
                     </section>
 
                     <section className="mt-8 flex flex-wrap gap-3">
-                        <a className="rounded-full bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-5 py-2.5 text-sm font-semibold text-[#19070a]" href="/">
+                        <a className="er-button-primary" href="/">
                             Run a free scan
                         </a>
-                        <a className="rounded-full border border-white/12 bg-white px-5 py-2.5 text-sm font-semibold text-[#090d12] hover:bg-[#ffb15c]" href="/contact">
+                        <a className="er-button-secondary" href="/contact">
                             Ask for help
                         </a>
-                        <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/get-quote">
+                        <a className="er-button-secondary" href="/get-quote">
                             Get implementation help
                         </a>
                     </section>

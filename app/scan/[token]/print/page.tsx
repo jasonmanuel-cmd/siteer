@@ -1,4 +1,7 @@
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { isStatelessReportToken, readReportToken } from "@/lib/reportToken";
+import PrintPageButton from "@/components/PrintPageButton";
+import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -32,36 +35,86 @@ function severityColor(severity: string) {
 }
 
 export default async function PrintPage({ params }: { params: { token: string } }) {
-    let supabaseAdmin: ReturnType<typeof getSupabaseAdmin>;
-    try {
-        supabaseAdmin = getSupabaseAdmin();
-    } catch {
-        return <p style={{ padding: 40 }}>Configuration error — Supabase credentials missing.</p>;
+    let scan:
+        | {
+            id: string;
+            created_at: string;
+            overall_grade: string;
+            speed_score: number;
+            mobile_score: number;
+            seo_score: number;
+            trust_score: number;
+            est_monthly_loss_low: number | string | null;
+            est_monthly_loss_high: number | string | null;
+            est_loss_pct: number | string | null;
+            est_monthly_visitors: number | string | null;
+            metrics?: unknown;
+        }
+        | null = null;
+    let issues: IssueRow[] = [];
+
+    if (isStatelessReportToken(params.token)) {
+        const payload = readReportToken(params.token);
+        if (!payload) {
+            notFound();
+        }
+
+        scan = {
+            id: params.token,
+            created_at: payload.scan.created_at,
+            overall_grade: payload.scan.overall_grade,
+            speed_score: payload.scan.speed_score,
+            mobile_score: payload.scan.mobile_score,
+            seo_score: payload.scan.seo_score,
+            trust_score: payload.scan.trust_score,
+            est_monthly_loss_low: payload.scan.est_monthly_loss_low,
+            est_monthly_loss_high: payload.scan.est_monthly_loss_high,
+            est_loss_pct: payload.scan.est_loss_pct,
+            est_monthly_visitors: payload.scan.est_monthly_visitors,
+            metrics: payload.scan.metrics,
+        };
+        issues = payload.issues.map((issue, index) => ({
+            id: issue.id ?? `${issue.category}-${index}`,
+            severity: issue.severity,
+            category: issue.category,
+            description: issue.description,
+            recommendation: issue.recommendation,
+        }));
+    } else {
+        let supabaseAdmin: ReturnType<typeof getSupabaseAdmin>;
+        try {
+            supabaseAdmin = getSupabaseAdmin();
+        } catch {
+            return <p style={{ padding: 40 }}>Configuration error — Supabase credentials missing.</p>;
+        }
+
+        const { data: report } = await supabaseAdmin
+            .from("reports")
+            .select("scan_id")
+            .eq("public_token", params.token)
+            .single();
+
+        if (!report?.scan_id) {
+            notFound();
+        }
+
+        const { data: loadedScan } = await supabaseAdmin
+            .from("scans")
+            .select("id,created_at,overall_grade,speed_score,mobile_score,seo_score,trust_score,est_monthly_loss_low,est_monthly_loss_high,est_loss_pct,est_monthly_visitors,metrics")
+            .eq("id", report.scan_id)
+            .single();
+
+        if (!loadedScan) notFound();
+
+        const { data: loadedIssues } = await supabaseAdmin
+            .from("scan_issues")
+            .select("id,severity,category,description,recommendation")
+            .eq("scan_id", loadedScan.id)
+            .returns<IssueRow[]>();
+
+        scan = loadedScan;
+        issues = loadedIssues || [];
     }
-
-    const { data: report } = await supabaseAdmin
-        .from("reports")
-        .select("scan_id")
-        .eq("public_token", params.token)
-        .single();
-
-    if (!report?.scan_id) {
-        return <p style={{ padding: 40 }}>Report not found.</p>;
-    }
-
-    const { data: scan } = await supabaseAdmin
-        .from("scans")
-        .select("id,created_at,overall_grade,speed_score,mobile_score,seo_score,trust_score,est_monthly_loss_low,est_monthly_loss_high,est_loss_pct,est_monthly_visitors,metrics")
-        .eq("id", report.scan_id)
-        .single();
-
-    if (!scan) return <p style={{ padding: 40 }}>Scan data not found.</p>;
-
-    const { data: issues } = await supabaseAdmin
-        .from("scan_issues")
-        .select("id,severity,category,description,recommendation")
-        .eq("scan_id", scan.id)
-        .returns<IssueRow[]>();
 
     const lossLow = Number(scan.est_monthly_loss_low) || 0;
     const lossHigh = Number(scan.est_monthly_loss_high) || 0;
@@ -196,12 +249,7 @@ export default async function PrintPage({ params }: { params: { token: string } 
                 {/* Screen-only nav bar */}
                 <div className="screen-header no-print">
                     <div className="screen-header-title">Site<span>ER</span> — Website Health Report</div>
-                    <button
-                        onClick={() => window.print()}
-                        style={{ background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", color: "#1b080a", border: "none", borderRadius: 8, padding: "10px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", letterSpacing: "-0.02em" }}
-                    >
-                        Download / Print PDF
-                    </button>
+                    <PrintPageButton />
                 </div>
 
                 <div className="print-page-wrap">
@@ -210,6 +258,11 @@ export default async function PrintPage({ params }: { params: { token: string } 
                 <div style={{ borderBottom: "2px solid #ff4d5e", paddingBottom: 20, marginBottom: 28 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                         <div>
+                            <img
+                                src="/siteer-logo.png"
+                                alt="SiteER logo"
+                                style={{ width: "auto", height: 34, marginBottom: 10 }}
+                            />
                             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ff4d5e", marginBottom: 4 }}>SiteER — Emergency Room for Sick Websites</div>
                             <h1 style={{ fontSize: 28, fontWeight: 800, lineHeight: 1.2 }}>Website Health Report</h1>
                             <div style={{ fontSize: 13, color: "#9fb1c3", marginTop: 6 }}>Scan date: {scanDate}</div>
@@ -232,7 +285,7 @@ export default async function PrintPage({ params }: { params: { token: string } 
                     {lossPct > 0 && (
                         <div className="money-card-sub" style={{ fontSize: 13, marginTop: 6 }}>
                             Approximately {lossPct}% conversion drag from identified issues
-                            {(scan.est_monthly_visitors ?? 0) > 0 ? ` · ${Number(scan.est_monthly_visitors).toLocaleString()} monthly visitors at risk` : ""}
+                            {Number(scan.est_monthly_visitors ?? 0) > 0 ? ` · ${Number(scan.est_monthly_visitors).toLocaleString()} monthly visitors at risk` : ""}
                         </div>
                     )}
                 </div>

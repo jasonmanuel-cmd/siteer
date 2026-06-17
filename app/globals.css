@@ -111,6 +111,146 @@
         z-index: 1;
     }
 
+    .er-page {
+        width: min(var(--er-max), calc(100% - 40px));
+        margin: 0 auto;
+        padding: clamp(46px, 7vw, 82px) 0 92px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .er-page-narrow {
+        width: min(980px, calc(100% - 40px));
+    }
+
+    .er-page-tight {
+        width: min(860px, calc(100% - 40px));
+    }
+
+    .er-kicker {
+        color: #ffb6bf;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.78rem;
+        font-weight: 900;
+    }
+
+    .er-title {
+        font-size: clamp(2.7rem, 6vw, 5.8rem);
+        line-height: 0.94;
+        letter-spacing: -0.075em;
+        max-width: 900px;
+    }
+
+    .er-heading {
+        font-size: clamp(2.1rem, 4vw, 3.9rem);
+        line-height: 0.98;
+        letter-spacing: -0.065em;
+        max-width: 800px;
+    }
+
+    .er-copy {
+        color: var(--er-muted);
+        line-height: 1.72;
+        font-size: 1.03rem;
+        max-width: 780px;
+    }
+
+    .er-note {
+        color: var(--er-muted-2);
+        line-height: 1.55;
+        font-size: 0.9rem;
+    }
+
+    .er-panel {
+        border-radius: 28px;
+        padding: 24px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.05));
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+        backdrop-filter: blur(18px);
+    }
+
+    .er-panel-accent {
+        border-radius: 28px;
+        padding: 24px;
+        background: linear-gradient(160deg, rgba(255, 77, 94, 0.2), rgba(255, 177, 92, 0.12) 48%, rgba(255, 255, 255, 0.06));
+        border: 1px solid rgba(255, 177, 92, 0.22);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(18px);
+    }
+
+    .er-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--er-muted);
+        font-size: 0.88rem;
+        font-weight: 700;
+    }
+
+    .er-chip strong {
+        color: var(--er-text);
+    }
+
+    .er-button-primary,
+    .er-button-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 999px;
+        min-height: 52px;
+        padding: 14px 22px;
+        font-size: 0.95rem;
+        font-weight: 800;
+        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .er-button-primary {
+        color: #19070a;
+        background: linear-gradient(135deg, #ff4d5e, #ffb15c);
+        box-shadow: 0 18px 42px rgba(255, 77, 94, 0.28);
+    }
+
+    .er-button-secondary {
+        color: var(--er-text);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .er-button-primary:hover,
+    .er-button-secondary:hover {
+        transform: translateY(-1px);
+    }
+
+    .er-button-secondary:hover {
+        border-color: rgba(255, 177, 92, 0.34);
+        color: #fff4de;
+    }
+
+    .er-link-card {
+        border-radius: 24px;
+        padding: 22px;
+        background: rgba(255, 255, 255, 0.055);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .er-link-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 177, 92, 0.34);
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .er-divider {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
     /* Dark card style used on homepage for consistent site look */
     .card-dark {
         border-radius: 24px;
@@ -339,6 +479,20 @@
         .splash-logo,
         .splash-light {
             animation: none !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .er-page,
+        .er-page-narrow,
+        .er-page-tight {
+            padding-bottom: 74px;
+        }
+
+        .er-panel,
+        .er-panel-accent {
+            padding: 20px;
+            border-radius: 24px;
         }
     }
 }

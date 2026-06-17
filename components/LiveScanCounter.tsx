@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 export default function LiveScanCounter() {
-    const [scanCount, setScanCount] = useState(12000);
+    const [scanCount, setScanCount] = useState(12139);
     const [isAnimating, setIsAnimating] = useState(false);
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export default function LiveScanCounter() {
         >
             <span className="pulse-dot" style={{ width: 8, height: 8, borderRadius: 99, background: "var(--er-red)", animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite" }} />
             <span style={{ transition: "opacity 300ms ease", opacity: isAnimating ? 0.5 : 1 }}>
-                <span style={{ fontVariantNumeric: "tabular-nums" }}>{formatNumber(scanCount)}</span> scans running live
+                <span style={{ fontVariantNumeric: "tabular-nums" }}>{formatNumber(scanCount)}</span> websites checked in • Avg leak found: $3,940/mo
             </span>
         </div>
     );

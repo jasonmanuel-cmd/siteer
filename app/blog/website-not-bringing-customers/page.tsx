@@ -69,7 +69,7 @@ const breadcrumbSchema = {
 export default function Page() {
     return (
         <SiteChrome>
-            <main className="mx-auto max-w-4xl px-5 py-8 md:px-8 md:py-12">
+            <main className="er-page er-page-tight">
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -104,16 +104,16 @@ export default function Page() {
                             ],
                             ["Offer strength", "If the offer sounds generic, it will not create urgency."],
                         ].map(([title, desc]) => (
-                            <section key={title} className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-                                <h2 className="text-lg font-semibold">{title}</h2>
-                                <p className="mt-2 text-sm text-black/65">{desc}</p>
+                            <section key={title} className="er-link-card p-5">
+                                <h2 className="text-lg font-semibold text-white">{title}</h2>
+                                <p className="mt-2 text-sm text-white/68">{desc}</p>
                             </section>
                         ))}
                     </section>
 
-                    <section className="mt-8 rounded-2xl border border-black/10 bg-slate-50 p-6">
-                        <h2 className="text-xl font-semibold">A simple diagnostic sequence</h2>
-                        <ol className="mt-4 space-y-2 text-sm text-black/65">
+                    <section className="mt-8 er-panel">
+                        <h2 className="text-xl font-semibold text-white">A simple diagnostic sequence</h2>
+                        <ol className="mt-4 space-y-2 text-sm text-white/68">
                             <li>1. Read the hero out loud. If it is vague, rewrite it.</li>
                             <li>2. Check the first CTA. If it is not obvious, tighten the offer.</li>
                             <li>3. Review the page on a phone. If the page feels crowded, simplify it.</li>
@@ -122,13 +122,10 @@ export default function Page() {
                     </section>
 
                     <section className="mt-8 flex flex-wrap gap-3">
-                        <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/">
+                        <a className="er-button-primary" href="/">
                             Scan the site
                         </a>
-                        <a
-                            className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5"
-                            href="/get-quote"
-                        >
+                        <a className="er-button-secondary" href="/get-quote">
                             Get help converting
                         </a>
                     </section>

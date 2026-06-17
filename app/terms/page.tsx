@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function TermsPage() {
     return (
         <SiteChrome>
-            <main className="mx-auto max-w-4xl px-5 py-8 md:px-8 md:py-12">
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ffb15c]">Legal</p>
+            <main className="er-page er-page-tight">
+                <p className="er-kicker">Legal</p>
                 <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">Terms &amp; Conditions</h1>
                 <div className="mt-8 grid gap-4">
                     {[
@@ -21,7 +21,7 @@ export default function TermsPage() {
                         ["Limitations", "SiteER does not control third-party platforms, hosting providers, search engines, payment processors, or browser behavior. Outcomes can vary based on environment, competition, and technical constraints."],
                         ["Changes", "We may update these terms when services, legal requirements, or workflows change. Continued use of the site after an update means you accept the revised terms."],
                     ].map(([title, text]) => (
-                        <section key={title} className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                        <section key={title} className="er-link-card">
                             <h2 className="text-lg font-semibold text-white">{title}</h2>
                             <p className="mt-2 text-sm leading-6 text-white/70">{text}</p>
                         </section>

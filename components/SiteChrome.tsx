@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -6,10 +7,17 @@ type SiteChromeProps = {
 };
 
 const navLinks = [
-    { href: "/", label: "Home" },
+    { href: "/reports", label: "Reports" },
     { href: "/pricing", label: "Pricing" },
-    { href: "/blog", label: "Blog" },
     { href: "/faq", label: "FAQ" },
+];
+
+const footerLinks = [
+    { href: "/#diagnosis", label: "Run a free scan" },
+    { href: "/reports", label: "Reports" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/blog", label: "Blog" },
     { href: "/terms", label: "Terms" },
     { href: "/privacy", label: "Privacy" },
     { href: "/contact", label: "Contact" },
@@ -17,51 +25,72 @@ const navLinks = [
 
 export default function SiteChrome({ children }: SiteChromeProps) {
     return (
-        <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(89,108,255,.18),_transparent_34%),radial-gradient(circle_at_right,_rgba(62,226,143,.12),_transparent_30%),linear-gradient(180deg,#071018_0%,#05080d_100%)] text-white">
-            <header className="sticky top-0 z-50 border-b border-white/10 bg-[#071018]/80 backdrop-blur-xl">
-                <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-4 md:px-8">
-                    <Link href="/" className="flex items-center gap-3 font-semibold tracking-tight text-white">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] text-[#19070a] shadow-[0_16px_36px_rgba(255,77,94,.22)]">
-                            +
-                        </span>
-                        <span>SiteER</span>
-                    </Link>
-                    <nav className="hidden flex-wrap items-center gap-5 text-sm text-white/70 md:flex" aria-label="Primary navigation">
-                        {navLinks.map((link) => (
-                            <Link key={link.href} href={link.href} className="transition-colors hover:text-white">
-                                {link.label}
-                            </Link>
-                        ))}
-                    </nav>
-                    <Link
-                        href="/#diagnosis"
-                        className="rounded-full bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-4 py-2 text-sm font-semibold text-[#19070a] shadow-[0_16px_36px_rgba(255,77,94,.22)] transition-transform hover:-translate-y-0.5"
-                    >
-                        Scan a Site
-                    </Link>
+        <div className="min-h-screen text-white">
+            <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+                <div className="er-container">
+                    <div style={{ height: 76, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
+                        <Link href="/" className="flex items-center gap-3 font-semibold tracking-tight text-white" aria-label="SiteER home">
+                        <Image
+                            src="/siteer-logo.png"
+                            alt="SiteER logo"
+                            width={280}
+                            height={80}
+                            priority
+                            style={{ width: "auto", height: 42 }}
+                        />
+                        </Link>
+                        <nav className="hidden items-center gap-8 text-[1.05rem] text-[color:var(--er-muted)] md:flex" aria-label="Primary navigation">
+                            {navLinks.map((link) => (
+                                <Link key={link.href} href={link.href} className="nav-link font-bold">
+                                    {link.label}
+                                </Link>
+                            ))}
+                        </nav>
+                        <Link
+                            href="/#diagnosis"
+                            className="inline-flex min-h-[48px] items-center rounded-full bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-5 py-3 text-sm font-extrabold text-[#19070a] shadow-[0_18px_42px_rgba(255,77,94,.28)]"
+                        >
+                            <span className="cta-word-dark">Run Free Scan →</span>
+                        </Link>
+                    </div>
                 </div>
             </header>
 
-            <main>{children}</main>
+            <div>{children}</div>
 
-            <footer className="border-t border-white/10 bg-[#05080d]">
-                <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-[1.5fr_1fr] md:px-8">
-                    <div>
-                        <div className="text-lg font-semibold tracking-tight text-white">SiteER</div>
-                        <p className="mt-3 max-w-xl text-sm leading-6 text-white/65">
-                            Fast website diagnostics for speed, mobile usability, SEO, and trust signals. Built for businesses that want practical fixes, not vague advice.
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3 text-sm text-white/70 sm:grid-cols-3">
-                        {navLinks.map((link) => (
+            <footer style={{ borderTop: "1px solid rgba(255,255,255,.08)", padding: "28px 0", color: "var(--er-muted-2)" }}>
+                <div className="er-container" style={{ display: "flex", justifyContent: "space-between", gap: 20, flexWrap: "wrap", alignItems: "center" }}>
+                    <Link href="/" aria-label="SiteER home" style={{ display: "flex", alignItems: "center" }}>
+                        <Image
+                            src="/siteer-logo.png"
+                            alt="SiteER logo"
+                            width={180}
+                            height={50}
+                            style={{ width: "auto", height: 30 }}
+                        />
+                    </Link>
+                    <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center" }}>
+                        {footerLinks.map((link) => (
                             <Link key={link.href} href={link.href} className="transition-colors hover:text-white">
                                 {link.label}
                             </Link>
                         ))}
                     </div>
-                </div>
-                <div className="border-t border-white/10 px-5 py-4 text-center text-xs text-white/45 md:px-8">
-                    © {new Date().getFullYear()} SiteER · Bakersfield, CA · COAIBAKERSFIELD.COM
+                    <div style={{ fontSize: "0.85rem", textAlign: "right", lineHeight: 1.5 }}>
+                        <div>© {new Date().getFullYear()} SiteER — The emergency room for sick websites.</div>
+                        <div>
+                            Built by{" "}
+                            <a
+                                href="https://coaibakersfield.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-white transition-colors underline"
+                            >
+                                Chaotically Organized AI
+                            </a>
+                            {" "}· Bakersfield, CA
+                        </div>
+                    </div>
                 </div>
             </footer>
         </div>

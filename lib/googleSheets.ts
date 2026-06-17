@@ -64,19 +64,47 @@
  * ═════════════════════════════════════════════════════════════
  */
 
-const WEBHOOK_URL = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+function getWebhookUrl(): string | null {
+    const value = process.env.GOOGLE_SHEETS_WEBHOOK_URL?.trim();
+    return value ? value : null;
+}
+
+function parseWebhookPayload(body: string): { ok?: boolean; error?: string } | null {
+    if (!body.trim()) return null;
+    try {
+        return JSON.parse(body) as { ok?: boolean; error?: string };
+    } catch {
+        return null;
+    }
+}
 
 async function sendToSheet(
     sheet: "Leads" | "Quotes" | "Payments",
     row: (string | number)[],
 ): Promise<void> {
-    if (!WEBHOOK_URL) return; // Silently skip if not configured
+    const webhookUrl = getWebhookUrl();
+    if (!webhookUrl) {
+        console.warn(`[googleSheets] GOOGLE_SHEETS_WEBHOOK_URL is not set. Skipping ${sheet} row.`);
+        return;
+    }
 
-    await fetch(WEBHOOK_URL, {
+    const response = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sheet, row }),
     });
+    const responseText = await response.text();
+    const payload = parseWebhookPayload(responseText);
+
+    if (!response.ok) {
+        throw new Error(
+            `Webhook returned HTTP ${response.status}${payload?.error ? `: ${payload.error}` : ""}`,
+        );
+    }
+
+    if (payload && payload.ok === false) {
+        throw new Error(payload.error || "Webhook rejected the sheet row");
+    }
 }
 
 function timestamp(): string {

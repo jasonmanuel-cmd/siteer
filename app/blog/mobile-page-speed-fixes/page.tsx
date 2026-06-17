@@ -68,7 +68,7 @@ const breadcrumbSchema = {
 export default function Page() {
     return (
         <SiteChrome>
-        <main className="mx-auto max-w-4xl px-5 py-8 md:px-8 md:py-12">
+        <main className="er-page er-page-tight">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -86,7 +86,7 @@ export default function Page() {
                     Mobile performance is usually a few repeatable issues: oversized images, too much JavaScript, layout shifts, and a hero section that asks the browser to do too much too early.
                 </p>
 
-                <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_18px_48px_rgba(0,0,0,.18)]">
+                <section className="mt-8 er-panel">
                     <h2 className="text-xl font-semibold text-white">Fast wins</h2>
                     <ul className="mt-4 space-y-2 text-sm text-white/68">
                         <li>1. Compress the biggest images and convert them to AVIF/WebP.</li>
@@ -104,7 +104,7 @@ export default function Page() {
                         ["Spacing hygiene", "Avoid massive vertical gaps that push conversion elements below the fold on phones."],
                         ["CTA hygiene", "Make the call to action visible without scrolling or pinching."],
                     ].map(([title, desc]) => (
-                        <section key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                        <section key={title} className="er-link-card p-5">
                             <h2 className="text-lg font-semibold text-white">{title}</h2>
                             <p className="mt-2 text-sm text-white/68">{desc}</p>
                         </section>
@@ -112,10 +112,10 @@ export default function Page() {
                 </section>
 
                 <section className="mt-8 flex flex-wrap gap-3">
-                        <a className="rounded-full bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-5 py-2.5 text-sm font-semibold text-[#19070a]" href="/">
+                        <a className="er-button-primary" href="/">
                             Test your page
                     </a>
-                        <a className="rounded-full border border-white/12 bg-white px-5 py-2.5 text-sm font-semibold text-[#090d12] hover:bg-[#ffb15c]" href="/contact">
+                        <a className="er-button-secondary" href="/contact">
                             Ask for a speed fix
                     </a>
                 </section>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import SiteChrome from "@/components/SiteChrome";
 import { quickAuditOffer } from "@/lib/offers";
+import { fixPackDepositOffer } from "@/lib/offers";
 const QuoteForm = dynamic(() => import("@/components/QuoteForm"), { ssr: false, loading: () => null });
 
 export const metadata: Metadata = {
@@ -37,81 +39,61 @@ export const metadata: Metadata = {
 
 export default function GetQuotePage() {
     return (
-        <>
-            {/* Sticky nav — matches homepage */}
-            <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-                <div style={{ width: "min(1160px, calc(100% - 40px))", margin: "0 auto", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-                        <div style={{ width: 32, height: 32, display: "grid", placeItems: "center", borderRadius: 9, background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", color: "#1b080a", fontWeight: 900, fontSize: "1.1rem" }}>+</div>
-                        <span style={{ fontWeight: 800, fontSize: "1rem", letterSpacing: "-0.03em", color: "#eef7ff" }}>SiteER</span>
-                    </a>
-                    <a href="/pricing" style={{ fontSize: "0.9rem", color: "rgba(159,177,195,1)", fontWeight: 700, textDecoration: "none" }}>Pricing</a>
-                </div>
-            </header>
-
-            <main style={{ minHeight: "100vh" }}>
-                <div style={{ width: "min(680px, calc(100% - 40px))", margin: "0 auto", padding: "56px 0 80px" }}>
-
-                    {/* Badge */}
-                    <div style={{ display: "inline-flex", alignItems: "center", borderRadius: 999, border: "1px solid rgba(255,77,94,0.35)", background: "rgba(255,77,94,0.1)", padding: "6px 16px", fontFamily: "monospace", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#ff8792", marginBottom: 20 }}>
-                        ER Fix Pack — Flat $497, We Handle Everything
-                    </div>
-
-                    <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.05, letterSpacing: "-0.06em", fontWeight: 900, marginBottom: 20 }}>
-                        No developer?{" "}
-                        <span style={{ background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-                            No problem.
-                        </span>
-                        <br />We fix it for you.
-                    </h1>
-
-                    <p style={{ fontSize: "1.05rem", color: "#9fb1c3", lineHeight: 1.7, marginBottom: 24 }}>
-                        The team at{" "}
-                        <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" style={{ color: "#ff8792", fontWeight: 700, textDecoration: "none" }}>
-                            COAIBAKERSFIELD.COM
-                        </a>{" "}
-                        handles every fix from your scan — speed, mobile, SEO, trust signals — then re-scans your site to prove the improvement in real numbers. Fill out the form below and we'll be in touch within 1 business day.
-                    </p>
-
-                    <div style={{ marginBottom: 28, borderRadius: 18, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)", padding: 18 }}>
-                        <div style={{ color: "#ffb6bf", fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 800, marginBottom: 8 }}>
-                            Not ready for full implementation?
-                        </div>
-                        <p style={{ fontSize: "0.95rem", color: "#c7d2de", lineHeight: 1.6, marginBottom: 12 }}>
-                            Start with the {quickAuditOffer.priceLabel} {quickAuditOffer.name} instead. Run the free scan, unlock your private report by email, and buy the human review only if you want exact next steps first.
+        <SiteChrome>
+            <main className="er-page er-page-narrow">
+                <section className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+                    <div>
+                        <p className="er-kicker">Implementation</p>
+                        <h1 className="er-heading mt-3">
+                            Need it fixed for you? Book the ER Fix Pack.
+                        </h1>
+                        <p className="er-copy mt-4">
+                            No developer, no time, or no desire to manage the cleanup yourself? The SiteER team handles the highest-impact fixes, then re-scans the site to prove the improvement in real numbers.
                         </p>
-                        <a
-                            href="/#diagnosis"
-                            style={{ display: "inline-flex", alignItems: "center", borderRadius: 999, padding: "11px 16px", fontWeight: 800, fontSize: "0.9rem", color: "#19070a", background: "linear-gradient(135deg,#ff4d5e,#ffb15c)", textDecoration: "none" }}
-                        >
-                            Run free scan for {quickAuditOffer.priceLabel} audit path →
+                        <div className="mt-6 flex flex-wrap gap-3">
+                            <span className="er-chip">{fixPackDepositOffer.priceLabel} deposit reserves the work</span>
+                            <span className="er-chip">Deposit applied to the final total</span>
+                            <span className="er-chip">20+ point grade guarantee</span>
+                        </div>
+                    </div>
+
+                    <aside className="er-panel-accent">
+                        <div className="er-kicker">What happens next</div>
+                        <div className="mt-4 grid gap-4">
+                            {[
+                                ["1", "Submit the form", "Tell us who you are and which site needs treatment."],
+                                ["2", `Pay the ${fixPackDepositOffer.priceLabel} deposit`, "We redirect you to secure Square checkout immediately after the form saves."],
+                                ["3", "Get contacted within 1 business day", "You receive the implementation plan, scheduling details, and the remaining balance outline."],
+                            ].map(([step, title, text]) => (
+                                <div key={step} className="rounded-[20px] border border-white/12 bg-white/[0.05] p-4">
+                                    <div className="text-xs font-black tracking-[0.18em] text-[#fff0d7]">STEP {step}</div>
+                                    <h2 className="mt-2 text-lg font-semibold text-white">{title}</h2>
+                                    <p className="mt-2 text-sm leading-6 text-[#d6e2ee]">{text}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <p className="mt-4 text-sm leading-6 text-[#fff0d7]">
+                            Not ready for the full implementation? Run the free scan and unlock the {quickAuditOffer.priceLabel} {quickAuditOffer.name} from your report instead.
+                        </p>
+                        <a className="er-button-secondary mt-5 w-full" href="/#diagnosis">
+                            Run free scan for the {quickAuditOffer.priceLabel} path
                         </a>
-                    </div>
+                    </aside>
+                </section>
 
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 36, fontSize: "0.9rem", color: "#9fb1c3" }}>
-                        {["We do all the work — no tech skills needed", "Flat $497 — no surprises", "+20 pts guaranteed or full refund"].map((item) => (
-                            <span key={item} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                <span style={{ color: "#ff4d5e", fontWeight: 900 }}>•</span> {item}
-                            </span>
-                        ))}
+                <section className="mt-10 er-panel">
+                    <div className="mb-6">
+                        <p className="er-kicker">Reserve the work</p>
+                        <h2 className="mt-3 text-2xl font-semibold text-white">
+                            {fixPackDepositOffer.priceLabel} deposit today, applied to your final ER Fix Pack total.
+                        </h2>
+                        <p className="mt-3 text-sm leading-6 text-[#c8d5e1]">
+                            After you submit, you will be redirected to Square for the implementation deposit. The deposit is not extra. It is credited toward the project and secures the next slot.
+                        </p>
                     </div>
-
-                    {/* Form card */}
-                    <div style={{ borderRadius: 20, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", padding: "32px" }}>
-                        <QuoteForm />
-                    </div>
-
-                    {/* Footer */}
-                    <div style={{ marginTop: 36, borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, fontSize: "0.8rem", color: "#71869a" }}>
-                        SiteER diagnostics powered by{" "}
-                        <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" style={{ color: "#9fb1c3", fontWeight: 600, textDecoration: "none" }}>
-                            COAIBAKERSFIELD.COM
-                        </a>
-                        {" "}— AI-powered web solutions in Bakersfield, CA.
-                    </div>
-
-                </div>
+                    <QuoteForm />
+                </section>
             </main>
-        </>
+        </SiteChrome>
     );
 }

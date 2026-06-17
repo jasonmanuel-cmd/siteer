@@ -2,8 +2,15 @@ import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { quickAuditOffer } from "@/lib/offers";
+import { resolveAppUrl } from "@/lib/appUrl";
 import { consumeRateLimit, getClientIp } from "@/lib/rateLimit";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { logPayment } from "@/lib/googleSheets";
+import {
+    createPaymentConfirmToken,
+    isStatelessReportToken,
+    isValidStatelessReportToken,
+} from "@/lib/reportToken";
 
 export const runtime = "nodejs";
 
@@ -21,6 +28,9 @@ export async function POST(request: Request) {
 
     const accessToken = process.env.SQUARE_ACCESS_TOKEN;
     const locationId = process.env.SQUARE_LOCATION_ID;
+    const squareEnvironment = process.env.SQUARE_ENVIRONMENT ?? "sandbox";
+    const appUrl = resolveAppUrl(request);
+    const isLiveSite = /^https:\/\/(www\.)?siteer\.dev$/i.test(appUrl);
 
     if (!accessToken || !locationId) {
         return NextResponse.json(
@@ -29,21 +39,42 @@ export async function POST(request: Request) {
         );
     }
 
+    if (isLiveSite && squareEnvironment !== "production") {
+        return NextResponse.json(
+            {
+                ok: false,
+                error: "Online checkout is temporarily unavailable. Use the quote form or contact COAIBAKERSFIELD.COM and we will send an invoice.",
+            },
+            { status: 503 },
+        );
+    }
+
     try {
-        const supabaseAdmin = getSupabaseAdmin();
         const body = SquareSchema.parse(await request.json());
+        if (isStatelessReportToken(body.reportToken)) {
+            if (!isValidStatelessReportToken(body.reportToken)) {
+                throw new Error("Invalid report token");
+            }
+        } else {
+            const supabaseAdmin = getSupabaseAdmin();
+            const { data: report } = await supabaseAdmin
+                .from("reports")
+                .select("public_token")
+                .eq("public_token", body.reportToken)
+                .single();
 
-        // Look up the scan_id for this report token
-        const { data: report } = await supabaseAdmin
-            .from("reports")
-            .select("scan_id")
-            .eq("public_token", body.reportToken)
-            .single();
+            if (!report?.public_token) {
+                throw new Error("Report not found");
+            }
+        }
 
-        const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-        const redirectUrl = `${appUrl}/scan/${body.reportToken}?paid=true`;
+        const normalizedEmail = body.email?.trim().toLowerCase();
+        const confirmToken = normalizedEmail
+            ? createPaymentConfirmToken(body.reportToken, normalizedEmail)
+            : null;
+        const redirectUrl = `${appUrl}/payment-return`;
 
-        const squareHost = process.env.SQUARE_ENVIRONMENT === "production"
+        const squareHost = squareEnvironment === "production"
             ? "connect.squareup.com"
             : "connect.squareupsandbox.com";
 
@@ -66,27 +97,56 @@ export async function POST(request: Request) {
                     redirect_url: redirectUrl,
                     ask_for_shipping_address: false,
                 },
-                ...(body.email ? { pre_populated_data: { buyer_email: body.email } } : {}),
             }),
         });
 
         const squareData = await squareRes.json();
+        const paymentLink = squareData.payment_link as
+            | { id?: string; order_id?: string; url?: string }
+            | undefined;
+        const squareOrderId = paymentLink?.order_id
+            ?? squareData.related_resources?.orders?.[0]?.id
+            ?? paymentLink?.id
+            ?? null;
 
-        if (!squareRes.ok || !squareData.payment_link?.url) {
+        if (!squareRes.ok || !paymentLink?.url) {
             throw new Error(squareData.errors?.[0]?.detail ?? "Square checkout creation failed");
         }
 
-        // Store the pending payment record
-        await supabaseAdmin.from("payments").insert({
-            scan_id: report?.scan_id ?? null,
-            report_token: body.reportToken,
-            email: body.email ?? null,
-            square_link_id: squareData.payment_link.id,
-            amount_cents: quickAuditOffer.priceCents,
-            status: "pending",
-        });
+        try {
+            const supabaseAdmin = getSupabaseAdmin();
+            await supabaseAdmin.from("payments").insert({
+                report_token: body.reportToken,
+                email: body.email ?? null,
+                // Square payment webhooks reference the order_id created by the payment link.
+                square_link_id: squareOrderId,
+                amount_cents: quickAuditOffer.priceCents,
+                status: "pending",
+            });
+        } catch (persistenceError) {
+            console.warn(
+                "[/api/square] Payment persistence fallback:",
+                persistenceError instanceof Error
+                    ? persistenceError.message
+                    : "Unknown persistence error",
+            );
+        }
 
-        return NextResponse.json({ ok: true, checkoutUrl: squareData.payment_link.url });
+        if (body.email) {
+            await logPayment({
+                email: normalizedEmail ?? body.email.trim().toLowerCase(),
+                reportToken: body.reportToken,
+                amountCents: quickAuditOffer.priceCents,
+                status: "checkout_started",
+            });
+        }
+
+        return NextResponse.json({
+            ok: true,
+            checkoutUrl: paymentLink.url,
+            buyerEmail: normalizedEmail ?? "",
+            confirmToken: confirmToken ?? "",
+        });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Payment setup failed";
         

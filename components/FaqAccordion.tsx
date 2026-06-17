@@ -64,9 +64,10 @@ export default function FaqAccordion() {
                     key={i}
                     style={{
                         border: "1px solid rgba(255,255,255,.13)",
-                        background: "rgba(255,255,255,.065)",
+                        background: "linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.045))",
                         borderRadius: 22,
                         overflow: "hidden",
+                        boxShadow: "0 20px 60px rgba(0,0,0,.18)",
                     }}
                 >
                     <button
@@ -84,7 +85,7 @@ export default function FaqAccordion() {
                             textAlign: "left",
                             fontWeight: 700,
                             cursor: "pointer",
-                            fontSize: "0.95rem",
+                            fontSize: "1rem",
                         }}
                     >
                         <span>{faq.q}</span>
@@ -102,21 +103,23 @@ export default function FaqAccordion() {
                     </button>
                     <div
                         style={{
-                            maxHeight: open === i ? 250 : 0,
-                            overflow: "hidden",
-                            transition: "max-height .25s ease",
+                            display: "grid",
+                            gridTemplateRows: open === i ? "1fr" : "0fr",
+                            transition: "grid-template-rows .25s ease",
                         }}
                     >
-                        <p
-                            style={{
-                                color: "var(--er-muted)",
-                                lineHeight: 1.65,
-                                padding: "0 20px 20px",
-                                fontSize: "0.95rem",
-                            }}
-                        >
-                            {faq.a}
-                        </p>
+                        <div style={{ overflow: "hidden" }}>
+                            <p
+                                style={{
+                                    color: "#c8d5e1",
+                                    lineHeight: 1.7,
+                                    padding: "0 20px 20px",
+                                    fontSize: "0.95rem",
+                                }}
+                            >
+                                {faq.a}
+                            </p>
+                        </div>
                     </div>
                 </div>
             ))}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import SiteChrome from "@/components/SiteChrome";
 import { quickAuditOffer } from "@/lib/offers";
 
 export const metadata: Metadata = {
@@ -47,98 +47,90 @@ const reportFeatures = [
 
 export default function ReportsPage() {
     return (
-        <main className="mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
-            <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-                <div className="er-container">
-                    <nav style={{ height: 76, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
-                        <a href="/" style={{ display: "flex", alignItems: "center", gap: 12 }} aria-label="SiteER home">
-                            <Image
-                                src="/siteer-logo.png"
-                                alt="SiteER logo"
-                                width={280}
-                                height={80}
-                                priority
-                                style={{ width: "auto", height: 42 }}
-                            />
-                        </a>
-                        <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
-                            <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
-                            <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
-                            <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
+        <SiteChrome>
+            <main className="er-page">
+                <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+                    <div>
+                        <p className="er-kicker">Reports</p>
+                        <h1 className="er-heading mt-3">
+                            This is the report people actually forward to the developer.
+                        </h1>
+                        <p className="er-copy mt-4">
+                            SiteER is not just a score screen. The report turns the scan into a usable treatment plan: grade, issue priority, money leak estimate, and the fastest next move, including the {quickAuditOffer.priceLabel} {quickAuditOffer.name} when a human review makes sense.
+                        </p>
+                        <div className="mt-7 flex flex-wrap gap-3">
+                            <a className="er-button-primary" href="/#diagnosis">Run Free Scan →</a>
+                            <a className="er-button-secondary" href="/pricing">See pricing</a>
                         </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                            <a href="/#diagnosis" style={{ border: 0, borderRadius: 999, padding: "14px 22px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "0.95rem", minHeight: 48 }}>
-                                <span className="cta-word-dark">Scan a Site</span>
-                            </a>
-                        </div>
-                    </nav>
-                </div>
-            </header>
-
-            <section className="mt-10 grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-                <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-red-600">Reports</p>
-                    <h1 className="mt-2 text-4xl font-semibold text-balance md:text-5xl">
-                        Send this report to your developer (or us) and get your site fixed in days, not months.
-                    </h1>
-                    <p className="mt-4 max-w-2xl text-lg text-black/65">
-                        The one report that gets your team to actually fix what's broken. Includes the grade, every issue prioritized, revenue-leak estimate, and a clear treatment plan, plus the option to add the {quickAuditOffer.priceLabel} {quickAuditOffer.name} for human next steps.
-                    </p>
-                    <div className="mt-6 flex flex-wrap gap-3">
-                        <a className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white" href="/#diagnosis">
-                            Run a diagnosis
-                        </a>
-                        <a className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-black/5" href="/pricing">
-                            See pricing
-                        </a>
                     </div>
-                </div>
 
-                <div className="card-dark">
-                    <div className="rounded-2xl border border-black/10 bg-slate-950 p-5 text-white">
+                    <div className="er-panel">
                         <div className="flex items-start justify-between gap-4">
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wider text-red-300">Sample report view</p>
-                                <h2 className="mt-2 text-2xl font-semibold">Website ER Chart</h2>
+                                <p className="er-kicker">Sample report view</p>
+                                <h2 className="mt-2 text-2xl font-semibold text-white">Website ER Chart</h2>
+                                <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">Vitals, symptoms, and the next move on one screen.</p>
                             </div>
-                            <div className="rounded-2xl bg-gradient-to-br from-red-500 to-amber-400 px-4 py-3 text-3xl font-black text-slate-950">
+                            <div className="rounded-[22px] bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-5 py-4 text-4xl font-black text-[#19070a]">
                                 D
                             </div>
                         </div>
-                        <div className="mt-5 grid gap-3 text-sm text-slate-200 sm:grid-cols-2">
+                        <div className="mt-5 grid gap-3 sm:grid-cols-2">
                             {reportFeatures.map((feature) => (
-                                <div key={feature.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                                    <div className="font-semibold text-white">{feature.title}</div>
-                                    <p className="mt-1 text-sm text-slate-300">{feature.description}</p>
+                                <div key={feature.title} className="rounded-[20px] border border-white/10 bg-white/[0.05] p-4">
+                                    <div className="text-base font-semibold text-white">{feature.title}</div>
+                                    <p className="mt-1 text-sm leading-6 text-[#c8d5e1]">{feature.description}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <section className="mt-12 grid gap-4 md:grid-cols-3">
-                <article>
-                    <h2 className="text-lg font-semibold">Unlocked by email</h2>
-                    <p style={{ marginTop: 8, color: 'var(--er-muted)', fontSize: '0.95rem' }}>The teaser shows the grade and top 3 issues free. The full report with treatment plan unlocks by email.</p>
-                </article>
-                <article>
-                    <h2 className="text-lg font-semibold">Built for sharing</h2>
-                    <p style={{ marginTop: 8, color: 'var(--er-muted)', fontSize: '0.95rem' }}>Use it internally, send it to a client, hand it to a developer, or forward to your web team.</p>
-                </article>
-                <article>
-                    <h2 className="text-lg font-semibold">Tied to action</h2>
-                    <p style={{ marginTop: 8, color: 'var(--er-muted)', fontSize: '0.95rem' }}>Every report links to pricing, FAQ, the {quickAuditOffer.priceLabel} audit, and implementation options. Drives conversions at every stage.</p>
-                </article>
-            </section>
+                <section className="mt-12 grid gap-5 md:grid-cols-3">
+                    {[
+                        ["Unlocked by email", "The free teaser shows the grade and top symptoms. The full ER chart unlocks by email so the report can stay private and shareable."],
+                        ["Built for sharing", "Forward it to a developer, a client, or your own team without having to translate a pile of technical jargon."],
+                        ["Tied to action", `Every report points to pricing, FAQ, the ${quickAuditOffer.priceLabel} audit, and implementation options so the next step is obvious.`],
+                    ].map(([title, text]) => (
+                        <article key={title} className="er-link-card">
+                            <h2 className="text-xl font-semibold text-white">{title}</h2>
+                            <p className="mt-3 text-sm leading-6 text-[#c8d5e1]">{text}</p>
+                        </article>
+                    ))}
+                </section>
 
-            <section className="mt-12 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-8">
-                <h2 className="text-2xl font-bold text-slate-900">Real customer feedback</h2>
-                <blockquote className="mt-6 border-l-4 border-amber-400 pl-6 text-lg font-medium text-slate-900">
-                    "I sent this to my web guy and he fixed 4 issues in a day. Best $0 I ever spent. Then we got the ER Fix Pack and our site jumped from a D to a B. Now we're getting 30% more calls."
-                    <footer className="mt-3 text-sm text-slate-600">— Mike D., Local Contractor</footer>
-                </blockquote>
-            </section>
-        </main>
+                <section className="mt-12 er-panel">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
+                        <div>
+                            <p className="er-kicker">What the report does best</p>
+                            <h2 className="er-heading mt-3">It turns panic into a ranked action list.</h2>
+                        </div>
+                        <p className="er-copy max-w-[450px]">
+                            Owners do not need another vague audit. They need the fastest path from “something feels wrong” to “here is what gets fixed first.”
+                        </p>
+                    </div>
+                    <div className="mt-8 grid gap-4 lg:grid-cols-3">
+                        {[
+                            ["Show the damage", "A grade and money leak estimate put a real business consequence on the page."],
+                            ["Rank the symptoms", "The treatment plan pushes the highest-impact problems to the top so nobody debates where to begin."],
+                            ["Create the upsell", `If the chart looks bad, the ${quickAuditOffer.priceLabel} human audit or the Fix Pack becomes a rational next step instead of a pushy offer.`],
+                        ].map(([title, text]) => (
+                            <div key={title} className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5">
+                                <h3 className="text-lg font-semibold text-white">{title}</h3>
+                                <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{text}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <section className="mt-12 er-panel-accent">
+                    <p className="er-kicker">Real customer feedback</p>
+                    <blockquote className="mt-4 max-w-[900px] text-xl font-medium leading-8 text-white">
+                        “I sent this to my web guy and he fixed 4 issues in a day. Best $0 I ever spent. Then we got the ER Fix Pack and our site jumped from a D to a B. Now we&apos;re getting 30% more calls.”
+                    </blockquote>
+                    <footer className="mt-4 text-sm font-semibold text-[#fff0d7]">— Mike D., Local Contractor</footer>
+                </section>
+            </main>
+        </SiteChrome>
     );
 }

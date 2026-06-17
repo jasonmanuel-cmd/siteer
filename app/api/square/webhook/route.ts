@@ -1,8 +1,11 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
-import { quickAuditOffer } from "@/lib/offers";
+import { fixPackDepositOffer, quickAuditOffer } from "@/lib/offers";
+import { resolveAppUrl } from "@/lib/appUrl";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { logPayment } from "@/lib/googleSheets";
+import { markLeadFollowupsConverted } from "@/lib/leadFollowups";
+import { getInternalNotificationRecipients, sendResendEmail } from "@/lib/resend";
 
 export const runtime = "nodejs";
 
@@ -11,7 +14,7 @@ export const runtime = "nodejs";
  *
  * In your Square Developer Dashboard → Webhooks, add:
  *   URL: https://siteer.dev/api/square/webhook
- *   Events: payment.completed
+ *   Events: payment.updated
  *
  * Square sends HMAC-SHA256 signature in the "x-square-hmacsha256-signature" header.
  * Set SQUARE_WEBHOOK_SIGNATURE_KEY in your Vercel env vars (from Square dashboard).
@@ -27,14 +30,17 @@ function verifySquareSignature(
     const hmac = crypto.createHmac("sha256", sigKey);
     hmac.update(webhookUrl + body);
     const expected = hmac.digest("base64");
-    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+    const providedBuffer = Buffer.from(signature, "utf8");
+    const expectedBuffer = Buffer.from(expected, "utf8");
+    if (providedBuffer.length !== expectedBuffer.length) return false;
+    return crypto.timingSafeEqual(providedBuffer, expectedBuffer);
 }
 
 export async function POST(request: Request) {
     const rawBody = await request.text();
     const signature = request.headers.get("x-square-hmacsha256-signature");
     const sigKey = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY ?? "";
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://siteer.dev";
+    const appUrl = resolveAppUrl(request);
     const webhookUrl = `${appUrl}/api/square/webhook`;
 
     // Verify signature in production
@@ -51,82 +57,115 @@ export async function POST(request: Request) {
 
     const eventType = event.type as string | undefined;
 
-    // Only handle completed payments
-    if (eventType !== "payment.completed") {
-        return NextResponse.json({ ok: true, skipped: true });
-    }
-
     try {
-        const supabaseAdmin = getSupabaseAdmin();
         const paymentObj = (event.data as Record<string, unknown>)?.object as Record<string, unknown> | undefined;
         const payment = paymentObj?.payment as Record<string, unknown> | undefined;
-        const squareLinkId = payment?.order_id as string | undefined;
+        const paymentStatus = payment?.status as string | undefined;
+        const squareOrderId = payment?.order_id as string | undefined;
         const buyerEmail = (payment?.buyer_email_address as string | undefined) ?? null;
         const amountMoney = payment?.amount_money as { amount?: number; currency?: string } | undefined;
         const amountCents = amountMoney?.amount ?? 0;
 
-        // Mark payment as completed in Supabase using the Square order ID
-        const { data: paymentRecord } = await supabaseAdmin
-            .from("payments")
-            .update({ status: "completed" })
-            .eq("square_link_id", squareLinkId ?? "")
-            .select("report_token, email")
-            .single();
+        // Payment links generate payment.updated events when the payment becomes COMPLETED.
+        if (!["payment.updated", "payment.completed"].includes(eventType ?? "")) {
+            return NextResponse.json({ ok: true, skipped: true, reason: "unsupported_event" });
+        }
 
-        const reportToken = paymentRecord?.report_token ?? null;
-        const reportUrl = reportToken ? `${appUrl}/scan/${reportToken}?paid=true` : null;
-        const contactEmail = paymentRecord?.email ?? buyerEmail ?? "unknown";
+        if (paymentStatus !== "COMPLETED") {
+            return NextResponse.json({ ok: true, skipped: true, reason: paymentStatus ?? "missing_status" });
+        }
 
-        // Log to Google Sheets (non-blocking)
-        void logPayment({
+        let reportToken: string | null = null;
+        let contactEmail = buyerEmail ?? "unknown";
+        let shouldNotify = true;
+
+        try {
+            const supabaseAdmin = getSupabaseAdmin();
+            const { data: paymentRecord } = await supabaseAdmin
+                .from("payments")
+                .update({ status: "completed" })
+                .eq("square_link_id", squareOrderId ?? "")
+                .neq("status", "completed")
+                .select("report_token, email")
+                .maybeSingle();
+
+            reportToken = paymentRecord?.report_token ?? null;
+            contactEmail = paymentRecord?.email ?? buyerEmail ?? "unknown";
+            shouldNotify = Boolean(paymentRecord || !squareOrderId);
+        } catch (persistenceError) {
+            console.warn(
+                "[/api/square/webhook] Payment persistence fallback:",
+                persistenceError instanceof Error
+                    ? persistenceError.message
+                    : "Unknown persistence error",
+            );
+        }
+
+        if (!shouldNotify) {
+            return NextResponse.json({ ok: true, skipped: true, reason: "already_processed" });
+        }
+
+        const isQuoteDeposit = Boolean(reportToken?.startsWith("quote:"));
+        const quoteReference = isQuoteDeposit ? reportToken?.slice("quote:".length) : null;
+        const reportUrl = reportToken && !isQuoteDeposit
+            ? `${appUrl}/scan/${reportToken}?paid=true`
+            : quoteReference
+                ? `${appUrl}/get-quote?deposit=paid&quote=${encodeURIComponent(quoteReference)}`
+                : null;
+
+        await logPayment({
             email: contactEmail,
-            reportToken: reportToken ?? "",
+            reportToken: reportToken ?? squareOrderId ?? "",
             amountCents,
             status: "completed",
         });
 
-        // Notify Jason and Frank
-        const resendKey = process.env.RESEND_API_KEY;
-        const senderEmail = process.env.SENDER_EMAIL ?? "SiteER <reports@siteer.dev>";
-        const notifyAddresses = ["jasonm@coaibakersfield.com", "frankh@coaibakersfield.com"];
+        if (reportToken && !isQuoteDeposit) {
+            try {
+                await markLeadFollowupsConverted(reportToken);
+            } catch (followupError) {
+                console.warn(
+                    "[/api/square/webhook] Failed to stop follow-ups after payment:",
+                    followupError instanceof Error ? followupError.message : "Unknown follow-up error",
+                );
+            }
+        }
 
-        if (resendKey) {
-            await fetch("https://api.resend.com/emails", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${resendKey}`,
-                },
-                body: JSON.stringify({
-                    from: senderEmail,
-                    to: notifyAddresses,
-                    subject: `💰 $${(amountCents / 100).toFixed(2)} ${quickAuditOffer.name} Purchased — Action Required`,
-                    html: `
+        // Notify Jason and Frank
+        try {
+            await sendResendEmail({
+                to: getInternalNotificationRecipients(),
+                subject: isQuoteDeposit
+                    ? `💰 ${fixPackDepositOffer.priceLabel} ER Fix Pack Deposit Paid`
+                    : `💰 $${(amountCents / 100).toFixed(2)} ${quickAuditOffer.name} Purchased — Action Required`,
+                html: `
                         <div style="font-family:sans-serif;max-width:560px;margin:0 auto">
                             <div style="background:#0f172a;padding:24px 28px;border-radius:12px 12px 0 0">
                                 <div style="color:#3ee28f;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px">SiteER — Payment Received</div>
-                                <h2 style="color:#eef7ff;margin:0;font-size:20px">${quickAuditOffer.name} — Human Review Needed</h2>
+                                <h2 style="color:#eef7ff;margin:0;font-size:20px">${isQuoteDeposit ? "ER Fix Pack Deposit" : quickAuditOffer.name} — Human Review Needed</h2>
                             </div>
                             <div style="background:#1e293b;padding:24px 28px;border-radius:0 0 12px 12px">
                                 <table style="border-collapse:collapse;width:100%;font-size:14px">
                                     <tr><td style="padding:8px 0;color:#94a3b8;width:130px">Amount Paid</td><td style="padding:8px 0;color:#3ee28f;font-weight:700;font-size:16px">$${(amountCents / 100).toFixed(2)}</td></tr>
                                     <tr><td style="padding:8px 0;color:#94a3b8">Buyer Email</td><td style="padding:8px 0;color:#6ee7ff"><a href="mailto:${contactEmail}" style="color:#6ee7ff">${contactEmail}</a></td></tr>
-                                    ${reportToken ? `<tr><td style="padding:8px 0;color:#94a3b8">Report Token</td><td style="padding:8px 0;color:#eef7ff;font-family:monospace;font-size:12px">${reportToken}</td></tr>` : ""}
+                                    ${isQuoteDeposit && quoteReference ? `<tr><td style="padding:8px 0;color:#94a3b8">Quote Reference</td><td style="padding:8px 0;color:#eef7ff;font-family:monospace;font-size:12px">${quoteReference}</td></tr>` : ""}
+                                    ${reportToken && !isQuoteDeposit ? `<tr><td style="padding:8px 0;color:#94a3b8">Report Token</td><td style="padding:8px 0;color:#eef7ff;font-family:monospace;font-size:12px">${reportToken}</td></tr>` : ""}
                                 </table>
 
                                 ${reportUrl ? `
                                 <div style="margin-top:20px">
                                     <a href="${reportUrl}" style="display:inline-block;background:linear-gradient(135deg,#ff4d5e,#ffb15c);color:#1b080a;font-weight:700;padding:12px 22px;border-radius:8px;text-decoration:none;font-size:14px">
-                                        View Their Scan Report →
+                                        ${isQuoteDeposit ? "View Quote Confirmation →" : "View Their Scan Report →"}
                                     </a>
                                 </div>
                                 <div style="margin-top:12px;font-size:13px;color:#94a3b8">
-                                    Open the report, review their scan data, and prepare the short PDF action plan.<br/>
-                                    Reach out to <a href="mailto:${contactEmail}" style="color:#6ee7ff">${contactEmail}</a> as soon as possible.
+                                    ${isQuoteDeposit
+                                        ? `Deposit captured. Reach out to <a href="mailto:${contactEmail}" style="color:#6ee7ff">${contactEmail}</a> and move the ER Fix Pack into scheduling as soon as possible.`
+                                        : `Open the report, review their scan data, and prepare the short PDF action plan.<br/>Reach out to <a href="mailto:${contactEmail}" style="color:#6ee7ff">${contactEmail}</a> as soon as possible.`}
                                 </div>
                                 ` : `
                                 <div style="margin-top:12px;font-size:13px;color:#94a3b8">
-                                    Could not locate the report token. Check Supabase payments table for Square order ID: <code style="color:#ff8792">${squareLinkId ?? "unknown"}</code>
+                                    Could not locate the linked record. Check Supabase payments table for Square order ID: <code style="color:#ff8792">${squareOrderId ?? "unknown"}</code>
                                 </div>
                                 `}
 
@@ -136,8 +175,12 @@ export async function POST(request: Request) {
                             </div>
                         </div>
                     `,
-                }),
             });
+        } catch (emailError) {
+            console.error(
+                "[/api/square/webhook] Email notification failed:",
+                emailError instanceof Error ? emailError.message : "Unknown email error",
+            );
         }
 
         return NextResponse.json({ ok: true });

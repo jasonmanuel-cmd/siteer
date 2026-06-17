@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.0";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const SENDER_EMAIL = Deno.env.get("SENDER_EMAIL") ?? "SiteER <reports@yourdomain.com>";
-const APP_URL = Deno.env.get("NEXT_PUBLIC_APP_URL") ?? "http://localhost:3000";
+const APP_URL = Deno.env.get("NEXT_PUBLIC_APP_URL") ?? "https://siteer.dev";
 
 serve(async (req) => {
     try {

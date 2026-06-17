@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
     return (
         <SiteChrome>
-            <main className="mx-auto max-w-4xl px-5 py-8 md:px-8 md:py-12">
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ffb15c]">Privacy</p>
+            <main className="er-page er-page-tight">
+                <p className="er-kicker">Privacy</p>
                 <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">Privacy Agreement</h1>
                 <div className="mt-8 grid gap-4">
                     {[
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
                         ["Sharing", "We may share data with vendors that help us operate the site, such as hosting, analytics, and email services, but only as needed to provide the service."],
                         ["Your requests", "To request access, correction, or deletion of your data, contact jasonm@coaibakersfield.com. We will review and respond within a reasonable time."],
                     ].map(([title, text]) => (
-                        <section key={title} className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                        <section key={title} className="er-link-card">
                             <h2 className="text-lg font-semibold text-white">{title}</h2>
                             <p className="mt-2 text-sm leading-6 text-white/70">{text}</p>
                         </section>

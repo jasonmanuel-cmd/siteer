@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { quickAuditOffer } from "@/lib/offers";
+import SiteChrome from "@/components/SiteChrome";
+import { fixPackDepositOffer, quickAuditOffer } from "@/lib/offers";
 
 export const metadata: Metadata = {
     title: "Pricing",
@@ -34,259 +34,237 @@ export const metadata: Metadata = {
     },
 };
 
+const fixPackTotalLabel = "$497";
+
+const careLevels = [
+    {
+        label: "Free ER Scan",
+        price: "$0",
+        note: "See the damage before you spend a dollar.",
+        bullets: [
+            "A-F grade in about 60 seconds",
+            "Estimated monthly money leak",
+            "Top symptoms surfaced instantly",
+            "Private ER chart unlocked by email",
+        ],
+        ctaHref: "/#diagnosis",
+        ctaLabel: "Run free scan →",
+        featured: false,
+    },
+    {
+        label: quickAuditOffer.name,
+        price: quickAuditOffer.priceLabel,
+        note: "Best first paid step when you want human next moves.",
+        bullets: [
+            "Manual review by a real operator",
+            "Top 3 revenue leaks prioritized",
+            "Copy, trust, and local SEO notes",
+            "Plain-English action plan you can forward",
+        ],
+        ctaHref: "/#diagnosis",
+        ctaLabel: "Unlock from your report →",
+        featured: false,
+    },
+    {
+        label: "ER Fix Pack",
+        price: fixPackTotalLabel,
+        note: `${fixPackDepositOffer.priceLabel} deposit today. Applied to the full implementation total.`,
+        bullets: [
+            "Speed, mobile, SEO, and trust fixes done for you",
+            "Before-and-after re-scan proof",
+            "Guaranteed 20+ point grade improvement or full refund",
+            "Reserved implementation slot after deposit",
+        ],
+        ctaHref: "/get-quote",
+        ctaLabel: `Start with ${fixPackDepositOffer.priceLabel} deposit →`,
+        featured: true,
+    },
+];
+
+const comparisonRows = [
+    ["Who it is for", "Anyone who wants the diagnosis fast", "Owners who want a human to tell them what to do next", "Owners who want SiteER to implement the fixes"],
+    ["Delivery", "Instant on-page teaser + email unlock", "Human review after you buy from the report", "Quote intake + secure Square deposit"],
+    ["Best outcome", "See whether the leak is real", "Get the fastest paid clarity", "Get the site fixed without managing a developer"],
+];
+
 export default function PricingPage() {
     return (
-        <main className="mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
-                <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(18px)", background: "rgba(7,16,24,.72)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-                    <div className="er-container">
-                        <nav style={{ height: 76, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
-                            <a href="/" style={{ display: "flex", alignItems: "center", gap: 12 }} aria-label="SiteER home">
-                                <Image
-                                    src="/siteer-logo.png"
-                                    alt="SiteER logo"
-                                    width={280}
-                                    height={80}
-                                    priority
-                                    style={{ width: "auto", height: 42 }}
-                                />
+        <SiteChrome>
+            <main className="er-page">
+                <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
+                    <div>
+                        <p className="er-kicker">Pricing</p>
+                        <h1 className="er-title mt-4">
+                            Start free. Escalate only if the damage is real.
+                        </h1>
+                        <p className="er-copy mt-5">
+                            SiteER has three levels of care: the free diagnosis, the {quickAuditOffer.priceLabel} human review, and the ER Fix Pack with a {fixPackDepositOffer.priceLabel} deposit applied to the {fixPackTotalLabel} implementation total. Same ER system. Different depth. No subscription nonsense.
+                        </p>
+                        <div className="mt-6 flex flex-wrap gap-3">
+                            <span className="er-chip">No credit card for the scan</span>
+                            <span className="er-chip">Private report links</span>
+                            <span className="er-chip">Deposit credited to the project</span>
+                        </div>
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <a className="er-button-primary" href="/#diagnosis">
+                                Run Free Scan →
                             </a>
-                            <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
-                                <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
-                                <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
-                                <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
+                            <a className="er-button-secondary" href="/get-quote">
+                                Go straight to implementation
+                            </a>
+                        </div>
+                    </div>
+
+                    <aside className="er-panel-accent">
+                        <div className="er-kicker">What most owners do</div>
+                        <div className="mt-4 grid gap-4">
+                            {[
+                                ["01", "Run the free ER scan", "See the grade, the leak, and whether this is a small fix or a bigger problem."],
+                                ["02", `Buy the ${quickAuditOffer.priceLabel} review if needed`, "Best when you want a human to tell you the next three moves before spending more."],
+                                ["03", `Drop the ${fixPackDepositOffer.priceLabel} deposit when you're done waiting`, "Use the deposit to reserve the Fix Pack and let the team handle the work for you."],
+                            ].map(([step, title, text]) => (
+                                <div key={step} className="rounded-[22px] border border-white/12 bg-white/[0.05] p-4">
+                                    <div className="text-xs font-black tracking-[0.18em] text-[#ffd8dd]">{step}</div>
+                                    <h2 className="mt-2 text-lg font-semibold text-white">{title}</h2>
+                                    <p className="mt-2 text-sm leading-6 text-[#d6e2ee]">{text}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <p className="mt-4 text-sm leading-6 text-[#fff0d7]">
+                            Leak over $1,000/mo? That is usually where the {quickAuditOffer.priceLabel} audit or the Fix Pack becomes the obvious next move.
+                        </p>
+                    </aside>
+                </section>
+
+                <section className="mt-12 grid gap-5 xl:grid-cols-3">
+                    {careLevels.map((level) => (
+                        <article
+                            key={level.label}
+                            className={level.featured ? "er-panel-accent" : "er-panel"}
+                        >
+                            <div className="text-xs font-black uppercase tracking-[0.18em] text-[#ffcad0]">
+                                {level.label}
                             </div>
-                            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                <a href="/#diagnosis" style={{ border: 0, borderRadius: 999, padding: "14px 22px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", fontSize: "0.95rem", minHeight: 48 }}>
-                                    <span className="cta-word-dark">Scan a Site</span>
+                            <div className="mt-3 flex items-end justify-between gap-4">
+                                <div className="text-4xl font-black tracking-[-0.07em] text-white">{level.price}</div>
+                                {level.featured ? (
+                                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-[#fff0d7]">
+                                        Done for you
+                                    </span>
+                                ) : null}
+                            </div>
+                            <p className="mt-3 text-sm leading-6 text-[#d6e2ee]">{level.note}</p>
+                            <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#c7d2de]">
+                                {level.bullets.map((bullet) => (
+                                    <li key={bullet} className="flex gap-3">
+                                        <span className="font-black text-[#3ee28f]">✓</span>
+                                        <span>{bullet}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                            <a
+                                className={level.featured ? "er-button-primary mt-6 w-full" : "er-button-secondary mt-6 w-full"}
+                                href={level.ctaHref}
+                            >
+                                {level.ctaLabel}
+                            </a>
+                        </article>
+                    ))}
+                </section>
+
+                <section className="mt-12 er-panel">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
+                        <div>
+                            <p className="er-kicker">Choose your level of care</p>
+                            <h2 className="er-heading mt-3">Simple path, not a confusing pricing maze.</h2>
+                        </div>
+                        <p className="er-copy max-w-[420px]">
+                            The free scan tells you whether the site is in critical condition. The other two options exist only to help you act on what the scan finds.
+                        </p>
+                    </div>
+                    <div className="mt-8 grid gap-4">
+                        {comparisonRows.map(([label, free, audit, fixPack]) => (
+                            <div key={label} className="grid gap-3 rounded-[22px] border border-white/10 bg-white/[0.04] p-4 lg:grid-cols-[220px_1fr_1fr_1fr]">
+                                <div className="text-sm font-semibold text-white">{label}</div>
+                                <div className="text-sm leading-6 text-[#c8d5e1]">{free}</div>
+                                <div className="text-sm leading-6 text-[#c8d5e1]">{audit}</div>
+                                <div className="text-sm leading-6 text-[#c8d5e1]">{fixPack}</div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <section className="mt-12 grid gap-5 lg:grid-cols-2">
+                    {[
+                        {
+                            name: "Joe's Plumbing",
+                            before: "38 / Grade F",
+                            after: "82 / Grade A",
+                            impact: "40% more qualified calls and faster booking after the Fix Pack work was finished.",
+                        },
+                        {
+                            name: "Williams & Co. Law",
+                            before: "45 / Grade F",
+                            after: "79 / Grade B+",
+                            impact: "Mobile friction removed, local SEO cleaned up, and roughly $1,200/mo in recoverable revenue surfaced.",
+                        },
+                    ].map((study) => (
+                        <article key={study.name} className="er-link-card">
+                            <p className="er-kicker">Real results</p>
+                            <h2 className="mt-3 text-2xl font-semibold text-white">{study.name}</h2>
+                            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                                <div className="rounded-[20px] border border-[#ff4d5e]/20 bg-[#ff4d5e]/10 p-4">
+                                    <div className="text-xs font-black tracking-[0.16em] text-[#ffcad0]">Before</div>
+                                    <div className="mt-2 text-xl font-black text-white">{study.before}</div>
+                                </div>
+                                <div className="rounded-[20px] border border-[#3ee28f]/20 bg-[#3ee28f]/10 p-4">
+                                    <div className="text-xs font-black tracking-[0.16em] text-[#bff7d9]">After</div>
+                                    <div className="mt-2 text-xl font-black text-white">{study.after}</div>
+                                </div>
+                            </div>
+                            <p className="mt-4 text-sm leading-6 text-[#c8d5e1]">{study.impact}</p>
+                        </article>
+                    ))}
+                </section>
+
+                <section className="mt-12 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+                    <div className="er-panel">
+                        <p className="er-kicker">Built by the team that does the work</p>
+                        <h2 className="er-heading mt-3">Chaotically Organized AI handles the diagnosis and the fix path.</h2>
+                        <p className="er-copy mt-4">
+                            This is not a faceless SaaS price sheet. The same Bakersfield team behind the scan handles the {quickAuditOffer.name}, implementation quotes, re-scans, and follow-through.
+                        </p>
+                        <a
+                            href="https://coaibakersfield.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="er-button-secondary mt-6"
+                        >
+                            Visit coaibakersfield.com
+                        </a>
+                    </div>
+
+                    <div className="er-panel">
+                        <p className="er-kicker">Read before you buy</p>
+                        <div className="mt-4 grid gap-3">
+                            {[
+                                ["/blog/local-business-website-mistakes", "Local business mistakes", "What leaks leads on service sites."],
+                                ["/blog/mobile-page-speed-fixes", "Mobile speed fixes", "Fast wins for users on phones."],
+                                ["/blog/website-not-bringing-customers", "Customer conversion leaks", "How to turn visits into calls."],
+                            ].map(([href, title, text]) => (
+                                <a key={href} className="er-link-card p-4" href={href}>
+                                    <div className="text-base font-semibold text-white">{title}</div>
+                                    <p className="mt-1 text-sm leading-6 text-[#c8d5e1]">{text}</p>
                                 </a>
-                            </div>
-                        </nav>
+                            ))}
+                        </div>
                     </div>
-                </header>
+                </section>
 
-            <section className="mt-10">
-                <h1 className="text-4xl font-semibold md:text-5xl">Stop the bleeding.</h1>
-                <p className="mt-3 max-w-2xl text-black/65">
-                    SiteER diagnosis is free. Pay only when you want implementation or a fast human review. 
-                    All fixes are built and verified by Bakersfield's trusted web team at{" "}
-                    <a
-                        href="https://coaibakersfield.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold text-red-600 hover:underline"
-                    >
-                        coaibakersfield.com
-                    </a>
-                    .
+                <p className="mt-8 text-sm leading-6 text-[color:var(--er-muted-2)]">
+                    Guarantee note: if the ER Fix Pack does not improve your grade by at least 20 points within the agreed scope, you receive a full refund.
                 </p>
-            </section>
-
-            <section className="mt-10 grid gap-5 md:grid-cols-3">
-                <article className="card-dark">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-black/55">
-                        Free ER Scan
-                    </h2>
-                    <p className="mt-2 text-3xl font-semibold">$0</p>
-                    <ul className="mt-4 space-y-2 text-sm text-black/65">
-                        <li>✓ Grade your site (A-F)</li>
-                        <li>✓ Money leak estimate</li>
-                        <li>✓ Top issues and treatment plan</li>
-                        <li>✓ Shareable report link</li>
-                    </ul>
-                    <a
-                        className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white"
-                        href="/"
-                    >
-                        Start free scan
-                    </a>
-                </article>
-
-                <article className="relative card-dark" style={{ background: "linear-gradient(180deg,#7c1414,#a82700)", color: "white" }}>
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-1 text-xs font-bold text-red-900">
-                        DONE FOR YOU
-                    </div>
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-red-100">
-                        ER Fix Pack
-                    </h2>
-                    <p className="mt-2 text-3xl font-semibold">$497</p>
-                    <p className="mt-1 text-xs text-red-100/80">Most sites qualify for this price</p>
-                    <p className="mt-3 text-sm text-red-100/90">
-                        Our team implements your highest-impact fixes and re-scans to prove results.
-                    </p>
-                    <ul className="mt-4 space-y-2 text-sm text-red-100">
-                        <li>✓ Speed + mobile fixes</li>
-                        <li>✓ CTA and trust improvements</li>
-                        <li>✓ SEO fundamentals cleanup</li>
-                        <li>✓ Before/after re-scan proof</li>
-                        <li>✓ 20+ point grade improvement guarantee*</li>
-                    </ul>
-                    <a
-                        className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50 transition-colors"
-                        href="/get-quote"
-                    >
-                        Get a quote
-                    </a>
-                </article>
-
-                <article className="card-dark">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-black/55">
-                        Quick Human Review
-                    </h2>
-                    <p className="mt-2 text-3xl font-semibold">{quickAuditOffer.priceLabel}</p>
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-red-600">Best first paid step</p>
-                    <p className="mt-2 text-sm text-black/65">
-                        {quickAuditOffer.name} gives you a low-friction second set of eyes after the free scan.
-                    </p>
-                    <ul className="mt-4 space-y-2 text-sm text-black/65">
-                        <li>✓ Manual review by web expert</li>
-                        <li>✓ Top 3 revenue leaks prioritized</li>
-                        <li>✓ Copy, trust, and local SEO notes</li>
-                        <li>✓ Short PDF action plan</li>
-                    </ul>
-                    <a
-                        className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white"
-                        href="/#diagnosis"
-                    >
-                        Run free scan to unlock it →
-                    </a>
-                    <p className="mt-3 text-xs text-black/50">Purchase happens from your private scan report.</p>
-                </article>
-            </section>
-
-            <section className="mt-12 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-8">
-                <div className="flex items-center gap-4">
-                    <span style={{ fontSize: "2.5rem" }}>🛡️</span>
-                    <div>
-                        <h3 className="font-bold text-slate-900">Money-Back Guarantee</h3>
-                        <p className="mt-1 text-sm text-slate-700">
-                            If we don't improve your grade by at least 20 points, you don't pay. No questions asked.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <section className="mt-12">
-                <div className="flex items-center justify-between gap-4 mb-6">
-                    <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            Real Results
-                        </div>
-                        <h2 className="mt-2 text-2xl font-bold text-slate-900">
-                            Before & After: Sites We Fixed
-                        </h2>
-                    </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                    <article className="rounded-2xl border border-black/10 bg-white p-6">
-                        <div className="flex items-end justify-between mb-4">
-                            <div>
-                                <h3 className="font-bold text-slate-900">Joe's Plumbing</h3>
-                                <p className="text-sm text-slate-600">Local service business</p>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="rounded-lg bg-red-50 p-3">
-                                <div className="text-xs text-red-600 font-semibold">BEFORE</div>
-                                <div className="mt-2 text-2xl font-bold text-red-700">38</div>
-                                <div className="text-xs text-red-600">Grade F</div>
-                            </div>
-                            <div className="rounded-lg bg-green-50 p-3">
-                                <div className="text-xs text-green-600 font-semibold">AFTER</div>
-                                <div className="mt-2 text-2xl font-bold text-green-700">82</div>
-                                <div className="text-xs text-green-600">Grade A</div>
-                            </div>
-                        </div>
-                        <p className="mt-4 text-sm text-slate-700">
-                            <strong>Impact:</strong> 40% more qualified calls, leads now booked 2-3 days faster.
-                        </p>
-                    </article>
-                    <article className="rounded-2xl border border-black/10 bg-white p-6">
-                        <div className="flex items-end justify-between mb-4">
-                            <div>
-                                <h3 className="font-bold text-slate-900">Williams & Co. Law</h3>
-                                <p className="text-sm text-slate-600">Local service business</p>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="rounded-lg bg-red-50 p-3">
-                                <div className="text-xs text-red-600 font-semibold">BEFORE</div>
-                                <div className="mt-2 text-2xl font-bold text-red-700">45</div>
-                                <div className="text-xs text-red-600">Grade F</div>
-                            </div>
-                            <div className="rounded-lg bg-green-50 p-3">
-                                <div className="text-xs text-green-600 font-semibold">AFTER</div>
-                                <div className="mt-2 text-2xl font-bold text-green-700">79</div>
-                                <div className="text-xs text-green-600">Grade B+</div>
-                            </div>
-                        </div>
-                        <p className="mt-4 text-sm text-slate-700">
-                            <strong>Impact:</strong> Mobile usability restored, local SEO authority improved, estimated $1,200/mo revenue recovery.
-                        </p>
-                    </article>
-                </div>
-            </section>
-
-            <section className="mt-12 rounded-2xl border border-slate-100 bg-slate-50 p-8">
-                <div className="flex flex-wrap items-center justify-between gap-6">
-                    <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            Built by Bakersfield's trusted web team
-                        </div>
-                        <h2 className="mt-2 text-2xl font-bold text-slate-900">coaibakersfield.com</h2>
-                        <p className="mt-2 max-w-lg text-sm text-slate-600">
-                            We don't just diagnose — we fix, verify, and report back. Every ER Fix Pack includes a 
-                            before/after re-scan so you can see the improvement in real numbers. We've been optimizing 
-                            websites since 2015.
-                        </p>
-                    </div>
-                    <a
-                        href="https://coaibakersfield.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors whitespace-nowrap"
-                    >
-                        Learn more →
-                    </a>
-                </div>
-            </section>
-
-            <section className="mt-12 rounded-2xl border border-black/10 bg-white/90 p-8 shadow-sm">
-                <div className="flex flex-wrap items-end justify-between gap-4">
-                    <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-red-600">
-                            Learn & Implement
-                        </div>
-                        <h2 className="mt-2 text-2xl font-bold text-slate-900">
-                            Understand the fixes before we build them
-                        </h2>
-                    </div>
-                    <a
-                        className="text-sm font-semibold text-red-700 underline decoration-red-300 underline-offset-2"
-                        href="/blog"
-                    >
-                        Read all guides →
-                    </a>
-                </div>
-                <div className="mt-5 grid gap-4 md:grid-cols-3">
-                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/local-business-website-mistakes">
-                        <div className="text-sm font-semibold">Local business mistakes</div>
-                        <p className="mt-1 text-sm text-black/60">What leaks leads on service sites.</p>
-                    </a>
-                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/mobile-page-speed-fixes">
-                        <div className="text-sm font-semibold">Mobile speed fixes</div>
-                        <p className="mt-1 text-sm text-black/60">Fast wins for users on phones.</p>
-                    </a>
-                    <a className="rounded-xl border border-black/10 p-4 hover:bg-black/[0.02]" href="/blog/website-not-bringing-customers">
-                        <div className="text-sm font-semibold">Customer conversion leaks</div>
-                        <p className="mt-1 text-sm text-black/60">How to turn visits into calls.</p>
-                    </a>
-                </div>
-            </section>
-
-            <footer className="mt-12 border-t border-slate-100 pt-8 text-sm text-slate-600">
-                <p className="mb-4">* Money-back guarantee: If we don't improve your grade by at least 20 points within the scope of work, you receive a full refund.</p>
-                <p>© {new Date().getFullYear()} SiteER — Built by <a href="https://coaibakersfield.com" target="_blank" rel="noopener noreferrer" className="font-medium text-red-600 hover:underline">coaibakersfield.com</a></p>
-            </footer>
-        </main>
+            </main>
+        </SiteChrome>
     );
 }

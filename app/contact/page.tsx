@@ -12,20 +12,20 @@ export const metadata: Metadata = {
 export default function ContactPage() {
     return (
         <SiteChrome>
-            <main className="mx-auto max-w-4xl px-5 py-8 md:px-8 md:py-12">
+            <main className="er-page er-page-tight">
                 <section className="max-w-2xl">
-                    <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ffb15c]">Contact</p>
+                    <p className="er-kicker">Contact</p>
                     <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
                         Talk to SiteER about your website.
                     </h1>
-                    <p className="mt-4 text-base leading-7 text-white/70">
+                    <p className="er-copy mt-4">
                         Use the form below if you want a scan, the {quickAuditOffer.priceLabel} {quickAuditOffer.name}, a quote, or help fixing the issues the scan uncovered. We respond as quickly as possible during business hours.
                     </p>
                 </section>
 
                 <section className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_.8fr]">
                     <form
-                        className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_24px_60px_rgba(0,0,0,.22)] backdrop-blur"
+                        className="er-panel"
                         action="mailto:jasonm@coaibakersfield.com"
                         method="post"
                         encType="text/plain"
@@ -59,7 +59,7 @@ export default function ContactPage() {
                         </button>
                     </form>
 
-                    <aside className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 text-white/72">
+                    <aside className="er-panel text-white/72">
                         <h2 className="text-xl font-semibold text-white">Direct contact</h2>
                         <div className="mt-5 space-y-4 text-sm leading-6">
                             <p>
@@ -76,7 +76,7 @@ export default function ContactPage() {
                             <p className="mt-3 text-sm leading-6 text-white/72">
                                 If you only need human next steps and are not ready for the full fix package, start with the {quickAuditOffer.priceLabel} {quickAuditOffer.name} from your private scan report.
                             </p>
-                            <a className="mt-4 inline-flex rounded-full bg-[linear-gradient(135deg,#ff4d5e,#ffb15c)] px-4 py-2 text-sm font-semibold text-[#19070a]" href="/#diagnosis">
+                            <a className="er-button-primary mt-4" href="/#diagnosis">
                                 Run free scan
                             </a>
                         </div>

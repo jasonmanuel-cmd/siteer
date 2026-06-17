@@ -57,21 +57,18 @@ const posts = [
 export default function BlogPage() {
     return (
         <SiteChrome>
-            <main className="mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
+            <main className="er-page">
                 <section className="max-w-3xl">
-                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#ffb15c]">Resources</p>
-                    <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">Practical fixes for speed, SEO, and conversion</h1>
-                    <p className="mt-4 max-w-2xl text-base leading-7 text-white/70">
+                    <p className="er-kicker">Resources</p>
+                    <h1 className="er-heading mt-4">Practical fixes for speed, SEO, and conversion</h1>
+                    <p className="er-copy mt-4">
                         Short, useful guides for business owners who want more calls from the same traffic. Each article focuses on one problem, one diagnosis path, and one set of fixes.
                     </p>
                 </section>
 
                 <div className="mt-10 grid gap-4">
                     {posts.map((post) => (
-                        <article
-                            key={post.title}
-                            className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_24px_60px_rgba(0,0,0,.22)] backdrop-blur"
-                        >
+                        <article key={post.title} className="er-link-card">
                             <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#7d88ff]">Guide</p>
                             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white">{post.title}</h2>
                             <p className="mt-3 max-w-3xl text-sm leading-6 text-white/68">{post.summary}</p>
@@ -85,16 +82,16 @@ export default function BlogPage() {
                     ))}
                 </div>
 
-                <section className="mt-12 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur">
+                <section className="mt-12 er-panel">
                     <h2 className="text-xl font-semibold tracking-tight text-white">Related actions</h2>
                     <div className="mt-4 flex flex-wrap gap-3 text-sm">
-                        <a className="rounded-full border border-white/12 bg-white px-4 py-2 font-semibold text-[#090d12] transition-colors hover:bg-[#ffb15c]" href="/">
+                        <a className="er-button-primary" href="/">
                             Run a free scan
                         </a>
-                        <a className="rounded-full border border-white/12 bg-white px-4 py-2 font-semibold text-[#090d12] transition-colors hover:bg-[#ffb15c]" href="/pricing">
+                        <a className="er-button-secondary" href="/pricing">
                             Review pricing
                         </a>
-                        <a className="rounded-full border border-white/12 bg-white px-4 py-2 font-semibold text-[#090d12] transition-colors hover:bg-[#ffb15c]" href="/contact">
+                        <a className="er-button-secondary" href="/contact">
                             Contact Jason
                         </a>
                     </div>

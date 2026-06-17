@@ -84,6 +84,25 @@ create table if not exists public.payments (
 
 create index if not exists payments_report_token_idx on public.payments(report_token);
 
+create table if not exists public.lead_followups (
+    id uuid primary key default uuid_generate_v4(),
+    lead_email text not null,
+    report_token text not null,
+    report_url text not null,
+    stage text not null,
+    send_at timestamptz not null,
+    sent_at timestamptz,
+    status text not null default 'queued',
+    attempt_count int not null default 0,
+    last_error text,
+    created_at timestamptz default now()
+);
+
+create unique index if not exists lead_followups_email_token_stage_idx
+    on public.lead_followups(lead_email, report_token, stage);
+create index if not exists lead_followups_status_send_at_idx
+    on public.lead_followups(status, send_at);
+
 -- Row Level Security
 -- All app operations use the service_role key (which bypasses RLS).
 -- RLS is enabled here to block direct anon-key access to every table.
@@ -95,3 +114,4 @@ alter table public.scan_issues enable row level security;
 alter table public.reports enable row level security;
 alter table public.quotes enable row level security;
 alter table public.payments enable row level security;
+alter table public.lead_followups enable row level security;

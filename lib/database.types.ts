@@ -261,6 +261,48 @@ export type Database = {
                 };
                 Relationships: [];
             };
+            lead_followups: {
+                Row: {
+                    id: string;
+                    lead_email: string;
+                    report_token: string;
+                    report_url: string;
+                    stage: string;
+                    send_at: string;
+                    sent_at: string | null;
+                    status: string;
+                    attempt_count: number;
+                    last_error: string | null;
+                    created_at: string;
+                };
+                Insert: {
+                    id?: string;
+                    lead_email: string;
+                    report_token: string;
+                    report_url: string;
+                    stage: string;
+                    send_at: string;
+                    sent_at?: string | null;
+                    status?: string;
+                    attempt_count?: number;
+                    last_error?: string | null;
+                    created_at?: string;
+                };
+                Update: {
+                    id?: string;
+                    lead_email?: string;
+                    report_token?: string;
+                    report_url?: string;
+                    stage?: string;
+                    send_at?: string;
+                    sent_at?: string | null;
+                    status?: string;
+                    attempt_count?: number;
+                    last_error?: string | null;
+                    created_at?: string;
+                };
+                Relationships: [];
+            };
         };
         Views: {
             [_ in never]: never;

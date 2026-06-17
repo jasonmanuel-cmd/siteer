@@ -4,8 +4,12 @@ const BuyReportButton = nextDynamic(() => import("@/components/BuyReportButton")
 const MoneyLeak = nextDynamic(() => import("@/components/MoneyLeak"), { ssr: false, loading: () => null });
 const VitalSigns = nextDynamic(() => import("@/components/VitalSigns"), { ssr: false, loading: () => null });
 import TreatmentPlan from "@/components/TreatmentPlan";
+import PaymentReturnNotifier from "@/components/PaymentReturnNotifier";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { isStatelessReportToken, readReportToken } from "@/lib/reportToken";
 import type { Metadata } from "next";
+import Image from "next/image";
+import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +37,44 @@ type IssueRow = {
     recommendation: string;
 };
 
+type ReportViewModel = {
+    scan: ScanRow;
+    issues: IssueRow[];
+};
+
+function buildStatelessReport(token: string): ReportViewModel | null {
+    const payload = readReportToken(token);
+    if (!payload) return null;
+
+    return {
+        scan: {
+            id: token,
+            created_at: payload.scan.created_at,
+            overall_grade: payload.scan.overall_grade,
+            speed_score: payload.scan.speed_score,
+            mobile_score: payload.scan.mobile_score,
+            seo_score: payload.scan.seo_score,
+            trust_score: payload.scan.trust_score,
+            est_monthly_loss_low: payload.scan.est_monthly_loss_low,
+            est_monthly_loss_high: payload.scan.est_monthly_loss_high,
+            est_loss_pct: payload.scan.est_loss_pct,
+            est_monthly_visitors: payload.scan.est_monthly_visitors,
+        },
+        issues: payload.issues.map((issue, index) => ({
+            id: issue.id ?? `${issue.category}-${index}`,
+            severity: issue.severity,
+            category: issue.category,
+            description: issue.description,
+            recommendation: issue.recommendation,
+        })),
+    };
+}
+
 async function loadReportSummary(token: string) {
+    if (isStatelessReportToken(token)) {
+        return buildStatelessReport(token)?.scan ?? null;
+    }
+
     const supabaseAdmin = getSupabaseAdmin();
 
     const { data: report } = await supabaseAdmin
@@ -102,77 +143,92 @@ export default async function ReportPage({
     searchParams,
 }: {
     params: { token: string };
-    searchParams: { paid?: string };
+    searchParams: { paid?: string; buyer?: string; confirm?: string };
 }) {
     const token = params.token;
     const isPaid = searchParams.paid === "true";
+    let reportData: ReportViewModel | null = null;
 
-    let supabaseAdmin: ReturnType<typeof getSupabaseAdmin>;
-    try {
-        supabaseAdmin = getSupabaseAdmin();
-    } catch (error) {
-        return (
-            <main className="mx-auto max-w-3xl px-5 py-10">
-                <h1 className="text-2xl font-semibold">Configuration required</h1>
-                <p className="mt-2 text-black/60">
-                    {error instanceof Error ? error.message : "Supabase credentials are missing."}
-                </p>
-            </main>
-        );
+    if (isStatelessReportToken(token)) {
+        reportData = buildStatelessReport(token);
+    } else {
+        let supabaseAdmin: ReturnType<typeof getSupabaseAdmin>;
+        try {
+            supabaseAdmin = getSupabaseAdmin();
+        } catch (error) {
+            return (
+                <main className="mx-auto max-w-3xl px-5 py-10">
+                    <h1 className="text-2xl font-semibold">Configuration required</h1>
+                    <p className="mt-2 text-black/60">
+                        {error instanceof Error ? error.message : "Supabase credentials are missing."}
+                    </p>
+                </main>
+            );
+        }
+
+        const { data: report, error: reportError } = await supabaseAdmin
+            .from("reports")
+            .select("scan_id,public_token")
+            .eq("public_token", token)
+            .single();
+
+        if (reportError || !report) {
+            notFound();
+        }
+
+        if (!report.scan_id) {
+            notFound();
+        }
+
+        const { data: scan, error: scanError } = await supabaseAdmin
+            .from("scans")
+            .select(
+                "id,created_at,overall_grade,speed_score,mobile_score,seo_score,trust_score,est_monthly_loss_low,est_monthly_loss_high,est_loss_pct,est_monthly_visitors",
+            )
+            .eq("id", report.scan_id)
+            .single<ScanRow>();
+
+        if (scanError || !scan) {
+            notFound();
+        }
+
+        const { data: issues } = await supabaseAdmin
+            .from("scan_issues")
+            .select("id,severity,category,description,recommendation")
+            .eq("scan_id", scan.id)
+            .returns<IssueRow[]>();
+
+        reportData = { scan, issues: issues || [] };
     }
 
-    const { data: report, error: reportError } = await supabaseAdmin
-        .from("reports")
-        .select("scan_id,public_token")
-        .eq("public_token", token)
-        .single();
-
-    if (reportError || !report) {
-        return (
-            <main className="mx-auto max-w-3xl px-5 py-10">
-                <h1 className="text-2xl font-semibold">Report not found</h1>
-                <p className="mt-2 text-black/60">This link is invalid or may have expired.</p>
-            </main>
-        );
+    if (!reportData) {
+        notFound();
     }
 
-    if (!report.scan_id) {
-        return (
-            <main className="mx-auto max-w-3xl px-5 py-10">
-                <h1 className="text-2xl font-semibold">Scan missing</h1>
-                <p className="mt-2 text-black/60">This report is not linked to a scan.</p>
-            </main>
-        );
-    }
-
-    const { data: scan, error: scanError } = await supabaseAdmin
-        .from("scans")
-        .select(
-            "id,created_at,overall_grade,speed_score,mobile_score,seo_score,trust_score,est_monthly_loss_low,est_monthly_loss_high,est_loss_pct,est_monthly_visitors",
-        )
-        .eq("id", report.scan_id)
-        .single<ScanRow>();
-
-    if (scanError || !scan) {
-        return (
-            <main className="mx-auto max-w-3xl px-5 py-10">
-                <h1 className="text-2xl font-semibold">Scan missing</h1>
-                <p className="mt-2 text-black/60">We could not load scan data.</p>
-            </main>
-        );
-    }
-
-    const { data: issues } = await supabaseAdmin
-        .from("scan_issues")
-        .select("id,severity,category,description,recommendation")
-        .eq("scan_id", scan.id)
-        .returns<IssueRow[]>();
+    const { scan, issues } = reportData;
+    const buyerEmail = searchParams.buyer?.trim().toLowerCase();
+    const confirmToken = searchParams.confirm?.trim();
 
     return (
         <main className="light-page mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
+            {isPaid && buyerEmail && confirmToken ? (
+                <PaymentReturnNotifier
+                    reportToken={token}
+                    email={buyerEmail}
+                    confirmToken={confirmToken}
+                />
+            ) : null}
             <header className="flex flex-wrap items-center justify-between gap-3">
-                <a className="text-sm font-semibold tracking-tight" href="/">
-                    SiteER <span className="text-black/45">/ Report</span>
+                <a className="flex items-center gap-3 text-sm font-semibold tracking-tight" href="/">
+                    <Image
+                        src="/siteer-logo.png"
+                        alt="SiteER logo"
+                        width={280}
+                        height={80}
+                        priority
+                        style={{ width: "auto", height: 34 }}
+                    />
+                    <span className="text-black/45">/ Report</span>
                 </a>
                 <div className="flex flex-wrap items-center gap-3">
                     <PrintReportButton />
