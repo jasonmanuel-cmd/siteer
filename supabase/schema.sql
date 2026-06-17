@@ -107,6 +107,7 @@ create table if not exists public.sheet_sync_events (
     id uuid primary key default uuid_generate_v4(),
     sheet text not null,
     row jsonb not null,
+    source_key text,
     status text not null default 'queued',
     attempt_count int not null default 0,
     last_error text,
@@ -116,6 +117,8 @@ create table if not exists public.sheet_sync_events (
 
 create index if not exists sheet_sync_events_status_created_idx
     on public.sheet_sync_events(status, created_at);
+create unique index if not exists sheet_sync_events_source_key_idx
+    on public.sheet_sync_events(source_key);
 
 -- Row Level Security
 -- All app operations use the service_role key (which bypasses RLS).

@@ -308,6 +308,7 @@ export type Database = {
                     id: string;
                     sheet: string;
                     row: Json;
+                    source_key: string | null;
                     status: string;
                     attempt_count: number;
                     last_error: string | null;
@@ -318,6 +319,7 @@ export type Database = {
                     id?: string;
                     sheet: string;
                     row: Json;
+                    source_key?: string | null;
                     status?: string;
                     attempt_count?: number;
                     last_error?: string | null;
@@ -328,6 +330,7 @@ export type Database = {
                     id?: string;
                     sheet?: string;
                     row?: Json;
+                    source_key?: string | null;
                     status?: string;
                     attempt_count?: number;
                     last_error?: string | null;

@@ -366,6 +366,7 @@ export default function HomePage() {
                                 { title: "Reports", desc: "See exactly what's inside the full ER chart before you unlock it.", href: "/reports" },
                                 { title: "Pricing", desc: `Free scan vs. ${quickAuditOffer.priceLabel} Quick ER Audit vs. implementation.`, href: "/pricing" },
                                 { title: "FAQ", desc: "Common questions business owners ask before running their first scan.", href: "/faq" },
+                                { title: "Bakersfield website audits", desc: "Local landing page for Kern County businesses that want faster calls, forms, and trust.", href: "/bakersfield-website-audit" },
                                 { title: "Blog", desc: "Case studies, fixes, and the real cost of a sick website.", href: "/blog" },
                             ].map((item) => (
                                 <article key={item.title} style={{ borderRadius: 24, padding: 22, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)" }}>

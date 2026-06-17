@@ -1,4 +1,4 @@
-import type { Json } from "@/lib/database.types";
+import type { Database, Json } from "@/lib/database.types";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 /**
@@ -67,12 +67,24 @@ import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
  * ═════════════════════════════════════════════════════════════
  */
 
-type SheetName = "Leads" | "Quotes" | "Payments";
+export type SheetName = "Leads" | "Quotes" | "Payments";
+
+type SheetRow = (string | number)[];
+type SheetEventStatus = "queued" | "processing" | "sent";
 
 type QueueResult = {
     id: string;
-    status: "queued" | "processing" | "sent";
+    status: SheetEventStatus;
+    attemptCount: number;
+    alreadySent?: boolean;
 };
+
+type SheetSyncOptions = {
+    sourceKey?: string;
+    createdAt?: string;
+};
+
+type SheetSyncEventInsert = Database["public"]["Tables"]["sheet_sync_events"]["Insert"];
 
 function getWebhookUrl(): string | null {
     const value = process.env.GOOGLE_SHEETS_WEBHOOK_URL?.trim().replace(/^"+|"+$/g, "");
@@ -90,7 +102,7 @@ function parseWebhookPayload(body: string): { ok?: boolean; error?: string } | n
 
 async function sendToSheet(
     sheet: SheetName,
-    row: (string | number)[],
+    row: SheetRow,
 ): Promise<void> {
     const webhookUrl = getWebhookUrl();
     if (!webhookUrl) {
@@ -138,25 +150,63 @@ async function sendToSheet(
 
 async function queueSheetEvent(
     sheet: SheetName,
-    row: (string | number)[],
+    row: SheetRow,
+    options: SheetSyncOptions = {},
 ): Promise<QueueResult | null> {
     try {
         const supabaseAdmin = getSupabaseAdmin();
+
+        if (options.sourceKey) {
+            const { data: existing, error: existingError } = await supabaseAdmin
+                .from("sheet_sync_events")
+                .select("id,status,attempt_count")
+                .eq("source_key", options.sourceKey)
+                .maybeSingle();
+
+            if (existingError) {
+                throw new Error(existingError.message || "Failed to look up existing sheet event");
+            }
+
+            if (existing) {
+                return {
+                    id: existing.id,
+                    status: existing.status as SheetEventStatus,
+                    attemptCount: existing.attempt_count,
+                    alreadySent: existing.status === "sent",
+                };
+            }
+        }
+
+        const insertPayload: SheetSyncEventInsert = {
+            sheet,
+            row: row as Json,
+            status: "queued",
+        };
+
+        if (options.sourceKey) {
+            insertPayload.source_key = options.sourceKey;
+        }
+
+        if (options.createdAt) {
+            insertPayload.created_at = options.createdAt;
+        }
+
         const { data, error } = await supabaseAdmin
             .from("sheet_sync_events")
-            .insert({
-                sheet,
-                row: row as Json,
-                status: "queued",
-            })
-            .select("id,status")
+            .insert(insertPayload)
+            .select("id,status,attempt_count")
             .single();
 
         if (error) {
             throw new Error(error.message || "Failed to queue sheet event");
         }
 
-        return data as QueueResult;
+        return {
+            id: data.id,
+            status: data.status as SheetEventStatus,
+            attemptCount: data.attempt_count,
+            alreadySent: false,
+        };
     } catch (error) {
         console.warn(
             "[googleSheets.queueSheetEvent]",
@@ -169,7 +219,7 @@ async function queueSheetEvent(
 async function updateSheetEvent(
     id: string,
     updates: {
-        status: "queued" | "processing" | "sent";
+        status: SheetEventStatus;
         attemptCount?: number;
         lastError?: string | null;
         sentAt?: string | null;
@@ -203,16 +253,21 @@ async function updateSheetEvent(
 
 async function deliverSheetRow(
     sheet: SheetName,
-    row: (string | number)[],
+    row: SheetRow,
+    options: SheetSyncOptions = {},
 ): Promise<void> {
-    const queued = await queueSheetEvent(sheet, row);
+    const queued = await queueSheetEvent(sheet, row, options);
+
+    if (queued?.alreadySent) {
+        return;
+    }
 
     try {
         await sendToSheet(sheet, row);
         if (queued) {
             await updateSheetEvent(queued.id, {
                 status: "sent",
-                attemptCount: 1,
+                attemptCount: queued.attemptCount + 1,
                 lastError: null,
                 sentAt: new Date().toISOString(),
             });
@@ -221,7 +276,7 @@ async function deliverSheetRow(
         if (queued) {
             await updateSheetEvent(queued.id, {
                 status: "queued",
-                attemptCount: 1,
+                attemptCount: queued.attemptCount + 1,
                 lastError: error instanceof Error ? error.message.slice(0, 500) : "Unknown sheet delivery error",
             });
         }
@@ -229,8 +284,11 @@ async function deliverSheetRow(
     }
 }
 
-function timestamp(): string {
-    return new Date().toLocaleString("en-US", {
+export function formatSheetTimestamp(input: string | Date = new Date()): string {
+    const candidate = input instanceof Date ? input : new Date(input);
+    const safeDate = Number.isNaN(candidate.getTime()) ? new Date() : candidate;
+
+    return safeDate.toLocaleString("en-US", {
         timeZone: "America/Los_Angeles",
         year: "numeric",
         month: "2-digit",
@@ -243,13 +301,28 @@ function timestamp(): string {
 
 // ── Public API ───────────────────────────────────────────────
 
+export async function syncSheetRow(params: {
+    sheet: SheetName;
+    row: SheetRow;
+    sourceKey?: string;
+    createdAt?: string;
+}): Promise<void> {
+    await deliverSheetRow(params.sheet, params.row, {
+        sourceKey: params.sourceKey,
+        createdAt: params.createdAt,
+    });
+}
+
 export async function logLead(data: {
     email: string;
     scanId: string;
     reportUrl: string;
 }): Promise<void> {
     try {
-        await deliverSheetRow("Leads", [timestamp(), data.email, data.scanId, data.reportUrl]);
+        await syncSheetRow({
+            sheet: "Leads",
+            row: [formatSheetTimestamp(), data.email, data.scanId, data.reportUrl],
+        });
     } catch (err) {
         console.error("[googleSheets.logLead]", err instanceof Error ? err.message : err);
     }
@@ -264,15 +337,18 @@ export async function logQuote(data: {
     websiteUrl?: string;
 }): Promise<void> {
     try {
-        await deliverSheetRow("Quotes", [
-            timestamp(),
-            data.firstName,
-            data.lastName,
-            data.email,
-            data.phone ?? "",
-            data.businessName,
-            data.websiteUrl ?? "",
-        ]);
+        await syncSheetRow({
+            sheet: "Quotes",
+            row: [
+                formatSheetTimestamp(),
+                data.firstName,
+                data.lastName,
+                data.email,
+                data.phone ?? "",
+                data.businessName,
+                data.websiteUrl ?? "",
+            ],
+        });
     } catch (err) {
         console.error("[googleSheets.logQuote]", err instanceof Error ? err.message : err);
     }
@@ -285,13 +361,16 @@ export async function logPayment(data: {
     status: string;
 }): Promise<void> {
     try {
-        await deliverSheetRow("Payments", [
-            timestamp(),
-            data.email,
-            data.reportToken,
-            (data.amountCents / 100).toFixed(2),
-            data.status,
-        ]);
+        await syncSheetRow({
+            sheet: "Payments",
+            row: [
+                formatSheetTimestamp(),
+                data.email,
+                data.reportToken,
+                (data.amountCents / 100).toFixed(2),
+                data.status,
+            ],
+        });
     } catch (err) {
         console.error("[googleSheets.logPayment]", err instanceof Error ? err.message : err);
     }

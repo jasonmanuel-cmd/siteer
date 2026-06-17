@@ -17,6 +17,7 @@ const footerLinks = [
     { href: "/reports", label: "Reports" },
     { href: "/pricing", label: "Pricing" },
     { href: "/faq", label: "FAQ" },
+    { href: "/bakersfield-website-audit", label: "Bakersfield audits" },
     { href: "/blog", label: "Blog" },
     { href: "/terms", label: "Terms" },
     { href: "/privacy", label: "Privacy" },

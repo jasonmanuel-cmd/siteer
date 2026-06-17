@@ -4,8 +4,7 @@ const BASE_URL = "https://siteer.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const now = new Date();
-
-    return [
+    const corePages: MetadataRoute.Sitemap = [
         {
             url: `${BASE_URL}/`,
             lastModified: now,
@@ -13,10 +12,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 1,
         },
         {
+            url: `${BASE_URL}/reports`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.8,
+        },
+        {
             url: `${BASE_URL}/pricing`,
             lastModified: now,
             changeFrequency: "weekly",
             priority: 0.8,
+        },
+        {
+            url: `${BASE_URL}/faq`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.75,
+        },
+        {
+            url: `${BASE_URL}/bakersfield-website-audit`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.75,
         },
         {
             url: `${BASE_URL}/get-quote`,
@@ -29,6 +46,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
             lastModified: now,
             changeFrequency: "weekly",
             priority: 0.7,
+        },
+        {
+            url: `${BASE_URL}/blog/local-business-website-mistakes`,
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.65,
+        },
+        {
+            url: `${BASE_URL}/blog/mobile-page-speed-fixes`,
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.65,
+        },
+        {
+            url: `${BASE_URL}/blog/website-not-bringing-customers`,
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.65,
         },
         {
             url: `${BASE_URL}/contact`,
@@ -49,4 +84,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.4,
         },
     ];
+
+    return corePages;
 }
