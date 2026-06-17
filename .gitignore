@@ -35,3 +35,6 @@ work/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# supabase local metadata
+supabase/.temp/

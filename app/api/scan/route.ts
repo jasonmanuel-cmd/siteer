@@ -44,7 +44,7 @@ function mergeIssues<T extends { category: string; description: string }>(...iss
 
 export async function POST(request: Request) {
     const ip = getClientIp(request);
-    const limiter = consumeRateLimit(`scan:${ip}`, 12, 60_000);
+    const limiter = await consumeRateLimit(`scan:${ip}`, 12, 60_000);
     if (!limiter.ok) {
         return NextResponse.json(
             {

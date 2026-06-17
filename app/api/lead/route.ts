@@ -88,7 +88,7 @@ async function createPersistentReportToken(_email: string, scanId: string): Prom
 
 export async function POST(request: Request) {
     const ip = getClientIp(request);
-    const limiter = consumeRateLimit(`lead:${ip}`, 5, 60_000);
+    const limiter = await consumeRateLimit(`lead:${ip}`, 5, 60_000);
     if (!limiter.ok) {
         return NextResponse.json(
             {

@@ -21,7 +21,7 @@ const QuoteSchema = z.object({
 
 export async function POST(request: Request) {
     const ip = getClientIp(request);
-    const limiter = consumeRateLimit(`quote:${ip}`, 5, 60_000);
+    const limiter = await consumeRateLimit(`quote:${ip}`, 5, 60_000);
     if (!limiter.ok) {
         return NextResponse.json({ ok: false, error: "Too many requests." }, { status: 429 });
     }

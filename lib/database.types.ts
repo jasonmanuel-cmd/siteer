@@ -339,12 +339,47 @@ export type Database = {
                 };
                 Relationships: [];
             };
+            rate_limits: {
+                Row: {
+                    key: string;
+                    hits: number;
+                    reset_at: string;
+                    created_at: string;
+                    updated_at: string;
+                };
+                Insert: {
+                    key: string;
+                    hits?: number;
+                    reset_at: string;
+                    created_at?: string;
+                    updated_at?: string;
+                };
+                Update: {
+                    key?: string;
+                    hits?: number;
+                    reset_at?: string;
+                    created_at?: string;
+                    updated_at?: string;
+                };
+                Relationships: [];
+            };
         };
         Views: {
             [_ in never]: never;
         };
         Functions: {
-            [_ in never]: never;
+            consume_rate_limit: {
+                Args: {
+                    p_key: string;
+                    p_limit: number;
+                    p_window_ms: number;
+                };
+                Returns: {
+                    ok: boolean;
+                    remaining: number;
+                    retry_after_ms: number;
+                }[];
+            };
         };
         Enums: {
             [_ in never]: never;
