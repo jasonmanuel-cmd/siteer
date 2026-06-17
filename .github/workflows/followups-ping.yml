@@ -1,0 +1,38 @@
+name: Ping Followups Cron
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping-followups:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Trigger SiteER followups endpoint
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          CRON_URL: https://www.siteer.dev/api/cron/followups
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "Missing required GitHub secret: CRON_SECRET"
+            exit 1
+          fi
+
+          response=$(curl --silent --show-error --location \
+            --write-out '\n%{http_code}' \
+            --header "Authorization: Bearer $CRON_SECRET" \
+            --header "User-Agent: github-actions-cron/1.0" \
+            "$CRON_URL")
+
+          body=$(printf '%s\n' "$response" | sed '$d')
+          status=$(printf '%s\n' "$response" | tail -n1)
+
+          echo "$body"
+
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "Cron endpoint returned HTTP $status"
+            exit 1
+          fi
