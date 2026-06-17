@@ -1,3 +1,5 @@
+import { resolveSiteUrl } from "@/lib/siteConfig";
+
 function readEnv(name: string): string | null {
     const value = process.env[name]?.trim();
     return value ? value : null;
@@ -16,9 +18,19 @@ function withDefinedValues<T extends Record<string, unknown>>(value: T): T {
     ) as T;
 }
 
+function readListEnv(name: string): string[] {
+    const value = readEnv(name);
+    if (!value) return [];
+
+    return value
+        .split(",")
+        .map((entry) => entry.trim())
+        .filter(Boolean);
+}
+
 export const siteIdentity = {
     name: readEnv("LOCAL_BUSINESS_NAME") ?? "SiteER",
-    url: readEnv("NEXT_PUBLIC_APP_URL") ?? "https://siteer.dev",
+    url: resolveSiteUrl(readEnv("NEXT_PUBLIC_APP_URL")),
     email: readEnv("CONTACT_EMAIL"),
     phone: readEnv("LOCAL_BUSINESS_PHONE"),
     city: readEnv("LOCAL_BUSINESS_CITY") ?? "Bakersfield",
@@ -28,19 +40,23 @@ export const siteIdentity = {
     streetAddress: readEnv("LOCAL_BUSINESS_STREET"),
     latitude: readNumberEnv("LOCAL_BUSINESS_LATITUDE"),
     longitude: readNumberEnv("LOCAL_BUSINESS_LONGITUDE"),
+    sameAs: readListEnv("LOCAL_BUSINESS_SAME_AS"),
 };
 
 export function buildLocalBusinessSchema(): Record<string, unknown> {
     const schema: Record<string, unknown> = {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": siteIdentity.url,
+        "@id": `${siteIdentity.url}/#localbusiness`,
         name: siteIdentity.name,
         description:
             "Instant website diagnostics for local businesses - performance, SEO, mobile, and trust signal analysis.",
         url: siteIdentity.url,
         image: `${siteIdentity.url.replace(/\/$/, "")}/og-image.png`,
         priceRange: "$$",
+        parentOrganization: {
+            "@id": `${siteIdentity.url}/#org`,
+        },
         areaServed: [
             withDefinedValues({
                 "@type": "City",
@@ -64,6 +80,8 @@ export function buildLocalBusinessSchema(): Record<string, unknown> {
         schema.email = siteIdentity.email;
     }
 
+    schema.sameAs = siteIdentity.sameAs.length > 0 ? siteIdentity.sameAs : ["https://coaibakersfield.com"];
+
     const address = withDefinedValues({
         "@type": "PostalAddress",
         streetAddress: siteIdentity.streetAddress,
@@ -86,6 +104,91 @@ export function buildLocalBusinessSchema(): Record<string, unknown> {
     }
 
     return schema;
+}
+
+export function buildSiteGraphSchema(): Record<string, unknown> {
+    const contactPoint =
+        siteIdentity.email || siteIdentity.phone
+            ? withDefinedValues({
+                "@type": "ContactPoint",
+                contactType: "customer support",
+                email: siteIdentity.email,
+                telephone: siteIdentity.phone,
+                areaServed: siteIdentity.country,
+                availableLanguage: "en-US",
+            })
+            : null;
+
+    const organization = withDefinedValues({
+        "@type": "Organization",
+        "@id": `${siteIdentity.url}/#org`,
+        name: siteIdentity.name,
+        url: siteIdentity.url,
+        logo: {
+            "@type": "ImageObject",
+            url: `${siteIdentity.url}/siteer-logo.png`,
+        },
+        email: siteIdentity.email,
+        telephone: siteIdentity.phone,
+        contactPoint: contactPoint ? [contactPoint] : undefined,
+        sameAs: siteIdentity.sameAs.length > 0 ? siteIdentity.sameAs : ["https://coaibakersfield.com"],
+    });
+
+    const website = withDefinedValues({
+        "@type": "WebSite",
+        "@id": `${siteIdentity.url}/#website`,
+        name: siteIdentity.name,
+        url: siteIdentity.url,
+        publisher: {
+            "@id": `${siteIdentity.url}/#org`,
+        },
+        inLanguage: "en-US",
+    });
+
+    const service = withDefinedValues({
+        "@type": "ProfessionalService",
+        "@id": `${siteIdentity.url}/#service`,
+        name: siteIdentity.name,
+        description:
+            "Instant website diagnostics for performance, mobile UX, SEO, trust signals, and conversion leaks.",
+        url: siteIdentity.url,
+        provider: {
+            "@id": `${siteIdentity.url}/#org`,
+        },
+        areaServed: [
+            withDefinedValues({
+                "@type": "City",
+                name: siteIdentity.city,
+                addressRegion: siteIdentity.region,
+                addressCountry: siteIdentity.country,
+            }),
+            withDefinedValues({
+                "@type": "AdministrativeArea",
+                name: siteIdentity.region,
+                addressCountry: siteIdentity.country,
+            }),
+            withDefinedValues({
+                "@type": "Country",
+                name: siteIdentity.country,
+            }),
+        ],
+        serviceType: [
+            "Website Audit",
+            "Technical SEO Audit",
+            "Website Performance Audit",
+            "Conversion Optimization",
+        ],
+    });
+
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            organization,
+            website,
+            buildLocalBusinessSchema(),
+            service,
+        ],
+    };
 }
 
 export function buildGeoMetadata(): Record<string, string> {

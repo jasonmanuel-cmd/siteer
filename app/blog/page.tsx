@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
+import { SITE_URL } from "@/lib/siteSeo";
 
 export const metadata: Metadata = {
     title: "Resources",
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
         title: "Resources | SiteER",
         description:
             "Practical guides for fixing website speed, SEO, trust, and conversion issues.",
-        url: "https://siteer.dev/blog",
+        url: `${SITE_URL}/blog`,
         siteName: "SiteER",
         type: "website",
         images: [
@@ -31,6 +32,46 @@ export const metadata: Metadata = {
             "Practical guides for fixing website speed, SEO, trust, and conversion issues.",
         images: ["/og-image.png"],
     },
+};
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "CollectionPage",
+            "@id": `${SITE_URL}/blog#page`,
+            url: `${SITE_URL}/blog`,
+            name: "SiteER Resources",
+            description:
+                "SiteER resources and guides for improving website speed, SEO performance, trust signals, and conversion results.",
+            isPartOf: {
+                "@id": `${SITE_URL}/#website`,
+            },
+            about: {
+                "@id": `${SITE_URL}/#service`,
+            },
+            publisher: {
+                "@id": `${SITE_URL}/#org`,
+            },
+        },
+        {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+                {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: SITE_URL,
+                },
+                {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Resources",
+                    item: `${SITE_URL}/blog`,
+                },
+            ],
+        },
+    ],
 };
 
 const posts = [
@@ -58,6 +99,10 @@ export default function BlogPage() {
     return (
         <SiteChrome>
             <main className="er-page">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+                />
                 <section className="max-w-3xl">
                     <p className="er-kicker">Resources</p>
                     <h1 className="er-heading mt-4">Practical fixes for speed, SEO, and conversion</h1>

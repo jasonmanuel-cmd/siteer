@@ -9,13 +9,14 @@ import PaymentReturnNotifier from "@/components/PaymentReturnNotifier";
 import { hasCompletedLeadPayment } from "@/lib/leadFollowups";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { isStatelessReportToken, readReportToken } from "@/lib/reportToken";
+import { CANONICAL_SITE_URL } from "@/lib/siteConfig";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-const BASE_URL = "https://siteer.dev";
+const BASE_URL = CANONICAL_SITE_URL;
 
 type ScanRow = {
     id: string;

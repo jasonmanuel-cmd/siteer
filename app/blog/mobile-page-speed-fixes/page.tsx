@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
+import { SITE_URL } from "@/lib/siteSeo";
 
 export const metadata: Metadata = {
     title: "How to Fix Slow Mobile Pages in Under an Hour",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "How to Fix Slow Mobile Pages in Under an Hour",
         description: "A speed-first checklist for faster mobile landing pages.",
-        url: "https://siteer.dev/blog/mobile-page-speed-fixes",
+        url: `${SITE_URL}/blog/mobile-page-speed-fixes`,
         siteName: "SiteER",
         type: "article",
     },
@@ -20,23 +21,23 @@ const articleSchema = {
     "@type": "Article",
     headline: "How to Fix Slow Mobile Pages in Under an Hour",
     description: "A practical mobile speed checklist for business owners who need a faster page without waiting on a full redesign.",
-    image: "https://siteer.dev/og-image.png",
+    image: `${SITE_URL}/og-image.png`,
     datePublished: "2025-04-05",
     dateModified: "2025-04-25",
     author: {
         "@type": "Organization",
         name: "SiteER",
-        url: "https://siteer.dev",
+        url: SITE_URL,
     },
     publisher: {
         "@type": "Organization",
         name: "SiteER",
-        url: "https://siteer.dev",
+        url: SITE_URL,
     },
     isPartOf: {
         "@type": "Blog",
         name: "SiteER Resources",
-        url: "https://siteer.dev/blog",
+        url: `${SITE_URL}/blog`,
     },
 };
 
@@ -48,19 +49,19 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "SiteER",
-            item: "https://siteer.dev",
+            item: SITE_URL,
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Resources",
-            item: "https://siteer.dev/blog",
+            item: `${SITE_URL}/blog`,
         },
         {
             "@type": "ListItem",
             position: 3,
             name: "How to Fix Slow Mobile Pages in Under an Hour",
-            item: "https://siteer.dev/blog/mobile-page-speed-fixes",
+            item: `${SITE_URL}/blog/mobile-page-speed-fixes`,
         },
     ],
 };

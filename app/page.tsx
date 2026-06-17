@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { quickAuditOffer } from "@/lib/offers";
+import { CANONICAL_SITE_URL } from "@/lib/siteConfig";
 const SplashIntro = dynamic(() => import("@/components/SplashIntro"), { ssr: false, loading: () => null });
 const HeroUrlInput = dynamic(() => import("@/components/HeroUrlInput"), { ssr: false, loading: () => null });
 const UrlScanForm = dynamic(() => import("@/components/UrlScanForm"), { ssr: false, loading: () => null });
@@ -10,7 +11,7 @@ const LiveScanCounter = dynamic(() => import("@/components/LiveScanCounter"), { 
 // Video demo intentionally removed from homepage per design request
 import Image from "next/image";
 
-const BASE_URL = "https://siteer.dev";
+const BASE_URL = CANONICAL_SITE_URL;
 
 const faqEntities = [
     {

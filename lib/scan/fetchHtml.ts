@@ -14,7 +14,7 @@ export type FetchHtmlResult = {
 };
 
 const SCAN_USER_AGENT =
-    "SiteERBot/1.0 (+https://siteer.dev) Website audit for business owners";
+    "SiteERBot/1.0 (+https://www.siteer.dev) Website audit for business owners";
 const HTML_LIMIT_BYTES = 1_000_000;
 const MAX_REDIRECTS = 5;
 

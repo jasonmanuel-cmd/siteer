@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
+import { CANONICAL_SITE_URL } from "@/lib/siteConfig";
 
-const BASE_URL = "https://siteer.dev";
+const BASE_URL = CANONICAL_SITE_URL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const now = new Date();

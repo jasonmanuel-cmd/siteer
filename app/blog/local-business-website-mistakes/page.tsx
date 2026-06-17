@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
+import { SITE_URL } from "@/lib/siteSeo";
 
 export const metadata: Metadata = {
     title: "5 Website Mistakes That Cost Local Businesses the Most",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
         title: "5 Website Mistakes That Cost Local Businesses the Most",
         description:
             "Learn the five most common issues that quietly cost leads and how to fix them quickly.",
-        url: "https://siteer.dev/blog/local-business-website-mistakes",
+        url: `${SITE_URL}/blog/local-business-website-mistakes`,
         siteName: "SiteER",
         type: "article",
     },
@@ -21,23 +22,23 @@ const articleSchema = {
     "@type": "Article",
     headline: "5 Website Mistakes That Cost Local Businesses the Most",
     description: "A practical guide to the five most common website issues that reduce leads for local businesses: mobile UX, trust signals, speed, offer clarity, and weak CTAs.",
-    image: "https://siteer.dev/og-image.png",
+    image: `${SITE_URL}/og-image.png`,
     datePublished: "2025-04-01",
     dateModified: "2025-04-25",
     author: {
         "@type": "Organization",
         name: "SiteER",
-        url: "https://siteer.dev",
+        url: SITE_URL,
     },
     publisher: {
         "@type": "Organization",
         name: "SiteER",
-        url: "https://siteer.dev",
+        url: SITE_URL,
     },
     isPartOf: {
         "@type": "Blog",
         name: "SiteER Resources",
-        url: "https://siteer.dev/blog",
+        url: `${SITE_URL}/blog`,
     },
 };
 
@@ -49,19 +50,19 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "SiteER",
-            item: "https://siteer.dev",
+            item: SITE_URL,
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Resources",
-            item: "https://siteer.dev/blog",
+            item: `${SITE_URL}/blog`,
         },
         {
             "@type": "ListItem",
             position: 3,
             name: "5 Website Mistakes That Cost Local Businesses the Most",
-            item: "https://siteer.dev/blog/local-business-website-mistakes",
+            item: `${SITE_URL}/blog/local-business-website-mistakes`,
         },
     ],
 };

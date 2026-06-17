@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { CANONICAL_SITE_URL } from "@/lib/siteConfig";
 
 export const SITE_NAME = "SiteER";
-export const SITE_URL = "https://siteer.dev";
+export const SITE_URL = CANONICAL_SITE_URL;
 export const SITE_LOCALE = "en_US";
 export const SITE_AUTHOR_NAME = "SiteER Editorial Desk";
 export const SITE_AUTHOR_URL = `${SITE_URL}/contact`;

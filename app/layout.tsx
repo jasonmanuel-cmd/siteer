@@ -2,15 +2,20 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
 import { quickAuditOffer } from "@/lib/offers";
-import { buildGeoMetadata, buildLocalBusinessSchema } from "@/lib/siteIdentity";
+import { buildGeoMetadata, buildSiteGraphSchema } from "@/lib/siteIdentity";
+import { CANONICAL_SITE_URL } from "@/lib/siteConfig";
 import "@/app/globals.css";
 
 const TextSizeToggle = dynamic(() => import("@/components/TextSizeToggle"), { ssr: false });
-const localBusinessSchema = buildLocalBusinessSchema();
+const siteGraphSchema = buildSiteGraphSchema();
 const geoMetadata = buildGeoMetadata();
+const hasSiteVerification =
+    Boolean(process.env.GOOGLE_SITE_VERIFICATION) ||
+    Boolean(process.env.BING_SITE_VERIFICATION) ||
+    Boolean(process.env.YANDEX_SITE_VERIFICATION);
 
 export const metadata: Metadata = {
-    metadataBase: new URL("https://siteer.dev"),
+    metadataBase: new URL(CANONICAL_SITE_URL),
     title: {
         default: "SiteER — The Emergency Room for Sick Websites",
         template: "%s | SiteER",
@@ -33,7 +38,7 @@ export const metadata: Metadata = {
     },
     openGraph: {
         type: "website",
-        url: "https://siteer.dev",
+        url: CANONICAL_SITE_URL,
         siteName: "SiteER",
         title: "SiteER — The Emergency Room for Sick Websites",
         description:
@@ -55,6 +60,17 @@ export const metadata: Metadata = {
             `Find high-impact website issues in under 60 seconds, unlock the shareable summary by email, and offer the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} for the detailed treatment plan.`,
         images: ["/og-image.png"],
     },
+    verification: hasSiteVerification
+        ? {
+            google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+            yandex: process.env.YANDEX_SITE_VERIFICATION || undefined,
+            other: process.env.BING_SITE_VERIFICATION
+                ? {
+                    "msvalidate.01": process.env.BING_SITE_VERIFICATION,
+                }
+                : undefined,
+        }
+        : undefined,
     robots: {
         index: true,
         follow: true,
@@ -87,7 +103,7 @@ export default function RootLayout({
                 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
                 <script
                     type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(siteGraphSchema) }}
                 />
             </head>
             <body>
