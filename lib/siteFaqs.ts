@@ -35,7 +35,7 @@ export const siteFaqs = [
     },
     {
         q: "What does the email gate do?",
-        a: "The email gate turns an anonymous scan into a lead, generates a unique report token, stores the record, and sends you the shareable report link.",
+        a: "The email gate turns an anonymous scan into a lead, generates a unique summary report token, stores the record, and sends you the shareable link.",
     },
     {
         q: "How is money leak calculated?",

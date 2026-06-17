@@ -126,24 +126,8 @@ export async function POST(request: Request) {
         if (htmlFetchError) {
             persistedMetrics.fetch_error = htmlFetchError;
         }
-        const statelessScanId = createScanUnlockToken({
-            version: 1,
-            scan: {
-                id: "stateless",
-                created_at: new Date().toISOString(),
-                overall_grade: scores.grade,
-                speed_score: scores.speed,
-                mobile_score: scores.mobile,
-                seo_score: scores.seo,
-                trust_score: scores.trust,
-                est_monthly_loss_low: money.estMonthlyLossLow,
-                est_monthly_loss_high: money.estMonthlyLossHigh,
-                est_loss_pct: money.lossPct,
-                est_monthly_visitors: money.visitors,
-                metrics: persistedMetrics as Record<string, unknown>,
-            },
-            issues: allIssues,
-        });
+        let persistedScanId: string | null = null;
+        let persistedCreatedAt: string | null = null;
 
         try {
             const supabaseAdmin = getSupabaseAdmin();
@@ -189,13 +173,16 @@ export async function POST(request: Request) {
                     metrics: persistedMetrics as Json,
                 })
                 .select(
-                    "id,overall_grade,speed_score,mobile_score,seo_score,trust_score,est_monthly_loss_low,est_monthly_loss_high,est_loss_pct,est_monthly_visitors,est_conv_rate,est_avg_value",
+                    "id,created_at,overall_grade,speed_score,mobile_score,seo_score,trust_score,est_monthly_loss_low,est_monthly_loss_high,est_loss_pct,est_monthly_visitors,est_conv_rate,est_avg_value",
                 )
                 .single();
 
             if (scanError || !scan) {
                 throw new Error(scanError?.message || "Failed to store scan");
             }
+
+            persistedScanId = scan.id;
+            persistedCreatedAt = scan.created_at ?? new Date().toISOString();
 
             if (allIssues.length > 0) {
                 const issueRows = allIssues.map((issue) => ({
@@ -222,6 +209,25 @@ export async function POST(request: Request) {
                     : "Unknown persistence error",
             );
         }
+
+        const statelessScanId = createScanUnlockToken({
+            version: 1,
+            scan: {
+                id: persistedScanId ?? "stateless",
+                created_at: persistedCreatedAt ?? new Date().toISOString(),
+                overall_grade: scores.grade,
+                speed_score: scores.speed,
+                mobile_score: scores.mobile,
+                seo_score: scores.seo,
+                trust_score: scores.trust,
+                est_monthly_loss_low: money.estMonthlyLossLow,
+                est_monthly_loss_high: money.estMonthlyLossHigh,
+                est_loss_pct: money.lossPct,
+                est_monthly_visitors: money.visitors,
+                metrics: persistedMetrics as Record<string, unknown>,
+            },
+            issues: persistedScanId ? [] : allIssues,
+        });
 
         const topIssues = allIssues
             .slice()

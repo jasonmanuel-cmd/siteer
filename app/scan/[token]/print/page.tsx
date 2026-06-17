@@ -1,6 +1,8 @@
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { hasCompletedLeadPayment } from "@/lib/leadFollowups";
 import { isStatelessReportToken, readReportToken } from "@/lib/reportToken";
 import PrintPageButton from "@/components/PrintPageButton";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -35,6 +37,26 @@ function severityColor(severity: string) {
 }
 
 export default async function PrintPage({ params }: { params: { token: string } }) {
+    const hasPaidAccess = await hasCompletedLeadPayment(params.token).catch(() => false);
+    if (!hasPaidAccess) {
+        return (
+            <main className="light-page mx-auto flex min-h-[60vh] max-w-2xl items-center justify-center px-5 py-12">
+                <div className="w-full rounded-3xl border border-black/10 bg-white/95 p-8 text-center shadow-sm">
+                    <h1 className="text-3xl font-semibold text-slate-900">Printable report locked</h1>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">
+                        The printable treatment plan unlocks after the {`$20`} Quick ER Audit is purchased.
+                    </p>
+                    <Link
+                        href={`/scan/${params.token}`}
+                        className="mt-6 inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+                    >
+                        Back to report
+                    </Link>
+                </div>
+            </main>
+        );
+    }
+
     let scan:
         | {
             id: string;

@@ -174,7 +174,7 @@ export default function UrlScanForm() {
             <div style={{ borderRadius: 30, background: "rgba(255,255,255,.075)", border: "1px solid rgba(255,255,255,.14)", boxShadow: "0 24px 80px rgba(0,0,0,.38)", padding: 26, overflow: "hidden" }}>
                 <h3 style={{ fontSize: "1.55rem", letterSpacing: "-.04em", marginBottom: 10 }}>Start your free scan</h3>
                 <p style={{ color: "var(--er-muted)", lineHeight: 1.65, marginBottom: 20 }}>
-                    In about 60 seconds, you'll see your A–F grade, estimated monthly money leak, and top 3 critical symptoms. The full ER chart and {quickAuditOffer.priceLabel} human audit option come right after.
+                    In about 60 seconds, you'll see your A–F grade, estimated monthly money leak, and top 3 critical symptoms. The shareable summary link comes right after. The detailed treatment plan unlocks with the {quickAuditOffer.priceLabel} audit.
                 </p>
 
                 <div style={{ display: "grid", gap: 9, marginBottom: 20 }}>
@@ -185,7 +185,7 @@ export default function UrlScanForm() {
                         <strong style={{ color: "white" }}>2.</strong> Estimated monthly money leak, so the damage is easy to understand
                     </div>
                     <div style={{ borderRadius: 14, padding: "14px 14px", border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.035)", color: "var(--er-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
-                        <strong style={{ color: "white" }}>3.</strong> Top symptoms now, then the full ER chart and {quickAuditOffer.priceLabel} human action plan
+                        <strong style={{ color: "white" }}>3.</strong> Top symptoms now, then the shareable summary report and {quickAuditOffer.priceLabel} detailed audit
                     </div>
                 </div>
 
@@ -381,7 +381,7 @@ export default function UrlScanForm() {
                             <div>
                                 <strong style={{ display: "block", color: "white", fontSize: "1.05rem" }}>Example preview</strong>
                                 <p style={{ marginTop: 6, fontSize: "0.9rem", lineHeight: 1.6 }}>
-                                    Owners who see anything below a B usually unlock the full ER chart. The ones with leaks over $1,000/mo almost always add the {quickAuditOffer.priceLabel} audit.
+                                    Owners who see anything below a B usually open the shareable summary. The ones with leaks over $1,000/mo almost always add the {quickAuditOffer.priceLabel} audit for the detailed next steps.
                                 </p>
                             </div>
                             <div style={{ width: 78, height: 78, borderRadius: 22, display: "grid", placeItems: "center", fontSize: "2.7rem", fontWeight: 900, letterSpacing: "-.08em", color: "#1b080a", background: "linear-gradient(135deg, #ffb15c, #ff4d5e)", flexShrink: 0 }}>
@@ -452,7 +452,7 @@ export default function UrlScanForm() {
                                 <div style={{ border: "1px solid rgba(255,255,255,.2)", borderRadius: 18, padding: "10px 14px", background: "rgba(255,255,255,.08)", minWidth: 150 }}>
                                     <div style={{ color: "var(--er-muted)", fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 800 }}>Next step</div>
                                     <strong style={{ display: "block", fontSize: "0.95rem", marginTop: 3 }}>{quickAuditOffer.priceLabel} {quickAuditOffer.name}</strong>
-                                    <span style={{ color: "var(--er-muted)", fontSize: "0.8rem" }}>Inside full report</span>
+                                    <span style={{ color: "var(--er-muted)", fontSize: "0.8rem" }}>Unlocks detailed plan</span>
                                 </div>
                             </div>
                         )}
@@ -480,9 +480,9 @@ export default function UrlScanForm() {
                         <div style={{ marginTop: 8, padding: 16, borderRadius: 22, background: "rgba(0,0,0,.18)", border: "1px solid rgba(255,255,255,.1)" }}>
                             {!reportUrl ? (
                                 <form onSubmit={captureLead}>
-                                    <strong style={{ fontSize: "0.95rem" }}>Unlock the full shareable report</strong>
+                                    <strong style={{ fontSize: "0.95rem" }}>Unlock the shareable summary report</strong>
                                     <p style={{ margin: "6px 0 12px", color: "var(--er-muted)", lineHeight: 1.55, fontSize: "0.88rem" }}>
-                                        Enter your email to receive the permanent report link with every issue and recommendation. The full report also includes the {quickAuditOffer.priceLabel} {quickAuditOffer.name} if you want a human action plan.
+                                        Enter your email to receive the permanent report link with your grade, money leak estimate, and summary symptoms. The detailed treatment plan unlocks with the {quickAuditOffer.priceLabel} {quickAuditOffer.name}.
                                     </p>
                                     <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                                         <input
@@ -507,7 +507,7 @@ export default function UrlScanForm() {
                                 <div>
                                     <strong style={{ fontSize: "0.95rem", color: "var(--er-green)" }}>Report ready</strong>
                                     <p style={{ margin: "6px 0 12px", color: "var(--er-muted)", lineHeight: 1.55, fontSize: "0.88rem" }}>
-                                        Open your full report, share it with your team, and use the built-in {quickAuditOffer.priceLabel} {quickAuditOffer.name} option if you want human next steps.
+                                        Open your shareable summary report, forward it to your team, and use the built-in {quickAuditOffer.priceLabel} {quickAuditOffer.name} option if you want the detailed plan.
                                     </p>
                                     <a href={reportUrl} style={{ display: "block", borderRadius: 14, border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.06)", padding: "12px 16px", fontSize: "0.85rem", wordBreak: "break-all", color: "var(--er-cyan)", marginBottom: 12 }}>
                                         {reportUrl}

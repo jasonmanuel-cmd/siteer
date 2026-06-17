@@ -32,7 +32,7 @@ const reportFaqs = [
     },
     {
         question: "Where does the $20 audit appear?",
-        answer: "The Quick ER Audit appears inside the full report as the next paid step when the owner wants human prioritization.",
+        answer: "The Quick ER Audit appears after the free summary report as the paid step that unlocks the detailed treatment plan and human prioritization.",
     },
 ] as const;
 
@@ -89,7 +89,7 @@ export default function ReportsPage() {
                             This is the report people actually forward to the developer.
                         </h1>
                         <p className="er-copy mt-4">
-                            SiteER is not just a score screen. The report turns the scan into a usable treatment plan: grade, issue priority, money leak estimate, and the fastest next move, including the {quickAuditOffer.priceLabel} {quickAuditOffer.name} when a human review makes sense.
+                            SiteER is not just a score screen. The free summary gives the owner the grade, issue snapshot, and money leak estimate. The {quickAuditOffer.priceLabel} {quickAuditOffer.name} unlocks the detailed treatment plan when a deeper next move is needed.
                         </p>
                         <div className="mt-7 flex flex-wrap gap-3">
                             <a className="er-button-primary" href="/#diagnosis">Run Free Scan →</a>
@@ -128,7 +128,7 @@ export default function ReportsPage() {
 
                 <section className="mt-12 grid gap-5 md:grid-cols-3">
                     {[
-                        ["Unlocked by email", "The free teaser shows the grade and top symptoms. The full ER chart unlocks by email so the report can stay private and shareable."],
+                        ["Unlocked by email", "The free teaser shows the grade and top symptoms. The shareable summary unlocks by email so the owner can forward the report without exposing the full treatment plan."],
                         ["Built for sharing", "Forward it to a developer, a client, or your own team without having to translate a pile of technical jargon."],
                         ["Tied to action", `Every report points to pricing, FAQ, the ${quickAuditOffer.priceLabel} audit, and implementation options so the next step is obvious.`],
                     ].map(([title, text]) => (

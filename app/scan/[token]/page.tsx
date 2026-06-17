@@ -3,8 +3,10 @@ const PrintReportButton = nextDynamic(() => import("@/components/PrintReportButt
 const BuyReportButton = nextDynamic(() => import("@/components/BuyReportButton"), { ssr: false, loading: () => null });
 const MoneyLeak = nextDynamic(() => import("@/components/MoneyLeak"), { ssr: false, loading: () => null });
 const VitalSigns = nextDynamic(() => import("@/components/VitalSigns"), { ssr: false, loading: () => null });
+const PaidAccessWatcher = nextDynamic(() => import("@/components/PaidAccessWatcher"), { ssr: false, loading: () => null });
 import TreatmentPlan from "@/components/TreatmentPlan";
 import PaymentReturnNotifier from "@/components/PaymentReturnNotifier";
+import { hasCompletedLeadPayment } from "@/lib/leadFollowups";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { isStatelessReportToken, readReportToken } from "@/lib/reportToken";
 import type { Metadata } from "next";
@@ -103,7 +105,7 @@ export async function generateMetadata({ params }: { params: { token: string } }
         if (!scan) {
             return {
                 title: "SiteER Report",
-                description: "View your SiteER scan results and treatment plan.",
+                description: "View your SiteER scan summary and paid treatment plan.",
                 robots: {
                     index: false,
                     follow: false,
@@ -113,14 +115,14 @@ export async function generateMetadata({ params }: { params: { token: string } }
 
         return {
             title: `SiteER Report - Grade ${scan.overall_grade}`,
-            description: `View the SiteER scan for this site. Grade ${scan.overall_grade} across speed, mobile, SEO, and trust with a prioritized treatment plan.`,
+            description: `View the SiteER scan for this site. Grade ${scan.overall_grade} across speed, mobile, SEO, and trust with a free summary and paid treatment plan.`,
             robots: {
                 index: false,
                 follow: false,
             },
             openGraph: {
                 title: `SiteER Report - Grade ${scan.overall_grade}`,
-                description: `Scan results for this site with a prioritized treatment plan.`,
+                description: `Scan results for this site with a free summary and paid treatment plan.`,
                 url: `${BASE_URL}/scan/${params.token}`,
                 siteName: "SiteER",
                 type: "website",
@@ -129,7 +131,7 @@ export async function generateMetadata({ params }: { params: { token: string } }
     } catch {
         return {
             title: "SiteER Report",
-            description: "View your SiteER scan results and treatment plan.",
+            description: "View your SiteER scan summary and paid treatment plan.",
             robots: {
                 index: false,
                 follow: false,
@@ -146,7 +148,7 @@ export default async function ReportPage({
     searchParams: { paid?: string; buyer?: string; confirm?: string };
 }) {
     const token = params.token;
-    const isPaid = searchParams.paid === "true";
+    const paymentRequested = searchParams.paid === "true";
     let reportData: ReportViewModel | null = null;
 
     if (isStatelessReportToken(token)) {
@@ -208,16 +210,19 @@ export default async function ReportPage({
     const { scan, issues } = reportData;
     const buyerEmail = searchParams.buyer?.trim().toLowerCase();
     const confirmToken = searchParams.confirm?.trim();
+    const hasPaidAccess = await hasCompletedLeadPayment(token).catch(() => false);
+    const awaitingPaymentAccess = paymentRequested && !hasPaidAccess;
 
     return (
         <main className="light-page mx-auto max-w-6xl px-5 py-8 md:px-8 md:py-12">
-            {isPaid && buyerEmail && confirmToken ? (
+            {paymentRequested && buyerEmail && confirmToken ? (
                 <PaymentReturnNotifier
                     reportToken={token}
                     email={buyerEmail}
                     confirmToken={confirmToken}
                 />
             ) : null}
+            <PaidAccessWatcher reportToken={token} enabled={awaitingPaymentAccess} />
             <header className="flex flex-wrap items-center justify-between gap-3">
                 <a className="flex items-center gap-3 text-sm font-semibold tracking-tight" href="/">
                     <Image
@@ -237,6 +242,12 @@ export default async function ReportPage({
                     </a>
                 </div>
             </header>
+
+            {awaitingPaymentAccess ? (
+                <section className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900 shadow-sm">
+                    Payment detected. We are waiting for Square to finish confirming the charge before unlocking the full audit. This page refreshes automatically for a short time.
+                </section>
+            ) : null}
 
             <section className="mt-10 flex flex-wrap items-start justify-between gap-5">
                 <div>
@@ -274,9 +285,11 @@ export default async function ReportPage({
                     >
                         Get a Fix Quote
                     </a>
-                    <p className="mt-3 text-xs text-black/50">Typical turnaround is 3-7 business days. Need the exact next steps first? Unlock the $20 Quick ER Audit below.</p>
+                    <p className="mt-3 text-xs text-black/50">
+                        Typical turnaround is 3-7 business days. The free report gives you the summary. The detailed treatment plan and printable version unlock after purchase.
+                    </p>
 
-                    {isPaid ? (
+                    {hasPaidAccess ? (
                         <a
                             href={`/scan/${token}/print`}
                             target="_blank"
@@ -296,7 +309,7 @@ export default async function ReportPage({
             </section>
 
             <section className="mt-8">
-                <TreatmentPlan issues={issues || []} />
+                <TreatmentPlan issues={issues || []} locked={!hasPaidAccess} />
             </section>
 
             {/* COAIBAKERSFIELD attribution */}

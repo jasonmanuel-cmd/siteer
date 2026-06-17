@@ -1,3 +1,5 @@
+import { quickAuditOffer } from "@/lib/offers";
+
 type IssueRow = {
     id: string;
     severity: string;
@@ -18,19 +20,28 @@ function badgeClass(severity: string): string {
     return "bg-emerald-100 text-emerald-700 border-emerald-200";
 }
 
-export default function TreatmentPlan({ issues }: { issues: IssueRow[] }) {
+export default function TreatmentPlan({
+    issues,
+    locked = false,
+}: {
+    issues: IssueRow[];
+    locked?: boolean;
+}) {
     const sorted = [...issues].sort(
         (a, b) => rankSeverity(b.severity) - rankSeverity(a.severity),
     );
+    const visibleIssues = locked ? sorted.slice(0, 3) : sorted.slice(0, 12);
 
     return (
         <section className="rounded-2xl border border-black/10 bg-white/95 p-6 shadow-sm">
-            <h2 className="text-xl font-semibold">Treatment Plan</h2>
+            <h2 className="text-xl font-semibold">{locked ? "Treatment Plan Preview" : "Treatment Plan"}</h2>
             <p className="mt-2 text-sm text-black/60">
-                High-impact actions in plain English, ordered by urgency.
+                {locked
+                    ? `The full fix-by-fix recommendations unlock after the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}.`
+                    : "High-impact actions in plain English, ordered by urgency."}
             </p>
             <div className="mt-6 space-y-4">
-                {sorted.slice(0, 12).map((issue) => (
+                {visibleIssues.map((issue) => (
                     <article
                         key={issue.id}
                         className="rounded-xl border border-black/10 bg-white p-5"
@@ -43,7 +54,11 @@ export default function TreatmentPlan({ issues }: { issues: IssueRow[] }) {
                                 {issue.severity}
                             </span>
                         </div>
-                        <p className="mt-2 text-sm text-black/65">{issue.recommendation}</p>
+                        <p className="mt-2 text-sm text-black/65">
+                            {locked
+                                ? `Detailed recommendation hidden until the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} is purchased.`
+                                : issue.recommendation}
+                        </p>
                         <div className="mt-3 text-xs uppercase tracking-wide text-black/45">
                             Category: {issue.category}
                         </div>
@@ -55,6 +70,11 @@ export default function TreatmentPlan({ issues }: { issues: IssueRow[] }) {
                     </div>
                 ) : null}
             </div>
+            {locked && sorted.length > visibleIssues.length ? (
+                <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                    {sorted.length - visibleIssues.length} more issue{sorted.length - visibleIssues.length === 1 ? "" : "s"} and all step-by-step recommendations stay locked until payment.
+                </div>
+            ) : null}
         </section>
     );
 }

@@ -19,7 +19,7 @@ const faqEntities = [
     },
     {
         question: "What does the email gate do?",
-        answer: "The email gate turns an anonymous scan into a lead, generates a unique report link, stores the record, and sends the shareable report URL.",
+        answer: "The email gate turns an anonymous scan into a lead, generates a unique summary report link, stores the record, and sends the shareable URL.",
     },
     {
         question: "How is money leak calculated?",
@@ -160,8 +160,8 @@ export default function HomePage() {
                             <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10, maxWidth: 710 }}>
                                 {[
                                     { step: "Step 1", title: "Intake", desc: "Run the free scan and see the damage fast." },
-                                    { step: "Step 2", title: "Diagnosis", desc: "Unlock the full ER chart by email." },
-                                    { step: "Step 3", title: "Treatment plan", desc: `${quickAuditOffer.priceLabel} human action plan if needed.` },
+                                    { step: "Step 2", title: "Diagnosis", desc: "Unlock the shareable summary by email." },
+                                    { step: "Step 3", title: "Treatment plan", desc: `${quickAuditOffer.priceLabel} detailed audit if needed.` },
                                 ].map((item) => (
                                     <div key={item.step} style={{ borderRadius: 18, padding: "14px 16px", background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.12)" }}>
                                         <div style={{ color: "#ffb6bf", fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 900 }}>{item.step}</div>
@@ -276,7 +276,7 @@ export default function HomePage() {
                                 <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em" }}>Run a real scan on your actual site.</h2>
                             </div>
                             <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
-                                This isn't a demo. Enter your real URL, get your real grade, and see your real money leak. If the numbers hurt, the {quickAuditOffer.priceLabel} Quick ER Audit is waiting inside your private report.
+                                This isn't a demo. Enter your real URL, get your real grade, and see your real money leak. If the numbers hurt, the {quickAuditOffer.priceLabel} Quick ER Audit unlocks the detailed treatment plan inside your private report.
                             </p>
                         </div>
                         <UrlScanForm />
@@ -363,7 +363,7 @@ export default function HomePage() {
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18 }}>
                             {[
-                                { title: "Reports", desc: "See exactly what's inside the full ER chart before you unlock it.", href: "/reports" },
+                                { title: "Reports", desc: "See what the free summary and paid treatment plan look like.", href: "/reports" },
                                 { title: "Pricing", desc: `Free scan vs. ${quickAuditOffer.priceLabel} Quick ER Audit vs. implementation.`, href: "/pricing" },
                                 { title: "FAQ", desc: "Common questions business owners ask before running their first scan.", href: "/faq" },
                                 { title: "Bakersfield website audits", desc: "Local landing page for Kern County businesses that want faster calls, forms, and trust.", href: "/bakersfield-website-audit" },

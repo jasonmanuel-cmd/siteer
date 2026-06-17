@@ -65,6 +65,27 @@ async function finalizeLeadCapture(params: {
     }
 }
 
+async function createPersistentReportToken(_email: string, scanId: string): Promise<string> {
+    const supabaseAdmin = getSupabaseAdmin();
+    const token = crypto.randomBytes(16).toString("hex");
+
+    const { data: report, error: reportError } = await supabaseAdmin
+        .from("reports")
+        .insert({
+            id: crypto.randomUUID(),
+            scan_id: scanId,
+            public_token: token,
+        })
+        .select("public_token")
+        .single();
+
+    if (reportError || !report) {
+        throw new Error(reportError?.message || "Failed to create report link");
+    }
+
+    return report.public_token;
+}
+
 export async function POST(request: Request) {
     const ip = getClientIp(request);
     const limiter = consumeRateLimit(`lead:${ip}`, 5, 60_000);
@@ -89,7 +110,11 @@ export async function POST(request: Request) {
             if (!payload) {
                 throw new Error("Invalid scan token");
             }
-            const reportToken = createReportToken(payload);
+
+            const persistedScanId = z.string().uuid().safeParse(payload.scan.id);
+            const reportToken = persistedScanId.success
+                ? await createPersistentReportToken(email, persistedScanId.data)
+                : createReportToken(payload);
             const reportUrl = `${appUrl}/scan/${reportToken}`;
             await finalizeLeadCapture({
                 email,
@@ -126,55 +151,13 @@ export async function POST(request: Request) {
         if (!parsedScanId.success) {
             throw new Error("Invalid scan ID");
         }
-
-        const supabaseAdmin = getSupabaseAdmin();
-
-        let lead: { id: string; email: string } | null = null;
-        const { data: inserted, error: insertError } = await supabaseAdmin
-            .from("leads")
-            .insert({ email })
-            .select("id,email")
-            .single();
-
-        if (insertError) {
-            if (insertError.code === "23505") {
-                const { data: existing } = await supabaseAdmin
-                    .from("leads")
-                    .select("id,email")
-                    .eq("email", email)
-                    .single();
-                lead = existing;
-            } else {
-                throw new Error(insertError.message || "Failed to capture lead");
-            }
-        } else {
-            lead = inserted;
-        }
-
-        if (!lead) throw new Error("Failed to capture lead");
-
-        const token = crypto.randomBytes(16).toString("hex");
-
-        const { data: report, error: reportError } = await supabaseAdmin
-            .from("reports")
-            .insert({
-                scan_id: parsedScanId.data,
-                lead_id: lead.id,
-                public_token: token,
-            })
-            .select("public_token")
-            .single();
-
-        if (reportError || !report) {
-            throw new Error(reportError?.message || "Failed to create report link");
-        }
-
-        const reportUrl = `${appUrl}/scan/${report.public_token}`;
+        const reportToken = await createPersistentReportToken(email, parsedScanId.data);
+        const reportUrl = `${appUrl}/scan/${reportToken}`;
 
         await finalizeLeadCapture({
             email,
             scanId: body.scanId,
-            reportToken: report.public_token,
+            reportToken,
             reportUrl,
         });
 

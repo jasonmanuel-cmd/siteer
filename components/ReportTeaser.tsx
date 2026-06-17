@@ -220,14 +220,14 @@ export default function ReportTeaser({
 
                 <div className="mt-6 rounded-2xl border border-black/10 bg-black/[0.03] p-4">
                     <p id="report-teaser-description" className="sr-only">
-                        Summary of your scan results with a field to unlock the full report by email.
+                        Summary of your scan results with a field to unlock the shareable summary report by email.
                     </p>
                     {!reportUrl ? (
                         <>
-                            <div className="text-sm font-semibold">Unlock the full ER report</div>
+                            <div className="text-sm font-semibold">Unlock the shareable summary report</div>
                             <p className="mt-1 text-sm text-black/65">
-                                Enter your email to get the full treatment plan and a shareable
-                                report link.
+                                Enter your email to get the shareable summary link. The detailed
+                                treatment plan unlocks with the paid audit.
                             </p>
                             <div className="mt-4 flex flex-col gap-3 md:flex-row">
                                 <label className="sr-only" htmlFor={emailInputId}>
@@ -258,7 +258,7 @@ export default function ReportTeaser({
                         <>
                             <div className="text-sm font-semibold">Report ready</div>
                             <p className="mt-1 text-sm text-black/65">
-                                Open your full report and share it with your team.
+                                Open your shareable summary report and forward it to your team.
                             </p>
                             <a
                                 className="mt-3 block rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-red-300 hover:text-red-700 transition-colors"

@@ -49,7 +49,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "SiteER — The Emergency Room for Sick Websites",
         description:
-            `Find high-impact website issues in under 60 seconds, unlock the full report by email, and offer the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name}.`,
+            `Find high-impact website issues in under 60 seconds, unlock the shareable summary by email, and offer the ${quickAuditOffer.priceLabel} ${quickAuditOffer.name} for the detailed treatment plan.`,
         images: ["/og-image.png"],
     },
     robots: {
