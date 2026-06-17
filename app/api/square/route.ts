@@ -11,12 +11,13 @@ import {
     isStatelessReportToken,
     isValidStatelessReportToken,
 } from "@/lib/reportToken";
+import { formatPublicValidationError } from "@/lib/publicValidation";
 
 export const runtime = "nodejs";
 
 const SquareSchema = z.object({
-    reportToken: z.string().min(1),
-    email: z.string().email().optional(),
+    reportToken: z.string().trim().min(1).max(4096),
+    email: z.string().trim().email().max(254).optional(),
 });
 
 export async function POST(request: Request) {
@@ -149,15 +150,28 @@ export async function POST(request: Request) {
         });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Payment setup failed";
-        
-        // Sanitize error message to not expose internal implementation
-        const sanitizedError = message.includes("Square") ||
+
+        const sanitizedError = error instanceof z.ZodError
+            ? formatPublicValidationError(error, {
+                fieldLabels: {
+                    reportToken: "report link",
+                    email: "email address",
+                },
+                fieldMessages: {
+                    reportToken: "That report link is no longer valid. Please reopen your report and try again.",
+                    email: "Please enter a valid email address.",
+                },
+            })
+            : message.includes("Invalid report token") ||
+                               message.includes("Report not found")
+            ? "That report link is no longer valid. Please reopen your report and try again."
+            : message.includes("Square") ||
                                message.includes("Supabase") ||
                                message.includes("connection") ||
                                message.includes("timeout")
             ? "Failed to set up payment. Please try again."
             : message;
-        
+
         console.error("[/api/square] Error:", message);
         return NextResponse.json({ ok: false, error: sanitizedError }, { status: 400 });
     }

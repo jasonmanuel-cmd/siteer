@@ -104,13 +104,14 @@ export default function ReportTeaser({
     }, [onClose]);
 
     async function captureLead() {
+        const normalizedEmail = email.trim().toLowerCase();
         setSubmitting(true);
         setError(null);
         try {
             const response = await fetch("/api/lead", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify({ email, scanId: teaser.scanId }),
+                body: JSON.stringify({ email: normalizedEmail, scanId: teaser.scanId }),
             });
 
             const payload = (await response.json()) as {
@@ -238,20 +239,24 @@ export default function ReportTeaser({
                                     type="email"
                                     placeholder="you@business.com"
                                     value={email}
-                                    onChange={(event) => setEmail(event.target.value)}
+                                    onChange={(event) => {
+                                        setEmail(event.target.value);
+                                        if (error) setError(null);
+                                    }}
                                     autoComplete="email"
+                                    maxLength={254}
                                     autoFocus
                                 />
                                 <Button
                                     type="button"
                                     onClick={captureLead}
-                                    disabled={submitting || !email}
+                                    disabled={submitting || !email.trim()}
                                 >
                                     {submitting ? "Unlocking..." : "Unlock Full Report"}
                                 </Button>
                             </div>
                             {error ? (
-                                <p className="mt-2 text-sm text-red-700">{error}</p>
+                                <p aria-live="polite" className="mt-2 text-sm text-red-700">{error}</p>
                             ) : null}
                         </>
                     ) : (

@@ -13,6 +13,7 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
 
     async function handlePurchase(e: React.FormEvent) {
         e.preventDefault();
+        const normalizedEmail = email.trim().toLowerCase();
         setLoading(true);
         setError("");
         trackEvent("audit_checkout_started", {
@@ -23,7 +24,7 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
             const res = await fetch("/api/square", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify({ reportToken, email }),
+                body: JSON.stringify({ reportToken, email: normalizedEmail }),
             });
             const data = await res.json() as {
                 checkoutUrl?: string;
@@ -81,12 +82,17 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
                 <input
                     required
                     type="email"
+                    autoComplete="email"
+                    maxLength={254}
                     placeholder="your@email.com"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (error) setError("");
+                    }}
                     className="rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-red-400 focus:outline-none"
                 />
-                {error && <p className="text-xs text-red-600">{error}</p>}
+                {error && <p aria-live="polite" className="text-xs text-red-600">{error}</p>}
                 {error ? (
                     <p className="text-xs text-slate-600">
                         Need the audit now?{" "}
@@ -99,7 +105,7 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
                 <div className="flex gap-2">
                     <button
                         type="submit"
-                        disabled={loading}
+                        disabled={loading || !email.trim()}
                         className="flex-1 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
                     >
                         {loading ? "Redirecting..." : "Pay with Square →"}

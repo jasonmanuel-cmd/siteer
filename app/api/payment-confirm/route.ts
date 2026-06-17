@@ -10,13 +10,14 @@ import {
     isValidStatelessReportToken,
     verifyPaymentConfirmToken,
 } from "@/lib/reportToken";
+import { formatPublicValidationError } from "@/lib/publicValidation";
 
 export const runtime = "nodejs";
 
 const PaymentConfirmSchema = z.object({
-    reportToken: z.string().min(1),
-    email: z.string().email(),
-    confirmToken: z.string().min(1),
+    reportToken: z.string().trim().min(1).max(4096),
+    email: z.string().trim().email().max(254),
+    confirmToken: z.string().trim().min(1).max(4096),
 });
 
 export async function POST(request: Request) {
@@ -94,7 +95,25 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Payment confirmation failed";
+        const publicMessage = error instanceof z.ZodError
+            ? formatPublicValidationError(error, {
+                fieldLabels: {
+                    reportToken: "report link",
+                    email: "email address",
+                    confirmToken: "payment return link",
+                },
+                fieldMessages: {
+                    reportToken: "That report link is no longer valid. Please reopen your report and try again.",
+                    email: "Please enter a valid email address.",
+                    confirmToken: "We could not verify the payment return automatically. Please reopen your report and try again.",
+                },
+            })
+            : message.includes("Invalid report token") ||
+                               message.includes("Invalid payment confirmation token") ||
+                               message.includes("Report not found")
+            ? "We could not verify this payment return automatically. Please reopen your report and try again."
+            : message;
         console.error("[/api/payment-confirm] Error:", message);
-        return NextResponse.json({ ok: false, error: message }, { status: 400 });
+        return NextResponse.json({ ok: false, error: publicMessage }, { status: 400 });
     }
 }

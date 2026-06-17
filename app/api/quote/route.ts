@@ -7,16 +7,17 @@ import { consumeRateLimit, getClientIp } from "@/lib/rateLimit";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { logPayment, logQuote } from "@/lib/googleSheets";
 import { getInternalNotificationRecipients, sendResendEmail } from "@/lib/resend";
+import { formatPublicValidationError } from "@/lib/publicValidation";
 
 export const runtime = "nodejs";
 
 const QuoteSchema = z.object({
-    firstName: z.string().min(1),
-    lastName: z.string().min(1),
-    email: z.string().email(),
-    phone: z.string().optional(),
-    businessName: z.string().min(1),
-    websiteUrl: z.string().url().optional().or(z.literal("")),
+    firstName: z.string().trim().min(1).max(80),
+    lastName: z.string().trim().min(1).max(80),
+    email: z.string().trim().email().max(254),
+    phone: z.string().trim().max(30).optional(),
+    businessName: z.string().trim().min(1).max(120),
+    websiteUrl: z.string().trim().url().max(2048).optional().or(z.literal("")),
 });
 
 export async function POST(request: Request) {
@@ -176,16 +177,31 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true, checkoutUrl: paymentLink.url });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Quote submission failed";
-        
-        // Sanitize error message to not expose internal implementation
-        const sanitizedError = message.includes("Square")
+
+        const sanitizedError = error instanceof z.ZodError
+            ? formatPublicValidationError(error, {
+                fieldLabels: {
+                    firstName: "first name",
+                    lastName: "last name",
+                    email: "email address",
+                    phone: "phone number",
+                    businessName: "business name",
+                    websiteUrl: "website URL",
+                },
+                fieldMessages: {
+                    email: "Please enter a valid email address.",
+                    websiteUrl: "Please enter a full website URL like https://yourbusiness.com.",
+                    phone: "Please enter a valid phone number.",
+                },
+            })
+            : message.includes("Square")
             ? "Your quote was received, but the $200 deposit checkout could not start. Please contact Jason directly."
             : message.includes("Supabase") ||
                                message.includes("connection") ||
                                message.includes("timeout")
             ? "Failed to submit your quote. Please try again or contact support."
             : message;
-        
+
         console.error("[/api/quote] Error:", message);
         return NextResponse.json({ ok: false, error: sanitizedError }, { status: 400 });
     }

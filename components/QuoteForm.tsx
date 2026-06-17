@@ -38,30 +38,41 @@ export default function QuoteForm() {
 
     function set(field: keyof FormState, value: string) {
         setForm((f) => ({ ...f, [field]: value }));
+        if (errorMsg) setErrorMsg("");
+        if (status === "error") setStatus("idle");
     }
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
+        const payload = {
+            firstName: form.firstName.trim(),
+            lastName: form.lastName.trim(),
+            email: form.email.trim().toLowerCase(),
+            phone: form.phone.trim(),
+            businessName: form.businessName.trim(),
+            websiteUrl: form.websiteUrl.trim(),
+        };
+
         setStatus("submitting");
         setErrorMsg("");
         trackEvent("quote_checkout_started", {
-            has_phone: Boolean(form.phone.trim()),
-            has_website: Boolean(form.websiteUrl.trim()),
+            has_phone: Boolean(payload.phone),
+            has_website: Boolean(payload.websiteUrl),
             price_cents: fixPackDepositOffer.priceCents,
         });
         try {
             const res = await fetch("/api/quote", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify(form),
+                body: JSON.stringify(payload),
             });
             const data = await res.json();
             if (!res.ok || !data.ok) throw new Error(data.error || "Submission failed");
 
             if (typeof data.checkoutUrl === "string") {
                 trackEvent("quote_checkout_redirected", {
-                    has_phone: Boolean(form.phone.trim()),
-                    has_website: Boolean(form.websiteUrl.trim()),
+                    has_phone: Boolean(payload.phone),
+                    has_website: Boolean(payload.websiteUrl),
                     price_cents: fixPackDepositOffer.priceCents,
                 });
                 setStatus("redirecting");
@@ -138,24 +149,28 @@ export default function QuoteForm() {
             <div className="grid gap-5 md:grid-cols-2">
                 <div>
                     <label htmlFor="quote-first-name" className={labelClass}>First Name <span className="text-red-500">*</span></label>
-                    <input
-                        id="quote-first-name"
-                        required
-                        className={inputClass}
-                        placeholder="Jane"
-                        value={form.firstName}
-                        onChange={(e) => set("firstName", e.target.value)}
+                <input
+                    id="quote-first-name"
+                    required
+                    autoComplete="given-name"
+                    maxLength={80}
+                    className={inputClass}
+                    placeholder="Jane"
+                    value={form.firstName}
+                    onChange={(e) => set("firstName", e.target.value)}
                     />
                 </div>
                 <div>
                     <label htmlFor="quote-last-name" className={labelClass}>Last Name <span className="text-red-500">*</span></label>
-                    <input
-                        id="quote-last-name"
-                        required
-                        className={inputClass}
-                        placeholder="Smith"
-                        value={form.lastName}
-                        onChange={(e) => set("lastName", e.target.value)}
+                <input
+                    id="quote-last-name"
+                    required
+                    autoComplete="family-name"
+                    maxLength={80}
+                    className={inputClass}
+                    placeholder="Smith"
+                    value={form.lastName}
+                    onChange={(e) => set("lastName", e.target.value)}
                     />
                 </div>
             </div>
@@ -166,6 +181,8 @@ export default function QuoteForm() {
                     id="quote-email"
                     required
                     type="email"
+                    autoComplete="email"
+                    maxLength={254}
                     className={inputClass}
                     placeholder="jane@yourbusiness.com"
                     value={form.email}
@@ -178,6 +195,8 @@ export default function QuoteForm() {
                 <input
                     id="quote-phone"
                     type="tel"
+                    autoComplete="tel"
+                    maxLength={30}
                     className={inputClass}
                     placeholder="(661) 555-0100"
                     value={form.phone}
@@ -190,6 +209,8 @@ export default function QuoteForm() {
                 <input
                     id="quote-business-name"
                     required
+                    autoComplete="organization"
+                    maxLength={120}
                     className={inputClass}
                     placeholder="Acme Co."
                     value={form.businessName}
@@ -202,6 +223,8 @@ export default function QuoteForm() {
                 <input
                     id="quote-website-url"
                     type="url"
+                    autoComplete="url"
+                    maxLength={2048}
                     className={inputClass}
                     placeholder="https://yourbusiness.com"
                     value={form.websiteUrl}
@@ -210,7 +233,7 @@ export default function QuoteForm() {
             </div>
 
             {status === "error" && (
-                <p className="rounded-xl px-4 py-3 text-sm text-red-400" style={{ border: "1px solid rgba(255,77,94,0.3)", background: "rgba(255,77,94,0.1)" }}>
+                <p aria-live="polite" className="rounded-xl px-4 py-3 text-sm text-red-400" style={{ border: "1px solid rgba(255,77,94,0.3)", background: "rgba(255,77,94,0.1)" }}>
                     {errorMsg}
                 </p>
             )}

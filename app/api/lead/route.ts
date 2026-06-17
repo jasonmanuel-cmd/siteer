@@ -14,12 +14,13 @@ import {
     isValidStatelessReportToken,
     readScanUnlockToken,
 } from "@/lib/reportToken";
+import { formatPublicValidationError } from "@/lib/publicValidation";
 
 export const runtime = "nodejs";
 
 const LeadSchema = z.object({
-    email: z.string().email(),
-    scanId: z.string().min(1),
+    email: z.string().trim().email().max(254),
+    scanId: z.string().trim().min(1).max(4096),
 });
 
 async function finalizeLeadCapture(params: {
@@ -168,14 +169,28 @@ export async function POST(request: Request) {
         });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Lead capture failed";
-        
-        // Sanitize error message to not expose internal implementation
-        const sanitizedError = message.includes("Supabase") ||
+
+        const sanitizedError = error instanceof z.ZodError
+            ? formatPublicValidationError(error, {
+                fieldLabels: {
+                    email: "email address",
+                    scanId: "report link",
+                },
+                fieldMessages: {
+                    email: "Please enter a valid email address.",
+                    scanId: "That report link is no longer valid. Please run a new scan.",
+                },
+            })
+            : message.includes("Invalid scan token") ||
+                               message.includes("Invalid report token") ||
+                               message.includes("Invalid scan ID")
+            ? "That report link is no longer valid. Please run a new scan."
+            : message.includes("Supabase") ||
                                message.includes("connection") ||
                                message.includes("timeout")
             ? "Failed to capture your email. Please try again."
             : message;
-        
+
         console.error("[/api/lead] Error:", message);
         return NextResponse.json({ ok: false, error: sanitizedError }, { status: 400 });
     }

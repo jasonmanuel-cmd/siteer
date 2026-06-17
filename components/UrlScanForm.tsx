@@ -121,10 +121,12 @@ export default function UrlScanForm() {
         }, 1600);
 
         try {
+            const sanitizedName = name.trim();
+            const sanitizedLeadEmail = leadEmail.trim().toLowerCase();
             const sanitizedUrl = normalizeInputUrl(url);
             const body: Record<string, unknown> = { url: sanitizedUrl };
-            if (name.trim()) body.name = name.trim();
-            if (leadEmail.trim()) body.email = leadEmail.trim();
+            if (sanitizedName) body.name = sanitizedName;
+            if (sanitizedLeadEmail) body.email = sanitizedLeadEmail;
             if (visitors) body.estMonthlyVisitors = Number(visitors);
             if (conv) body.estConvRate = Number(conv) / 100;
             if (avgVal) body.estAvgValue = Number(avgVal);
@@ -166,13 +168,14 @@ export default function UrlScanForm() {
     async function captureLead(e: React.FormEvent) {
         e.preventDefault();
         if (!teaser) return;
+        const normalizedLeadEmail = leadEmail.trim().toLowerCase();
         setSubmitting(true);
         setLeadError(null);
         try {
             const res = await fetch("/api/lead", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify({ email: leadEmail, scanId: teaser.scanId }),
+                body: JSON.stringify({ email: normalizedLeadEmail, scanId: teaser.scanId }),
             });
             const data = (await res.json()) as { ok?: boolean; reportUrl?: string; error?: string };
             if (!res.ok || !data.ok || !data.reportUrl) throw new Error(data.error || "Unable to unlock report");
@@ -234,9 +237,13 @@ export default function UrlScanForm() {
                     <input
                         type="text"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => {
+                            setName(e.target.value);
+                            if (error) setError(null);
+                        }}
                         placeholder="Jane"
                         required
+                        autoComplete="given-name"
                         maxLength={100}
                         style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 16, fontSize: "1rem" }}
                     />
@@ -248,9 +255,14 @@ export default function UrlScanForm() {
                     <input
                         type="email"
                         value={leadEmail}
-                        onChange={(e) => setLeadEmail(e.target.value)}
+                        onChange={(e) => {
+                            setLeadEmail(e.target.value);
+                            if (error) setError(null);
+                            if (leadError) setLeadError(null);
+                        }}
                         placeholder="you@company.com"
                         required
+                        autoComplete="email"
                         maxLength={254}
                         style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 16, fontSize: "1rem" }}
                     />
@@ -263,10 +275,14 @@ export default function UrlScanForm() {
                         id="demoUrl"
                         type="text"
                         value={url}
-                        onChange={(e) => setUrl(e.target.value)}
+                        onChange={(e) => {
+                            setUrl(e.target.value);
+                            if (error) setError(null);
+                        }}
                         onBlur={(e) => setUrl(normalizeInputUrl(e.target.value))}
                         placeholder="coaibakersfield.com"
                         required
+                        autoComplete="url"
                         maxLength={2048}
                         style={{ width: "100%", border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "18px 20px", minHeight: 56, marginBottom: 16, fontSize: "1rem" }}
                     />
@@ -338,8 +354,8 @@ export default function UrlScanForm() {
 
                     <button
                         type="submit"
-                        disabled={loading || !url || !name.trim() || !leadEmail.trim()}
-                        style={{ width: "100%", marginTop: 18, border: 0, cursor: loading || !url || !name.trim() || !leadEmail.trim() ? "not-allowed" : "pointer", borderRadius: 999, padding: "20px 24px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", opacity: loading || !url || !name.trim() || !leadEmail.trim() ? 0.7 : 1, fontSize: "1.05rem", minHeight: 60, transition: "transform .2s, box-shadow .2s" }}
+                        disabled={loading || !url.trim() || !name.trim() || !leadEmail.trim()}
+                        style={{ width: "100%", marginTop: 18, border: 0, cursor: loading || !url.trim() || !name.trim() || !leadEmail.trim() ? "not-allowed" : "pointer", borderRadius: 999, padding: "20px 24px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.28)", opacity: loading || !url.trim() || !name.trim() || !leadEmail.trim() ? 0.7 : 1, fontSize: "1.05rem", minHeight: 60, transition: "transform .2s, box-shadow .2s" }}
                     >
                         {loading ? "Scanning…" : "Run Free Scan →"}
                     </button>
@@ -390,7 +406,7 @@ export default function UrlScanForm() {
                 )}
 
                 {error && (
-                    <div style={{ marginTop: 14, background: "rgba(255,77,94,.12)", border: "1px solid rgba(255,77,94,.3)", borderRadius: 14, padding: "12px 16px", color: "#ff8792", fontSize: "0.9rem" }}>
+                    <div aria-live="polite" style={{ marginTop: 14, background: "rgba(255,77,94,.12)", border: "1px solid rgba(255,77,94,.3)", borderRadius: 14, padding: "12px 16px", color: "#ff8792", fontSize: "0.9rem" }}>
                         {error}
                     </div>
                 )}
@@ -516,20 +532,25 @@ export default function UrlScanForm() {
                                         <input
                                             type="email"
                                             value={leadEmail}
-                                            onChange={(e) => setLeadEmail(e.target.value)}
+                                            onChange={(e) => {
+                                                setLeadEmail(e.target.value);
+                                                if (leadError) setLeadError(null);
+                                            }}
                                             placeholder="you@company.com"
                                             required
+                                            autoComplete="email"
+                                            maxLength={254}
                                             style={{ flex: 1, minWidth: 180, border: "1px solid rgba(255,255,255,.12)", outline: "none", background: "rgba(255,255,255,.92)", color: "#111111", borderRadius: 16, padding: "13px 16px" }}
                                         />
                                         <button
                                             type="submit"
-                                            disabled={submitting || !leadEmail}
-                                            style={{ border: 0, cursor: submitting || !leadEmail ? "not-allowed" : "pointer", borderRadius: 999, padding: "13px 18px", fontWeight: 800, fontSize: "0.88rem", color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", opacity: submitting || !leadEmail ? 0.7 : 1 }}
+                                            disabled={submitting || !leadEmail.trim()}
+                                            style={{ border: 0, cursor: submitting || !leadEmail.trim() ? "not-allowed" : "pointer", borderRadius: 999, padding: "13px 18px", fontWeight: 800, fontSize: "0.88rem", color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", opacity: submitting || !leadEmail.trim() ? 0.7 : 1 }}
                                         >
                                             {submitting ? "Sending…" : "Send Full Report"}
                                         </button>
                                     </div>
-                                    {leadError && <p style={{ marginTop: 8, color: "#ff8792", fontSize: "0.85rem" }}>{leadError}</p>}
+                                    {leadError && <p aria-live="polite" style={{ marginTop: 8, color: "#ff8792", fontSize: "0.85rem" }}>{leadError}</p>}
                                 </form>
                             ) : (
                                 <div>

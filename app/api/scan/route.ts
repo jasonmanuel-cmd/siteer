@@ -10,11 +10,12 @@ import { estimateLoss } from "@/lib/scan/money";
 import type { Json } from "@/lib/database.types";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { createScanUnlockToken } from "@/lib/reportToken";
+import { formatPublicValidationError } from "@/lib/publicValidation";
 
 export const runtime = "nodejs";
 
 const ScanSchema = z.object({
-    url: z.string().min(1),
+    url: z.string().trim().min(1).max(2048),
     estMonthlyVisitors: z.coerce.number().int().positive().optional(),
     estConvRate: z.coerce.number().positive().optional(),
     estAvgValue: z.coerce.number().positive().optional(),
@@ -262,9 +263,23 @@ export async function POST(request: Request) {
         const cause = error instanceof Error && "cause" in error
             ? String((error as Error & { cause?: unknown }).cause ?? "")
             : "";
-        
-        // Sanitize error message to not expose internal implementation
-        const sanitizedError = message.includes("Supabase") || 
+
+        const sanitizedError = error instanceof z.ZodError
+            ? formatPublicValidationError(error, {
+                fieldLabels: {
+                    url: "website URL",
+                    estMonthlyVisitors: "monthly visitors",
+                    estConvRate: "conversion rate",
+                    estAvgValue: "average order value",
+                },
+                fieldMessages: {
+                    url: "Please enter a valid website URL.",
+                    estMonthlyVisitors: "Please enter a valid monthly visitors estimate.",
+                    estConvRate: "Please enter a valid conversion rate.",
+                    estAvgValue: "Please enter a valid average order value.",
+                },
+            })
+            : message.includes("Supabase") ||
                                message.includes("connection") ||
                                message.includes("timeout") ||
                                message.includes("Cheerio") ||
@@ -276,7 +291,7 @@ export async function POST(request: Request) {
               message.includes("network")
                 ? "Could not fetch that website. It may block automated scans, have an SSL issue, or be temporarily down."
             : message;
-        
+
         console.error("[/api/scan] Error:", { message, cause, error });
         return NextResponse.json({ ok: false, error: sanitizedError }, { status: 400 });
     }
