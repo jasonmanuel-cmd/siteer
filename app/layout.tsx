@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
 import { quickAuditOffer } from "@/lib/offers";
+import { buildGeoMetadata, buildLocalBusinessSchema } from "@/lib/siteIdentity";
 import "@/app/globals.css";
 
 const TextSizeToggle = dynamic(() => import("@/components/TextSizeToggle"), { ssr: false });
+const localBusinessSchema = buildLocalBusinessSchema();
+const geoMetadata = buildGeoMetadata();
 
 export const metadata: Metadata = {
     metadataBase: new URL("https://siteer.dev"),
@@ -64,44 +67,7 @@ export const metadata: Metadata = {
         },
     },
     // viewport is handled by the dedicated `viewport` export below
-    other: {
-        "geo.region": "US-CA",
-        "geo.placename": "Bakersfield",
-        "geo.position": "35.3733;-119.0187",
-        ICBM: "35.3733, -119.0187",
-    },
-};
-
-const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": "https://siteer.dev",
-    name: "SiteER",
-    description: "Instant website diagnostics for local businesses — performance, SEO, mobile, and trust signal analysis.",
-    url: "https://siteer.dev",
-    telephone: "+1-661-555-0100",
-    areaServed: [
-        {
-            "@type": "City",
-            name: "Bakersfield",
-            addressRegion: "CA",
-            addressCountry: "US",
-        },
-        {
-            "@type": "State",
-            name: "California",
-            addressCountry: "US",
-        },
-    ],
-    address: {
-        "@type": "PostalAddress",
-        addressLocality: "Bakersfield",
-        addressRegion: "CA",
-        postalCode: "93301",
-        addressCountry: "US",
-    },
-    image: "https://siteer.dev/og-image.png",
-    priceRange: "$$",
+    other: Object.keys(geoMetadata).length > 0 ? geoMetadata : undefined,
 };
 
 export default function RootLayout({

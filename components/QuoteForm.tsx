@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { trackEvent } from "@/lib/analyticsClient";
 import { fixPackDepositOffer } from "@/lib/offers";
 
 type FormState = {
@@ -26,6 +27,15 @@ export default function QuoteForm() {
     const depositPaid = searchParams.get("deposit") === "paid";
     const paidQuoteId = searchParams.get("quote");
 
+    useEffect(() => {
+        if (!depositPaid) return;
+
+        trackEvent("quote_deposit_returned", {
+            has_quote_reference: Boolean(paidQuoteId),
+            price_cents: fixPackDepositOffer.priceCents,
+        });
+    }, [depositPaid, paidQuoteId]);
+
     function set(field: keyof FormState, value: string) {
         setForm((f) => ({ ...f, [field]: value }));
     }
@@ -34,6 +44,11 @@ export default function QuoteForm() {
         e.preventDefault();
         setStatus("submitting");
         setErrorMsg("");
+        trackEvent("quote_checkout_started", {
+            has_phone: Boolean(form.phone.trim()),
+            has_website: Boolean(form.websiteUrl.trim()),
+            price_cents: fixPackDepositOffer.priceCents,
+        });
         try {
             const res = await fetch("/api/quote", {
                 method: "POST",
@@ -44,14 +59,27 @@ export default function QuoteForm() {
             if (!res.ok || !data.ok) throw new Error(data.error || "Submission failed");
 
             if (typeof data.checkoutUrl === "string") {
+                trackEvent("quote_checkout_redirected", {
+                    has_phone: Boolean(form.phone.trim()),
+                    has_website: Boolean(form.websiteUrl.trim()),
+                    price_cents: fixPackDepositOffer.priceCents,
+                });
                 setStatus("redirecting");
                 window.location.href = data.checkoutUrl;
                 return;
             }
 
+            trackEvent("quote_request_submitted", {
+                has_phone: Boolean(form.phone.trim()),
+                has_website: Boolean(form.websiteUrl.trim()),
+            });
             setStatus("success");
         } catch (err) {
-            setErrorMsg(err instanceof Error ? err.message : "Submission failed");
+            const message = err instanceof Error ? err.message : "Submission failed";
+            trackEvent("quote_checkout_failed", {
+                reason: message.slice(0, 120),
+            });
+            setErrorMsg(message);
             setStatus("error");
         }
     }

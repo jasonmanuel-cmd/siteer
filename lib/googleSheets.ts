@@ -25,6 +25,7 @@ import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
  *
  * STEP 5 — Add to your env vars (.env.local AND Vercel dashboard):
  *   GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/YOUR_ID/exec
+ *   GOOGLE_SHEETS_WEBHOOK_SECRET=generate-a-long-random-secret
  *
  * That's it. No JSON files, no service accounts, no credentials in code.
  * ─────────────────────────────────────────────────────────────
@@ -36,10 +37,14 @@ import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
  *   Quotes:   ['Timestamp', 'First Name', 'Last Name', 'Email', 'Phone', 'Business', 'Website URL'],
  *   Payments: ['Timestamp', 'Email', 'Report Token', 'Amount (USD)', 'Status'],
  * };
+ * const WEBHOOK_SECRET = 'paste-the-same-secret-you-set-in-vercel';
  *
  * function doPost(e) {
  *   try {
  *     const data = JSON.parse(e.postData.contents);
+ *     if (WEBHOOK_SECRET && data.secret !== WEBHOOK_SECRET) {
+ *       throw new Error('Unauthorized');
+ *     }
  *     const ss = SpreadsheetApp.getActiveSpreadsheet();
  *     const sheetName = data.sheet;
  *     let sheet = ss.getSheetByName(sheetName);
@@ -91,6 +96,11 @@ function getWebhookUrl(): string | null {
     return value ? value : null;
 }
 
+function getWebhookSecret(): string | null {
+    const value = process.env.GOOGLE_SHEETS_WEBHOOK_SECRET?.trim().replace(/^"+|"+$/g, "");
+    return value ? value : null;
+}
+
 function parseWebhookPayload(body: string): { ok?: boolean; error?: string } | null {
     if (!body.trim()) return null;
     try {
@@ -108,6 +118,7 @@ async function sendToSheet(
     if (!webhookUrl) {
         throw new Error(`GOOGLE_SHEETS_WEBHOOK_URL is not set for ${sheet}`);
     }
+    const webhookSecret = getWebhookSecret();
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 12_000);
@@ -124,7 +135,11 @@ async function sendToSheet(
                 Accept: "application/json",
                 "Cache-Control": "no-store",
             },
-            body: JSON.stringify({ sheet, row }),
+            body: JSON.stringify({
+                sheet,
+                row,
+                ...(webhookSecret ? { secret: webhookSecret } : {}),
+            }),
             redirect: "follow",
             signal: controller.signal,
         });

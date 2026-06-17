@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState, useRef } from "react";
+import { trackEvent } from "@/lib/analyticsClient";
 import { quickAuditOffer } from "@/lib/offers";
 
 const ReportTeaser = dynamic(() => import("./ReportTeaser"), { ssr: false, loading: () => null });
@@ -100,6 +101,12 @@ export default function UrlScanForm() {
         setActiveStep(0);
         setDoneSteps(new Set());
 
+        trackEvent("scan_started", {
+            has_name: Boolean(name.trim()),
+            has_email: Boolean(leadEmail.trim()),
+            has_advanced_inputs: Boolean(visitors || conv || avgVal),
+        });
+
         let step = 0;
         intervalRef.current = setInterval(() => {
             if (step < STEPS.length - 1) {
@@ -134,11 +141,23 @@ export default function UrlScanForm() {
             if (intervalRef.current) clearInterval(intervalRef.current);
             setDoneSteps(new Set([0, 1, 2, 3]));
             setActiveStep(-1);
+            trackEvent("scan_completed", {
+                scan_source: data.scanSource ?? "unknown",
+                grade: data.grade,
+                overall_score: data.scores.overall,
+                issue_count: data.topIssues.length,
+                loss_low: data.money.lossLow,
+                loss_high: data.money.lossHigh,
+            });
             setTeaser(data);
         } catch (err) {
             if (intervalRef.current) clearInterval(intervalRef.current);
             setActiveStep(-1);
-            setError(err instanceof Error ? err.message : "Scan failed");
+            const message = err instanceof Error ? err.message : "Scan failed";
+            trackEvent("scan_failed", {
+                reason: message.slice(0, 120),
+            });
+            setError(message);
         } finally {
             setLoading(false);
         }
@@ -157,9 +176,18 @@ export default function UrlScanForm() {
             });
             const data = (await res.json()) as { ok?: boolean; reportUrl?: string; error?: string };
             if (!res.ok || !data.ok || !data.reportUrl) throw new Error(data.error || "Unable to unlock report");
+            trackEvent("summary_unlocked", {
+                scan_source: teaser.scanSource ?? "unknown",
+                grade: teaser.grade,
+                overall_score: teaser.scores.overall,
+            });
             setReportUrl(data.reportUrl);
         } catch (err) {
-            setLeadError(err instanceof Error ? err.message : "Unable to unlock report");
+            const message = err instanceof Error ? err.message : "Unable to unlock report";
+            trackEvent("summary_unlock_failed", {
+                reason: message.slice(0, 120),
+            });
+            setLeadError(message);
         } finally {
             setSubmitting(false);
         }

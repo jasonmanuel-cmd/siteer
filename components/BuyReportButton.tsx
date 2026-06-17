@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackEvent } from "@/lib/analyticsClient";
 import { quickAuditOffer } from "@/lib/offers";
 import { PAYMENT_RETURN_STORAGE_KEY, type PaymentReturnState } from "@/lib/paymentReturn";
 
@@ -14,6 +15,10 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
         e.preventDefault();
         setLoading(true);
         setError("");
+        trackEvent("audit_checkout_started", {
+            product: "quick_er_audit",
+            price_cents: quickAuditOffer.priceCents,
+        });
         try {
             const res = await fetch("/api/square", {
                 method: "POST",
@@ -42,7 +47,11 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
             );
             window.location.href = data.checkoutUrl;
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Payment setup failed");
+            const message = err instanceof Error ? err.message : "Payment setup failed";
+            trackEvent("audit_checkout_failed", {
+                reason: message.slice(0, 120),
+            });
+            setError(message);
             setLoading(false);
         }
     }
@@ -50,7 +59,13 @@ export default function BuyReportButton({ reportToken }: { reportToken: string }
     if (!open) {
         return (
             <button
-                onClick={() => setOpen(true)}
+                onClick={() => {
+                    trackEvent("audit_offer_opened", {
+                        product: "quick_er_audit",
+                        price_cents: quickAuditOffer.priceCents,
+                    });
+                    setOpen(true);
+                }}
                 className="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
             >
                 Buy {quickAuditOffer.name} — {quickAuditOffer.priceLabel}

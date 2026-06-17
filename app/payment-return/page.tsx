@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { trackEvent } from "@/lib/analyticsClient";
 import { PAYMENT_RETURN_STORAGE_KEY, type PaymentReturnState } from "@/lib/paymentReturn";
 
 type ReturnStatus = "loading" | "missing" | "redirecting";
@@ -31,6 +32,7 @@ export default function PaymentReturnPage() {
     useEffect(() => {
         const returnState = readReturnState();
         if (!returnState) {
+            trackEvent("audit_payment_return_missing");
             setStatus("missing");
             return;
         }
@@ -43,6 +45,7 @@ export default function PaymentReturnPage() {
         const destination = `/scan/${encodeURIComponent(returnState.reportToken)}?${params.toString()}`;
 
         window.sessionStorage.removeItem(PAYMENT_RETURN_STORAGE_KEY);
+        trackEvent("audit_payment_return_started");
         setStatus("redirecting");
         window.location.replace(destination);
     }, []);

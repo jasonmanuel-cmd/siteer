@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackEvent } from "@/lib/analyticsClient";
 
 function normalizeInputUrl(input: string): string {
     const trimmed = input.trim();
@@ -21,13 +22,10 @@ export default function HeroUrlInput() {
             demoInput.dispatchEvent(new Event("input", { bubbles: true }));
         }
         
-        // Track CTA click
-        if (typeof window !== "undefined" && (window as any).gtag) {
-            (window as any).gtag("event", "hero_cta_click", {
-                cta_variant: "run-free-scan",
-                cta_label: "Run Free Scan",
-            });
-        }
+        trackEvent("hero_cta_click", {
+            cta_variant: "run-free-scan",
+            cta_label: "Run Free Scan",
+        });
         
         const diagnosisSection = document.getElementById("diagnosis");
         if (diagnosisSection) {

@@ -29,8 +29,19 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 # Supabase (Get from Project Settings > API)
 SUPABASE_URL=https://your-project-id.supabase.co
-# IMPORTANT: Use the SERVICE ROLE KEY for the admin client
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_REQUEST_SECRET=generate-a-long-random-secret
+# Optional fallback if you use a real service role key instead
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# Sheets webhook
+GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/YOUR_ID/exec
+GOOGLE_SHEETS_WEBHOOK_SECRET=generate-a-long-random-secret
+
+# Optional structured data fields. Leave blank instead of using fake values.
+LOCAL_BUSINESS_PHONE=
+LOCAL_BUSINESS_STREET=
+LOCAL_BUSINESS_POSTAL_CODE=
 ```
 
 ## Tech Stack
@@ -79,6 +90,12 @@ To trigger these functions automatically:
 -   `/app/api/lead`: Captures emails and generates unique report tokens.
 -   `/lib/scan`: Specialized modules for scoring, money estimation, and HTML analysis.
 -   `/components`: Reusable UI elements for reports and forms.
+
+## Operations Notes
+
+-   Google Sheets webhook requests should use `GOOGLE_SHEETS_WEBHOOK_SECRET` on both sides.
+-   LocalBusiness schema now omits phone, street, postal code, and coordinates unless you configure real values.
+-   Follow-up and sheet retry cron should run frequently in production so queued events do not sit for hours.
 
 ## License
 
