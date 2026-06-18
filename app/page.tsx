@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { quickAuditOffer } from "@/lib/offers";
+import { localGrowthPages, siteerCaseStudy } from "@/lib/localContent";
 import { CANONICAL_SITE_URL } from "@/lib/siteConfig";
 const SplashIntro = dynamic(() => import("@/components/SplashIntro"), { ssr: false, loading: () => null });
 const HeroUrlInput = dynamic(() => import("@/components/HeroUrlInput"), { ssr: false, loading: () => null });
@@ -373,6 +374,36 @@ export default function HomePage() {
                                 <article key={item.title} style={{ borderRadius: 24, padding: 22, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)" }}>
                                     <h3 style={{ fontSize: "1.1rem", letterSpacing: "-.03em", marginBottom: 10 }}>{item.title}</h3>
                                     <p style={{ color: "var(--er-muted)", lineHeight: 1.65, fontSize: "0.95rem" }}>{item.desc}</p>
+                                    <a href={item.href} className="mt-4 inline-flex text-sm font-semibold text-white underline decoration-red-300 underline-offset-4">
+                                        Open page
+                                    </a>
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section style={{ padding: "0 0 82px" }}>
+                    <div className="er-container">
+                        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginBottom: 34, flexWrap: "wrap" }}>
+                            <div>
+                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Local growth paths</div>
+                                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.05rem)", lineHeight: 0.98, letterSpacing: "-.065em", maxWidth: 760 }}>
+                                    Separate the visibility leak from the speed leak from the conversion leak.
+                                </h2>
+                            </div>
+                            <p style={{ color: "var(--er-muted)", lineHeight: 1.7, maxWidth: 455, fontSize: "1.04rem" }}>
+                                These pages exist for owners who already know the site feels off and want the right diagnosis path before they buy anything.
+                            </p>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18 }}>
+                            {[
+                                ...localGrowthPages,
+                                siteerCaseStudy,
+                            ].map((item) => (
+                                <article key={item.href} style={{ borderRadius: 24, padding: 22, background: "rgba(255,255,255,.065)", border: "1px solid rgba(255,255,255,.13)" }}>
+                                    <h3 style={{ fontSize: "1.1rem", letterSpacing: "-.03em", marginBottom: 10 }}>{item.title}</h3>
+                                    <p style={{ color: "var(--er-muted)", lineHeight: 1.65, fontSize: "0.95rem" }}>{item.summary}</p>
                                     <a href={item.href} className="mt-4 inline-flex text-sm font-semibold text-white underline decoration-red-300 underline-offset-4">
                                         Open page
                                     </a>

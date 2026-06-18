@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { localGrowthPages, siteerCaseStudy } from "@/lib/localContent";
 
 type SiteChromeProps = {
     children: ReactNode;
@@ -9,6 +10,7 @@ type SiteChromeProps = {
 const navLinks = [
     { href: "/reports", label: "Reports" },
     { href: "/pricing", label: "Pricing" },
+    { href: "/bakersfield-website-audit", label: "Bakersfield" },
     { href: "/faq", label: "FAQ" },
 ];
 
@@ -18,6 +20,8 @@ const footerLinks = [
     { href: "/pricing", label: "Pricing" },
     { href: "/faq", label: "FAQ" },
     { href: "/bakersfield-website-audit", label: "Bakersfield audits" },
+    ...localGrowthPages.map((page) => ({ href: page.href, label: page.label })),
+    { href: siteerCaseStudy.href, label: siteerCaseStudy.label },
     { href: "/blog", label: "Blog" },
     { href: "/terms", label: "Terms" },
     { href: "/privacy", label: "Privacy" },

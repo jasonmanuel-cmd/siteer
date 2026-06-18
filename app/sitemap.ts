@@ -37,6 +37,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.75,
         },
         {
+            url: `${BASE_URL}/bakersfield-local-seo`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.75,
+        },
+        {
+            url: `${BASE_URL}/bakersfield-website-speed-fix`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.75,
+        },
+        {
+            url: `${BASE_URL}/bakersfield-conversion-help`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.75,
+        },
+        {
             url: `${BASE_URL}/get-quote`,
             lastModified: now,
             changeFrequency: "weekly",
@@ -71,6 +89,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             lastModified: now,
             changeFrequency: "monthly",
             priority: 0.5,
+        },
+        {
+            url: `${BASE_URL}/case-studies/bakersfield-contractor-website-repair`,
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.65,
         },
         {
             url: `${BASE_URL}/privacy`,

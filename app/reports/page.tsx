@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
 import PageSignalBar from "@/components/PageSignalBar";
+import { localGrowthPages, siteerCaseStudy } from "@/lib/localContent";
 import { quickAuditOffer } from "@/lib/offers";
 import {
     buildPageMetadata,
@@ -181,6 +182,26 @@ export default function ReportsPage() {
                         “I sent this to my web guy and he fixed 4 issues in a day. Best $0 I ever spent. Then we got the ER Fix Pack and our site jumped from a D to a B. Now we&apos;re getting 30% more calls.”
                     </blockquote>
                     <footer className="mt-4 text-sm font-semibold text-[#fff0d7]">— Mike D., Local Contractor</footer>
+                </section>
+
+                <section className="mt-12 er-panel">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
+                        <div>
+                            <p className="er-kicker">Use the report with context</p>
+                            <h2 className="er-heading mt-3">These pages help explain why the report scored the site the way it did.</h2>
+                        </div>
+                        <p className="er-copy max-w-[470px]">
+                            The report is strongest when it feeds into pages that explain the leak category clearly enough for the owner and developer to act.
+                        </p>
+                    </div>
+                    <div className="mt-8 grid gap-5 lg:grid-cols-4">
+                        {[...localGrowthPages, siteerCaseStudy].map((page) => (
+                            <a key={page.href} href={page.href} className="er-link-card">
+                                <div className="text-base font-semibold text-white">{page.title}</div>
+                                <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{page.summary}</p>
+                            </a>
+                        ))}
+                    </div>
                 </section>
 
                 <section className="mt-12 grid gap-5 lg:grid-cols-3">

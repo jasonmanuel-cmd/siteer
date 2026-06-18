@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SiteChrome from "@/components/SiteChrome";
 import PageSignalBar from "@/components/PageSignalBar";
+import { localGrowthPages, siteerCaseStudy } from "@/lib/localContent";
 import { quickAuditOffer } from "@/lib/offers";
 import {
     buildPageMetadata,
@@ -231,6 +232,26 @@ export default function BakersfieldWebsiteAuditPage() {
                             <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{text}</p>
                         </a>
                     ))}
+                </section>
+
+                <section className="mt-12 er-panel">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
+                        <div>
+                            <p className="er-kicker">Go deeper</p>
+                            <h2 className="er-heading mt-3">Use the local cluster to isolate the exact leak faster.</h2>
+                        </div>
+                        <p className="er-copy max-w-[470px]">
+                            The Bakersfield audit hub is the broad entry point. The pages below break the problem into local visibility, speed, conversion, and a representative repair pattern.
+                        </p>
+                    </div>
+                    <div className="mt-8 grid gap-5 lg:grid-cols-4">
+                        {[...localGrowthPages, siteerCaseStudy].map((page) => (
+                            <a key={page.href} href={page.href} className="er-link-card">
+                                <div className="text-base font-semibold text-white">{page.title}</div>
+                                <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{page.summary}</p>
+                            </a>
+                        ))}
+                    </div>
                 </section>
             </main>
         </SiteChrome>
