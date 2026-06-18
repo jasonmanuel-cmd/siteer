@@ -138,6 +138,54 @@ export default function GetQuotePage() {
                         </article>
                     ))}
                 </section>
+
+                <section className="mt-12 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+                    <div className="er-panel">
+                        <p className="er-kicker">Before you pay the deposit</p>
+                        <h2 className="er-heading mt-3">This is a deposit for reserved work, not a mystery charge.</h2>
+                        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                            {[
+                                {
+                                    title: "Square handles checkout",
+                                    text: `After the form is saved, you are redirected to Square to pay the ${fixPackDepositOffer.priceLabel} deposit securely.`,
+                                },
+                                {
+                                    title: "Applied to the final invoice",
+                                    text: "The deposit counts toward the project total and secures the next implementation slot.",
+                                },
+                                {
+                                    title: "Response within one business day",
+                                    text: "You receive a human follow-up with scope, schedule, and the remaining balance outline.",
+                                },
+                                {
+                                    title: "Re-scan after the work",
+                                    text: "The site is checked again after implementation so the score improvement is visible in the report.",
+                                },
+                            ].map((item) => (
+                                <div key={item.title} className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5">
+                                    <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+                                    <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{item.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="er-panel-accent">
+                        <p className="er-kicker">Need more confidence first?</p>
+                        <h2 className="er-heading mt-3">Read the About page or step back to the lighter audit path.</h2>
+                        <p className="mt-4 text-sm leading-6 text-[#fff0d7]">
+                            If you are not ready to reserve implementation yet, learn who is behind SiteER on the About page or run the free scan and unlock the lower-risk {quickAuditOffer.priceLabel} review instead.
+                        </p>
+                        <div className="mt-6 grid gap-3">
+                            <a className="er-button-secondary w-full" href="/about">
+                                Read the About page
+                            </a>
+                            <a className="er-button-primary w-full" href="/#diagnosis">
+                                Start with the free scan
+                            </a>
+                        </div>
+                    </div>
+                </section>
             </main>
         </SiteChrome>
     );

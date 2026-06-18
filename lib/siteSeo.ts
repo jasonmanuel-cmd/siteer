@@ -6,8 +6,8 @@ export const SITE_URL = CANONICAL_SITE_URL;
 export const SITE_LOCALE = "en_US";
 export const SITE_AUTHOR_NAME = "SiteER Editorial Desk";
 export const SITE_AUTHOR_URL = `${SITE_URL}/contact`;
-export const LAST_UPDATED_ISO = "2026-06-16";
-export const LAST_UPDATED_LABEL = "June 16, 2026";
+export const LAST_UPDATED_ISO = "2026-06-17";
+export const LAST_UPDATED_LABEL = "June 17, 2026";
 
 type PageMetadataParams = {
     title: string;

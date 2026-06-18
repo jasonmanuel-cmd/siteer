@@ -11,6 +11,7 @@ const navLinks = [
     { href: "/reports", label: "Reports" },
     { href: "/pricing", label: "Pricing" },
     { href: "/bakersfield-website-audit", label: "Bakersfield" },
+    { href: "/about", label: "About" },
     { href: "/faq", label: "FAQ" },
 ];
 
@@ -18,6 +19,7 @@ const footerLinks = [
     { href: "/#diagnosis", label: "Run a free scan" },
     { href: "/reports", label: "Reports" },
     { href: "/pricing", label: "Pricing" },
+    { href: "/about", label: "About" },
     { href: "/faq", label: "FAQ" },
     { href: "/bakersfield-website-audit", label: "Bakersfield audits" },
     ...localGrowthPages.map((page) => ({ href: page.href, label: page.label })),

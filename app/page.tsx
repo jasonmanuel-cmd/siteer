@@ -118,6 +118,7 @@ export default function HomePage() {
                         <div style={{ display: "flex", gap: 32, alignItems: "center", color: "var(--er-muted)", fontSize: "1.05rem" }}>
                             <a href="/reports" className="nav-link" style={{ fontWeight: 700 }}>Reports</a>
                             <a href="/pricing" className="nav-link" style={{ fontWeight: 700 }}>Pricing</a>
+                            <a href="/about" className="nav-link" style={{ fontWeight: 700 }}>About</a>
                             <a href="/faq" className="nav-link" style={{ fontWeight: 700 }}>FAQ</a>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -325,6 +326,81 @@ export default function HomePage() {
                     </div>
                 </section>
 
+                <section style={{ padding: "0 0 82px" }}>
+                    <div className="er-container">
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
+                            <article style={{ borderRadius: 28, padding: 30, background: "linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04))", border: "1px solid rgba(255,255,255,.12)" }}>
+                                <div style={{ color: "var(--er-red)", textTransform: "uppercase", letterSpacing: ".13em", fontSize: "0.78rem", fontWeight: 950, marginBottom: 12 }}>Why trust SiteER</div>
+                                <h2 style={{ fontSize: "clamp(2rem, 3vw, 3rem)", lineHeight: 1.02, letterSpacing: "-.05em", marginBottom: 14 }}>
+                                    A real operator behind the scan. A real next step after the score.
+                                </h2>
+                                <p style={{ color: "var(--er-muted)", lineHeight: 1.75, fontSize: "1rem", maxWidth: 580 }}>
+                                    SiteER was built for owners who know the site feels off but do not want another vague marketing pitch. The scan shows the damage first. If you need help after that, the same Bakersfield team handles the audit, the quote, the fixes, and the re-scan.
+                                </p>
+                                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16, marginTop: 24 }}>
+                                    {[
+                                        {
+                                            title: "Bakersfield-built",
+                                            text: "A local operator and implementation team, not an anonymous app with no follow-through.",
+                                        },
+                                        {
+                                            title: "Private by default",
+                                            text: "Your report link is yours. No public scoreboards. No forced sharing to get the data.",
+                                        },
+                                        {
+                                            title: "Measured repair path",
+                                            text: "The same diagnosis system is used before and after the work so the improvement is proven in numbers.",
+                                        },
+                                    ].map((item) => (
+                                        <div key={item.title} style={{ borderRadius: 20, padding: 18, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)" }}>
+                                            <h3 style={{ fontSize: "1rem", fontWeight: 800, marginBottom: 8 }}>{item.title}</h3>
+                                            <p style={{ color: "var(--er-muted)", fontSize: "0.92rem", lineHeight: 1.65 }}>{item.text}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
+                                    <a href="/about" style={{ borderRadius: 999, padding: "13px 18px", fontWeight: 800, color: "#19070a", background: "linear-gradient(135deg, #ff4d5e, #ffb15c)", boxShadow: "0 18px 42px rgba(255,77,94,.22)", fontSize: "0.92rem", minHeight: 46 }}>
+                                        Read the About page
+                                    </a>
+                                    <a href="/get-quote" style={{ borderRadius: 999, padding: "13px 18px", fontWeight: 800, color: "white", border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.05)", fontSize: "0.92rem", minHeight: 46 }}>
+                                        Book implementation
+                                    </a>
+                                </div>
+                            </article>
+
+                            <article style={{ borderRadius: 28, padding: 30, background: "rgba(255,77,94,.08)", border: "1px solid rgba(255,77,94,.18)" }}>
+                                <div style={{ color: "#ffb6bf", textTransform: "uppercase", letterSpacing: ".12em", fontSize: "0.74rem", fontWeight: 900, marginBottom: 14 }}>What owners say after the scan</div>
+                                <div style={{ display: "grid", gap: 14 }}>
+                                    {[
+                                        {
+                                            name: "Sarah M.",
+                                            title: "Bakersfield wellness business",
+                                            quote: "The report made the problem obvious. My developer stopped guessing and started fixing.",
+                                        },
+                                        {
+                                            name: "Mike D.",
+                                            title: "Local contractor",
+                                            quote: "We finally had a clear reason our site was not converting on mobile. The fix list saved me time immediately.",
+                                        },
+                                        {
+                                            name: "Andrea T.",
+                                            title: "Service business owner",
+                                            quote: "The score got my attention, but the ranked next steps were what made me trust the process.",
+                                        },
+                                    ].map((item) => (
+                                        <div key={item.name} style={{ borderRadius: 20, padding: 18, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)" }}>
+                                            <p style={{ color: "white", lineHeight: 1.7, fontSize: "0.96rem" }}>"{item.quote}"</p>
+                                            <div style={{ marginTop: 10, color: "var(--er-muted)", fontSize: "0.88rem" }}>
+                                                <strong style={{ color: "white" }}>{item.name}</strong> · {item.title}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
                 {/* ── WORKFLOW ── */}
                 <section style={{ padding: "82px 0" }}>
                     <div className="er-container">
@@ -367,6 +443,7 @@ export default function HomePage() {
                             {[
                                 { title: "Reports", desc: "See what the free summary and paid treatment plan look like.", href: "/reports" },
                                 { title: "Pricing", desc: `Free scan vs. ${quickAuditOffer.priceLabel} Quick ER Audit vs. implementation.`, href: "/pricing" },
+                                { title: "About", desc: "Why SiteER exists, who runs it, and how the trust model works.", href: "/about" },
                                 { title: "FAQ", desc: "Common questions business owners ask before running their first scan.", href: "/faq" },
                                 { title: "Bakersfield website audits", desc: "Local landing page for Kern County businesses that want faster calls, forms, and trust.", href: "/bakersfield-website-audit" },
                                 { title: "Blog", desc: "Case studies, fixes, and the real cost of a sick website.", href: "/blog" },
@@ -429,6 +506,7 @@ export default function HomePage() {
                     <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center" }}>
                         <a href="#diagnosis" className="hover:text-white transition-colors">Run a free scan</a>
                         <a href="/pricing" className="hover:text-white transition-colors">Pricing</a>
+                        <a href="/about" className="hover:text-white transition-colors">About</a>
                         <a href="/faq" className="hover:text-white transition-colors">FAQ</a>
                         <a href="/terms" className="hover:text-white transition-colors">Terms</a>
                         <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>

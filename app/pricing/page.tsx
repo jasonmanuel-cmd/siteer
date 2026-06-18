@@ -360,9 +360,58 @@ export default function PricingPage() {
                     </div>
                 </section>
 
+                <section className="mt-12 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+                    <div className="er-panel">
+                        <p className="er-kicker">Why owners feel safe buying here</p>
+                        <h2 className="er-heading mt-3">The handoff is controlled, the money path is clear, and the result gets re-checked.</h2>
+                        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                            {[
+                                {
+                                    title: "Secure Square checkout",
+                                    text: `The ${fixPackDepositOffer.priceLabel} implementation deposit is paid through Square after the quote form is submitted.`,
+                                },
+                                {
+                                    title: "Deposit is credited",
+                                    text: `That ${fixPackDepositOffer.priceLabel} is applied to the ${fixPackTotalLabel} total. It is not an added fee.`,
+                                },
+                                {
+                                    title: "Direct human follow-up",
+                                    text: "You are not pushed into a ticket queue. You get a real scope and response within one business day.",
+                                },
+                                {
+                                    title: "Measured outcome",
+                                    text: "The same scoring system is used after implementation so the improvement is visible, not hand-waved.",
+                                },
+                            ].map((item) => (
+                                <div key={item.title} className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5">
+                                    <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+                                    <p className="mt-2 text-sm leading-6 text-[#c8d5e1]">{item.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="er-panel-accent">
+                        <p className="er-kicker">Before you choose a paid path</p>
+                        <h2 className="er-heading mt-3">See who runs SiteER and how the process works.</h2>
+                        <p className="mt-4 text-sm leading-6 text-[#fff0d7]">
+                            If you need more trust before paying, read the About page first. It explains why SiteER exists, who handles the audit and implementation path, and how the report-to-repair flow is structured.
+                        </p>
+                        <div className="mt-6 grid gap-3">
+                            <a className="er-button-secondary w-full" href="/about">
+                                Read the About page
+                            </a>
+                            <a className="er-button-primary w-full" href="/get-quote">
+                                Start the implementation quote
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
                 <section className="mt-12 grid gap-5 lg:grid-cols-3">
                     {[
                         ["/reports", "See the report anatomy", "Understand what the owner and developer actually receive after the scan."],
+                        ["/about", "Read why SiteER exists", "Use the About page when you need team context before spending money."],
                         ["/faq", "Read the FAQ", "Use the answers page to handle objections before someone gets stuck."],
                         ["/get-quote", "Jump to implementation", "Skip the reading and reserve the work if the problem is already obvious."],
                     ].map(([href, title, text]) => (
