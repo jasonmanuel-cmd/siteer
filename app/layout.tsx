@@ -9,8 +9,10 @@ import "@/app/globals.css";
 const TextSizeToggle = dynamic(() => import("@/components/TextSizeToggle"), { ssr: false });
 const siteGraphSchema = buildSiteGraphSchema();
 const geoMetadata = buildGeoMetadata();
+const googleSiteVerification =
+    process.env.GOOGLE_SITE_VERIFICATION || "heL5NZILd_Vq-l8iN7excq3zCDa5Q9ce9SudMhaKAVM";
 const hasSiteVerification =
-    Boolean(process.env.GOOGLE_SITE_VERIFICATION) ||
+    Boolean(googleSiteVerification) ||
     Boolean(process.env.BING_SITE_VERIFICATION) ||
     Boolean(process.env.YANDEX_SITE_VERIFICATION);
 
@@ -62,7 +64,7 @@ export const metadata: Metadata = {
     },
     verification: hasSiteVerification
         ? {
-            google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+            google: googleSiteVerification,
             yandex: process.env.YANDEX_SITE_VERIFICATION || undefined,
             other: process.env.BING_SITE_VERIFICATION
                 ? {
