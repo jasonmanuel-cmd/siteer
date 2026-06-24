@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
 import { quickAuditOffer } from "@/lib/offers";
-import { buildGeoMetadata, buildSiteGraphSchema } from "@/lib/siteIdentity";
+import { buildGeoMetadata, buildLocalBusinessSchema, buildSiteGraphSchema } from "@/lib/siteIdentity";
 import { CANONICAL_SITE_URL } from "@/lib/siteConfig";
 import "@/app/globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
 const TextSizeToggle = dynamic(() => import("@/components/TextSizeToggle"), { ssr: false });
 const siteGraphSchema = buildSiteGraphSchema();
+const localBusinessSchema = buildLocalBusinessSchema();
 const geoMetadata = buildGeoMetadata();
 const googleSiteVerification =
     process.env.GOOGLE_SITE_VERIFICATION || "heL5NZILd_Vq-l8iN7excq3zCDa5Q9ce9SudMhaKAVM";
@@ -84,7 +92,6 @@ export const metadata: Metadata = {
             "max-video-preview": -1,
         },
     },
-    // viewport is handled by the dedicated `viewport` export below
     other: Object.keys(geoMetadata).length > 0 ? geoMetadata : undefined,
 };
 
@@ -94,12 +101,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className={inter.variable}>
             <head>
-                {/* Preload critical resources for better Lighthouse score */}
                 <link rel="preload" href="/siteer-logo.png" as="image" type="image/png" />
                 <link rel="preload" href="/og-image.png" as="image" type="image/png" />
-                {/* Preconnect to external domains for faster resource loading */}
                 <link rel="preconnect" href="https://coaibakersfield.com" />
                 <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
                 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
@@ -107,9 +112,12 @@ export default function RootLayout({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(siteGraphSchema) }}
                 />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                />
             </head>
-            <body>
-                <div className="noise" aria-hidden="true" />
+            <body style={{ fontFamily: "var(--font-inter), ui-sans-serif, system-ui, sans-serif" }}>
                 {children}
                 <TextSizeToggle />
                 <Analytics />
