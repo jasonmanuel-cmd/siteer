@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="40" viewBox="0 0 140 40">
+  <defs>
+    <linearGradient id="erGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff4d5e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffb15c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- "Site" in cyan -->
+  <text x="4" y="30" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="26" fill="#6ee7ff" letter-spacing="-0.5">Site</text>
+  <!-- "ER" in gradient red/orange -->
+  <text x="72" y="30" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="26" fill="url(#erGrad)" letter-spacing="-0.5">ER</text>
+</svg>
