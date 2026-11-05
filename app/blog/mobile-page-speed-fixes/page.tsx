@@ -301,7 +301,7 @@ export default function BlogPost2() {
                     the recommendations can be technical.
                   </p>
                   <p>
-                    Alternatively, the free SiteER scan runs a speed check as
+                    Alternatively, the paid Deep ER Report includes speed analysis as
                     part of its 20-point audit and translates the results into
                     plain language — no technical knowledge required.
                   </p>

@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const FROM = "SiteER <noreply@callharbison.com>";
 const TO = "jasonm@coaibakersfield.com";
 
@@ -18,9 +16,9 @@ export async function POST(request: Request) {
   }
 
   if (!process.env.RESEND_API_KEY) {
-    console.log("[contact] RESEND_API_KEY not set, skipping email", { firstName, email });
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ error: "Contact delivery is unavailable. Please call or email us directly." }, { status: 503 });
   }
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   const subject = plan
     ? `New order: ${plan} (${planPrice}) from ${firstName}${businessName ? ` — ${businessName}` : ""}`

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: "What exactly is a SiteER scan?",
-    a: "A SiteER scan is an automated check of your website across 20 different checkpoints including page speed, mobile usability, HTTPS security, SEO meta tags, local business schema markup, contact information, call-to-action effectiveness, and more. The free scan gives you a summary of the top issues. The $49 Deep ER Report provides a full scored breakdown with screenshots, explanations, and a priority action plan.",
+    a: "The free scan checks one public HTML page for 11 observable features, including title, description, headings, HTTPS, viewport declarations, image alt attributes and phone links. It does not execute JavaScript or measure browser speed, mobile layout, link health or accessibility compliance. No overall score is assigned. The paid Deep ER Report is a separate manual and automated review.",
   },
   {
     q: "Who is SiteER for?",
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: "How does the free scan work?",
-    a: "Enter your website URL into the scanner on our homepage. Our system runs checks across speed, SEO, mobile, security, and more in about 60 seconds. You'll see a summary of your top issues right away — no signup, no credit card, no email required.",
+    a: "Enter a public website address and confirm you own it or have permission to check it. The scan fetches up to 1 MiB of HTML with up to three redirects and a 15-second deadline. You receive observations and review suggestions, or a clear error if the page cannot be checked. No signup or email is required.",
   },
   {
     q: "What does the $49 Deep ER Report include?",

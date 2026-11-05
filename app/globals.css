@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 640px) {
+  .site-navigation { height: auto !important; padding: 14px 0; flex-wrap: wrap; gap: 12px !important; }
+  .site-navigation > a:first-child { flex: 0 0 100px; }
+  .site-navigation > a:last-child { white-space: nowrap; padding: 10px 12px !important; }
+  .site-navigation-links { order: 3; width: 100%; justify-content: space-between; gap: 12px !important; }
+}
+
+.blog-preview:hover, a:focus-visible .blog-preview {
+  border-color: rgba(110,231,255,.3) !important;
+  transform: translateY(-2px);
+}
+
+@media print {
+  body { background: white !important; color: #111 !important; }
+  body * { color: inherit !important; }
+  header, footer, form, button { display: none !important; }
+  .er-card { background: white !important; border-color: #bbb !important; break-inside: avoid; }
+}
+
 :root {
   --er-text: #eef7ff;
   --er-muted: #9fb1c3;

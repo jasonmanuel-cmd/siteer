@@ -25,11 +25,11 @@ const plans = [
     },
     badge: null,
     features: [
-      "Automated 20-checkpoint scan",
-      "Top 3–5 issues identified",
-      "Page speed score",
-      "Mobile-friendly check",
-      "HTTPS / SSL check",
+      "11 public HTML observations",
+      "Evidence and review suggestions",
+      "Server fetch timing (not page speed)",
+      "Mobile viewport declaration check",
+      "Final-page HTTPS check",
       "Basic SEO check",
     ],
     notIncluded: [
@@ -462,7 +462,7 @@ export default function PricingPage() {
                 margin: "0 auto 36px",
               }}
             >
-              Start with the free scan — it takes 60 seconds and costs nothing.
+              Start with the free public HTML check at no cost.
             </p>
             <div
               style={{

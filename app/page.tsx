@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import ScanForm from "@/components/ScanForm";
 
 export const metadata: Metadata = {
@@ -64,7 +65,7 @@ const jsonLd = {
           name: "What is a SiteER free scan?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "SiteER runs an automated check of your website for common errors including broken links, missing meta tags, slow page speed, mobile issues, and missing contact information.",
+            text: "SiteER checks one public HTML page for metadata, headings, HTTPS, viewport declarations and phone links. It does not test browser speed, linked pages or mobile layout.",
           },
         },
         {
@@ -72,7 +73,7 @@ const jsonLd = {
           name: "How long does the free scan take?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "The free scan returns results in about 60 seconds. You'll see a summary of issues immediately with no signup required.",
+            text: "The free scan has a 15-second fetch limit. Unreachable or unsupported pages show an error, not a guessed report.",
           },
         },
         {
@@ -138,7 +139,7 @@ const steps = [
   {
     n: "02",
     title: "We Scan 20+ Checkpoints",
-    desc: "Our engine checks speed, SEO, mobile, trust signals, contact info, and more — in about 60 seconds.",
+    desc: "Our engine checks one page for HTML metadata, headings, HTTPS, viewport declarations and phone links.",
   },
   {
     n: "03",
@@ -221,7 +222,7 @@ export default function HomePage() {
               gap: 24,
             }}
           >
-            <a
+            <Link
               href="/"
               style={{
                 fontSize: 22,
@@ -232,7 +233,7 @@ export default function HomePage() {
               }}
             >
               Site<span style={{ color: "var(--er-red)" }}>ER</span>
-            </a>
+            </Link>
             <div
               style={{
                 display: "flex",
@@ -344,8 +345,8 @@ export default function HomePage() {
             }}
           >
             Most local business websites have 8–14 fixable errors that push
-            customers away every day. Enter your URL below — we'll show you
-            exactly what's broken in under 60 seconds.
+            customers away every day. Enter your URL below — we&apos;ll show you
+            what the public HTML reveals, with clear limits.
           </p>
 
           {/* Scan form */}
@@ -544,7 +545,7 @@ export default function HomePage() {
               marginBottom: 48,
             }}
           >
-            Start free. Upgrade when you're ready to fix things fast.
+            Start free. Upgrade when you&apos;re ready to fix things fast.
           </p>
           <div
             style={{
@@ -586,14 +587,14 @@ export default function HomePage() {
                 $0
               </div>
               <p style={{ color: "var(--er-muted)", fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
-                Instant overview of your biggest issues. No signup required.
+                Public HTML observations and review suggestions. No signup required.
               </p>
               <ul style={{ listStyle: "none", marginBottom: 32 }}>
                 {[
-                  "Automated 20-checkpoint scan",
-                  "Top 3–5 issues identified",
-                  "Speed score",
-                  "Mobile-friendly check",
+                  "11 public HTML observations",
+                  "Evidence and review suggestions",
+                  "Server fetch timing (not page speed)",
+                  "Mobile viewport declaration check",
                 ].map((item) => (
                   <li
                     key={item}

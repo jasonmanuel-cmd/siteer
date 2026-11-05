@@ -6,20 +6,27 @@ import { useRouter } from "next/navigation";
 export default function ScanForm() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) return;
-    setLoading(true);
+    setError("");
     let cleaned = url.trim();
     if (!cleaned.startsWith("http://") && !cleaned.startsWith("https://")) {
       cleaned = "https://" + cleaned;
     }
     try {
+      const target = new URL(cleaned);
+      if (!["http:", "https:"].includes(target.protocol) || target.username || target.password || target.search || target.hash || target.port) {
+        throw new Error("Use a public HTTP or HTTPS address without passwords, query parameters or fragments.");
+      }
+      setLoading(true);
       const encoded = encodeURIComponent(cleaned);
       router.push(`/scan?url=${encoded}`);
     } catch {
+      setError("Use a public HTTP or HTTPS address without passwords, query parameters or fragments.");
       setLoading(false);
     }
   };
@@ -48,12 +55,15 @@ export default function ScanForm() {
       >
         <input
           type="text"
+          aria-label="Public website address"
+          maxLength={2048}
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter your website URL..."
           required
           style={{
             flex: 1,
+            minWidth: 0,
             background: "transparent",
             border: "none",
             outline: "none",
@@ -82,6 +92,7 @@ export default function ScanForm() {
           {loading ? "Scanning…" : "Get My Free Scan →"}
         </button>
       </div>
+      {error && <p role="alert">{error}</p>}
       <p
         style={{
           textAlign: "center",
@@ -89,7 +100,7 @@ export default function ScanForm() {
           fontSize: 13,
         }}
       >
-        No credit card needed · Results in 60 seconds
+        No credit card needed · One public HTML page
       </p>
     </form>
   );
