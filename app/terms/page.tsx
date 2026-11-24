@@ -39,7 +39,7 @@ All prices are in US dollars. Payments are processed through secure third-party 
     title: "5. Money-Back Guarantee",
     content: `The Fix Pack includes a 20-point improvement guarantee. If your website's SiteER audit score does not improve by at least 20 points following our completion of the Fix Pack work, you may request a full refund within fourteen (14) calendar days of receiving your before-and-after report.
 
-To request a refund, email jasonm@coaibakersfield.com with your order information and a description of your concern. Refunds will be processed within 5–10 business days.
+To request a refund, email chaoticallyorganizedai@gmail.com with your order information and a description of your concern. Refunds will be processed within 5–10 business days.
 
 This guarantee applies only to the audit score improvement metric as defined by SiteER's 20-point rubric. It does not guarantee improvements to Google rankings, organic traffic, or revenue.`,
   },
@@ -83,7 +83,7 @@ SiteER is not liable for: indirect, incidental, special, or consequential damage
 COA I Bakersfield / SiteER
 Jason Manuel
 Phone: (661) 569-4244
-Email: jasonm@coaibakersfield.com
+Email: chaoticallyorganizedai@gmail.com
 Website: siteer.dev`,
   },
 ];

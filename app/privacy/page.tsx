@@ -13,7 +13,7 @@ const sections = [
     title: "1. Who We Are",
     content: `SiteER is operated by COA I Bakersfield, run by Jason Manuel ("we", "us", "our"). Our website is siteer.dev. We provide website audit and optimization services for local businesses.
 
-If you have questions about this Privacy Policy, contact us at: jasonm@coaibakersfield.com or (661) 569-4244.`,
+If you have questions about this Privacy Policy, contact us at: chaoticallyorganizedai@gmail.com or (661) 569-4244.`,
   },
   {
     title: "2. Information We Collect",
@@ -45,7 +45,7 @@ We do not collect payment information directly. All payment processing is handle
     title: "4. Data Storage and Retention",
     content: `Website scan data, contact form submissions, and customer records are stored in Supabase, a secure cloud database provider. Data is stored on servers in the United States.
 
-We retain customer data for up to 24 months from the date of last interaction. Scan results from the free scan may be retained for up to 90 days. You may request deletion of your data at any time by contacting jasonm@coaibakersfield.com.`,
+We retain customer data for up to 24 months from the date of last interaction. Scan results from the free scan may be retained for up to 90 days. You may request deletion of your data at any time by contacting chaoticallyorganizedai@gmail.com.`,
   },
   {
     title: "5. Third Parties We Share Data With",
@@ -77,7 +77,7 @@ You can configure your browser to block or delete cookies. Note that some featur
 • Portability: Request your data in a machine-readable format
 • Opt-out: Opt out of marketing emails at any time by clicking unsubscribe or contacting us directly
 
-To exercise any of these rights, contact us at jasonm@coaibakersfield.com. We will respond within 30 days.`,
+To exercise any of these rights, contact us at chaoticallyorganizedai@gmail.com. We will respond within 30 days.`,
   },
   {
     title: "8. California Privacy Rights (CCPA)",
@@ -88,7 +88,7 @@ To exercise any of these rights, contact us at jasonm@coaibakersfield.com. We wi
 • The right to opt out of the sale of your personal information (we do not sell personal information)
 • The right to non-discrimination for exercising your privacy rights
 
-To submit a CCPA rights request, email jasonm@coaibakersfield.com with the subject line "CCPA Request."`,
+To submit a CCPA rights request, email chaoticallyorganizedai@gmail.com with the subject line "CCPA Request."`,
   },
   {
     title: "9. Children's Privacy",
@@ -105,7 +105,7 @@ To submit a CCPA rights request, email jasonm@coaibakersfield.com with the subje
 COA I Bakersfield / SiteER
 Jason Manuel
 Phone: (661) 569-4244
-Email: jasonm@coaibakersfield.com
+Email: chaoticallyorganizedai@gmail.com
 Website: siteer.dev`,
   },
 ];

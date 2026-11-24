@@ -6,7 +6,7 @@ import SiteFooter from "@/components/SiteFooter";
 export const metadata: Metadata = {
   title: "Contact – Talk to Jason",
   description:
-    "Contact SiteER / COA I Bakersfield. Call (661) 569-4244 or email jasonm@coaibakersfield.com. Free website consultations for Bakersfield area businesses.",
+    "Contact SiteER / COA I Bakersfield. Call (661) 569-4244 or email chaoticallyorganizedai@gmail.com. Free website consultations for Bakersfield area businesses.",
   alternates: { canonical: "https://siteer.dev/contact" },
 };
 
@@ -130,14 +130,14 @@ export default function ContactPage() {
                     Email
                   </div>
                   <a
-                    href="mailto:jasonm@coaibakersfield.com"
+                    href="mailto:chaoticallyorganizedai@gmail.com"
                     style={{
                       fontSize: 17,
                       color: "var(--er-cyan)",
                       textDecoration: "none",
                     }}
                   >
-                    jasonm@coaibakersfield.com
+                    chaoticallyorganizedai@gmail.com
                   </a>
                 </div>
 

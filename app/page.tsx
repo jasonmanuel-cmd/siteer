@@ -33,7 +33,7 @@ const jsonLd = {
         "Professional website audit and repair service for local businesses in the Bakersfield, CA area.",
       url: "https://siteer.dev",
       telephone: "+1-661-569-4244",
-      email: "jasonm@coaibakersfield.com",
+      email: "chaoticallyorganizedai@gmail.com",
       areaServed: {
         "@type": "City",
         name: "Bakersfield",

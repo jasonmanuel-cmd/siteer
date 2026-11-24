@@ -504,10 +504,10 @@ export default function QuoteForm({
                     >
                       Something went wrong. Please try again or email{" "}
                       <a
-                        href="mailto:jasonm@coaibakersfield.com"
+                        href="mailto:chaoticallyorganizedai@gmail.com"
                         style={{ color: "var(--er-cyan)" }}
                       >
-                        jasonm@coaibakersfield.com
+                        chaoticallyorganizedai@gmail.com
                       </a>
                       .
                     </div>
