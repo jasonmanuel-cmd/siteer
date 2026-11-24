@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import ScanForm from "@/components/ScanForm";
 
@@ -47,14 +48,6 @@ const jsonLd = {
       "@id": "https://siteer.dev/#website",
       url: "https://siteer.dev",
       name: "SiteER",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: "https://siteer.dev/scan?url={url}",
-        },
-        "query-input": "required name=url",
-      },
     },
     {
       "@type": "FAQPage",
@@ -64,7 +57,7 @@ const jsonLd = {
           name: "What is a SiteER free scan?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "SiteER runs an automated check of your website for common errors including broken links, missing meta tags, slow page speed, mobile issues, and missing contact information.",
+            text: "SiteER manually reviews your public website and emails a summary of the issues worth addressing first.",
           },
         },
         {
@@ -72,7 +65,7 @@ const jsonLd = {
           name: "How long does the free scan take?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "The free scan returns results in about 60 seconds. You'll see a summary of issues immediately with no signup required.",
+            text: "Submit your website and email address. Jason will reply within one business day.",
           },
         },
         {
@@ -133,17 +126,17 @@ const steps = [
   {
     n: "01",
     title: "Enter Your URL",
-    desc: "Type your website address into the scanner. Takes five seconds.",
+    desc: "Enter your website address and tell us where to email you.",
   },
   {
     n: "02",
-    title: "We Scan 20+ Checkpoints",
-    desc: "Our engine checks speed, SEO, mobile, trust signals, contact info, and more — in about 60 seconds.",
+    title: "We Review Your Site",
+    desc: "Jason reviews your public site for common issues with speed, mobile usability, SEO, and contact information.",
   },
   {
     n: "03",
     title: "Get Your ER Report",
-    desc: "See exactly what's wrong, how serious it is, and what to do about it. Free overview or $49 deep-dive.",
+    desc: "See exactly what’s wrong, how serious it is, and what to do about it. Free overview or $49 deep-dive.",
   },
 ];
 
@@ -171,7 +164,7 @@ const testimonials = [
 const faqs = [
   {
     q: "Do I have to pay for the scan?",
-    a: "No. The basic scan is completely free — no credit card, no signup. You get a summary of the top issues on your site. For the full 20-point breakdown with a PDF report and priority fix list, that's the $49 Deep ER Report.",
+    a: "No. The basic scan is completely free — no credit card required. You get a summary of the top issues on your site. For the full 20-point breakdown with a PDF report and priority fix list, that's the $49 Deep ER Report.",
   },
   {
     q: "I'm not tech-savvy. Will I understand the report?",
@@ -221,7 +214,7 @@ export default function HomePage() {
               gap: 24,
             }}
           >
-            <a
+            <Link
               href="/"
               style={{
                 fontSize: 22,
@@ -232,7 +225,7 @@ export default function HomePage() {
               }}
             >
               Site<span style={{ color: "var(--er-red)" }}>ER</span>
-            </a>
+            </Link>
             <div
               style={{
                 display: "flex",
@@ -344,8 +337,8 @@ export default function HomePage() {
             }}
           >
             Most local business websites have 8–14 fixable errors that push
-            customers away every day. Enter your URL below — we'll show you
-            exactly what's broken in under 60 seconds.
+            customers away every day. Enter your URL below and we&apos;ll show you
+            which issues are worth fixing first.
           </p>
 
           {/* Scan form */}
@@ -544,7 +537,7 @@ export default function HomePage() {
               marginBottom: 48,
             }}
           >
-            Start free. Upgrade when you're ready to fix things fast.
+            Start free. Upgrade when you&apos;re ready to fix things fast.
           </p>
           <div
             style={{
@@ -586,11 +579,11 @@ export default function HomePage() {
                 $0
               </div>
               <p style={{ color: "var(--er-muted)", fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
-                Instant overview of your biggest issues. No signup required.
+                A manual review of your biggest website issues, sent by email.
               </p>
               <ul style={{ listStyle: "none", marginBottom: 32 }}>
                 {[
-                  "Automated 20-checkpoint scan",
+                  "Manual review of your public website",
                   "Top 3–5 issues identified",
                   "Speed score",
                   "Mobile-friendly check",
@@ -684,7 +677,7 @@ export default function HomePage() {
                 ))}
               </ul>
               <a
-                href="/get-quote"
+                href="/get-quote?plan=report"
                 style={{
                   display: "block",
                   textAlign: "center",
@@ -776,7 +769,7 @@ export default function HomePage() {
                 ))}
               </ul>
               <a
-                href="/get-quote"
+                href="/get-quote?plan=fixpack"
                 style={{
                   display: "block",
                   textAlign: "center",
@@ -934,8 +927,7 @@ export default function HomePage() {
               lineHeight: 1.6,
             }}
           >
-            Don&apos;t let website errors send them to your competitor. Scan free in 60
-            seconds and find out what&apos;s broken.
+            Request a free review to find out what&apos;s getting in the way.
           </p>
           <a
             href="#diagnosis"
@@ -959,7 +951,7 @@ export default function HomePage() {
               fontSize: 13,
             }}
           >
-            No signup · No credit card · Instant results
+            Manual review by email · No credit card needed
           </p>
         </div>
       </section>

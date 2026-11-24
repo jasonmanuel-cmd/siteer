@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -370,12 +371,9 @@ export default function BlogPost1() {
                     Does Your Site Have These Problems?
                   </h3>
                   <p style={{ marginBottom: 20 }}>
-                    The fastest way to find out is the free SiteER scan. Enter
-                    your URL and we&apos;ll check your site against 20 checkpoints —
-                    including all five mistakes listed above — in about 60
-                    seconds.
+                    Request a free manual review and get next steps by email.
                   </p>
-                  <a
+                  <Link
                     href="/#diagnosis"
                     style={{
                       display: "inline-block",
@@ -389,7 +387,7 @@ export default function BlogPost1() {
                     }}
                   >
                     Scan My Site Free →
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

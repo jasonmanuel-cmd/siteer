@@ -17,7 +17,7 @@ const sections = [
     title: "2. Services Provided",
     content: `SiteER provides website audit, analysis, and optimization services for local businesses, including:
 
-• Free automated website scan (the "Free Scan")
+• Free manual website review (the "Free Scan")
 • Deep ER Report — a full 20-point website audit delivered as a PDF report ($49)
 • Fix Pack — full website implementation of audit recommendations with a 20-point improvement guarantee ($497)
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -25,7 +26,7 @@ const plans = [
     },
     badge: null,
     features: [
-      "Automated 20-checkpoint scan",
+      "Manual review of your public website",
       "Top 3–5 issues identified",
       "Page speed score",
       "Mobile-friendly check",
@@ -46,7 +47,7 @@ const plans = [
     border: "1px solid rgba(110,231,255,.25)",
     accentColor: "var(--er-cyan)",
     cta: "Order the Deep Report",
-    href: "/get-quote",
+    href: "/get-quote?plan=report",
     ctaStyle: {
       background: "rgba(110,231,255,.12)",
       border: "1px solid rgba(110,231,255,.3)",
@@ -72,7 +73,7 @@ const plans = [
     border: "1px solid rgba(255,177,92,.3)",
     accentColor: "var(--er-orange)",
     cta: "Get the Fix Pack →",
-    href: "/get-quote",
+    href: "/get-quote?plan=fixpack",
     ctaStyle: {
       background: "linear-gradient(135deg, #ff4d5e, #ffb15c)",
       color: "#19070a",
@@ -462,7 +463,7 @@ export default function PricingPage() {
                 margin: "0 auto 36px",
               }}
             >
-              Start with the free scan — it takes 60 seconds and costs nothing.
+              Start with a free manual review. Jason will reply by email.
             </p>
             <div
               style={{
@@ -472,7 +473,7 @@ export default function PricingPage() {
                 flexWrap: "wrap",
               }}
             >
-              <a
+              <Link
                 href="/#diagnosis"
                 style={{
                   background: "linear-gradient(135deg, #ff4d5e, #ffb15c)",
@@ -485,7 +486,7 @@ export default function PricingPage() {
                 }}
               >
                 Scan My Site Free
-              </a>
+              </Link>
               <a
                 href="/contact"
                 style={{

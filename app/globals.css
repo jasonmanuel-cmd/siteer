@@ -87,3 +87,14 @@ h6 {
   color: var(--er-text);
   line-height: 1.25;
 }
+@media (max-width: 640px) {
+  .site-navigation { height: auto !important; padding: 14px 0; flex-wrap: wrap; gap: 12px !important; }
+  .site-navigation > a:first-child { flex: 0 0 100px; }
+  .site-navigation > a:last-child { white-space: nowrap; padding: 10px 12px !important; }
+  .site-navigation-links { order: 3; width: 100%; justify-content: space-between; gap: 12px !important; }
+}
+
+.blog-preview:hover, a:focus-visible .blog-preview {
+  border-color: rgba(110,231,255,.3) !important;
+  transform: translateY(-2px);
+}

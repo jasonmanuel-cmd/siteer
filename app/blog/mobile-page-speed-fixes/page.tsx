@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -353,11 +354,9 @@ export default function BlogPost2() {
                     Find Out How Slow Your Site Is
                   </h3>
                   <p style={{ marginBottom: 20 }}>
-                    The free SiteER scan checks your site&apos;s speed along with 19
-                    other checkpoints. See your score in 60 seconds — no signup
-                    required.
+                    Request a free manual review and get next steps by email.
                   </p>
-                  <a
+                  <Link
                     href="/#diagnosis"
                     style={{
                       display: "inline-block",
@@ -371,7 +370,7 @@ export default function BlogPost2() {
                     }}
                   >
                     Scan My Site Free →
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

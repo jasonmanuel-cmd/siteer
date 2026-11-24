@@ -81,6 +81,7 @@ export default function BlogPage() {
                   style={{ textDecoration: "none" }}
                 >
                   <article
+                    className="blog-preview"
                     style={{
                       background: "var(--er-card)",
                       border: "1px solid rgba(255,255,255,.08)",
@@ -88,14 +89,6 @@ export default function BlogPage() {
                       padding: "32px 28px",
                       transition: "border-color 0.15s, transform 0.15s",
                       cursor: "pointer",
-                    }}
-                    onMouseOver={(e) => {
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(110,231,255,.3)";
-                      (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-                    }}
-                    onMouseOut={(e) => {
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,.08)";
-                      (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
                     }}
                   >
                     <div
