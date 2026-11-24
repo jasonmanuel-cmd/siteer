@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: "What exactly is a SiteER scan?",
-    a: "A SiteER scan is an automated check of your website across 20 different checkpoints including page speed, mobile usability, HTTPS security, SEO meta tags, local business schema markup, contact information, call-to-action effectiveness, and more. The free scan gives you a summary of the top issues. The $49 Deep ER Report provides a full scored breakdown with screenshots, explanations, and a priority action plan.",
+    a: "A SiteER free scan is a manual review of your public website. The free scan gives you a summary of the top issues. The $49 Deep ER Report provides a full scored breakdown with screenshots, explanations, and a priority action plan.",
   },
   {
     q: "Who is SiteER for?",
@@ -20,7 +21,7 @@ const faqs = [
   },
   {
     q: "How does the free scan work?",
-    a: "Enter your website URL into the scanner on our homepage. Our system runs checks across speed, SEO, mobile, security, and more in about 60 seconds. You'll see a summary of your top issues right away — no signup, no credit card, no email required.",
+    a: "Enter your website URL on the homepage and submit your contact details. Jason will reply by email within one business day. The review is free and requires no credit card.",
   },
   {
     q: "What does the $49 Deep ER Report include?",
@@ -196,7 +197,7 @@ export default function FAQPage() {
               >
                 Contact Jason
               </a>
-              <a
+              <Link
                 href="/#diagnosis"
                 style={{
                   border: "1px solid rgba(255,255,255,.2)",
@@ -209,7 +210,7 @@ export default function FAQPage() {
                 }}
               >
                 Scan My Site Free
-              </a>
+              </Link>
             </div>
           </div>
         </section>

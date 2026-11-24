@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 
 export default function SiteFooter() {
@@ -22,9 +23,9 @@ export default function SiteFooter() {
           alignItems: "center",
         }}
       >
-        <a href="/" style={{ display: "flex", alignItems: "center" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
           <Image src="/siteer-logo.png" alt="SiteER" width={100} height={28} />
-        </a>
+        </Link>
         <nav style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
           {(
             [

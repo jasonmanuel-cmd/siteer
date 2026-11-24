@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 
 export default function SiteHeader() {
@@ -14,6 +15,7 @@ export default function SiteHeader() {
     >
       <div className="er-container">
         <nav
+          className="site-navigation"
           aria-label="Main navigation"
           style={{
             height: 76,
@@ -23,7 +25,7 @@ export default function SiteHeader() {
             gap: 24,
           }}
         >
-          <a href="/" style={{ display: "flex", alignItems: "center" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center" }}>
             <Image
               src="/siteer-logo.png"
               alt="SiteER"
@@ -31,8 +33,9 @@ export default function SiteHeader() {
               height={40}
               priority
             />
-          </a>
+          </Link>
           <div
+            className="site-navigation-links"
             style={{
               display: "flex",
               gap: 28,
@@ -40,32 +43,32 @@ export default function SiteHeader() {
               fontWeight: 500,
             }}
           >
-            <a
+            <Link
               href="/reports"
               style={{ color: "var(--er-muted)", textDecoration: "none" }}
             >
               Reports
-            </a>
-            <a
+            </Link>
+            <Link
               href="/pricing"
               style={{ color: "var(--er-muted)", textDecoration: "none" }}
             >
               Pricing
-            </a>
-            <a
+            </Link>
+            <Link
               href="/blog"
               style={{ color: "var(--er-muted)", textDecoration: "none" }}
             >
               Blog
-            </a>
-            <a
+            </Link>
+            <Link
               href="/faq"
               style={{ color: "var(--er-muted)", textDecoration: "none" }}
             >
               FAQ
-            </a>
+            </Link>
           </div>
-          <a
+          <Link
             href="/#diagnosis"
             style={{
               background: "linear-gradient(135deg, #ff4d5e, #ffb15c)",
@@ -78,7 +81,7 @@ export default function SiteHeader() {
             }}
           >
             Scan My Site Free
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

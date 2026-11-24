@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -497,7 +498,7 @@ export default function ReportsPage() {
                 flexWrap: "wrap",
               }}
             >
-              <a
+              <Link
                 href="/#diagnosis"
                 style={{
                   background: "linear-gradient(135deg, #ff4d5e, #ffb15c)",
@@ -510,9 +511,9 @@ export default function ReportsPage() {
                 }}
               >
                 Scan My Site Free
-              </a>
+              </Link>
               <a
-                href="/get-quote"
+                href="/get-quote?plan=report"
                 style={{
                   border: "1px solid rgba(110,231,255,.3)",
                   color: "var(--er-cyan)",
