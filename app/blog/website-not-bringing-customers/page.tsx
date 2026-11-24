@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "You have a website. Customers aren't coming. Here's the honest reason why most small business websites fail to generate leads — and what actually changes the outcome.",
   alternates: {
     canonical:
-      "https://siteer.dev/blog/website-not-bringing-customers",
+      "https://www.siteer.dev/blog/website-not-bringing-customers",
   },
 };
 

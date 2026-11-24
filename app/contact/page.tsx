@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Contact – Talk to Jason",
   description:
     "Contact SiteER / COA I Bakersfield. Call (661) 569-4244 or email chaoticallyorganizedai@gmail.com. Free website consultations for Bakersfield area businesses.",
-  alternates: { canonical: "https://siteer.dev/contact" },
+  alternates: { canonical: "https://www.siteer.dev/contact" },
 };
 
 const ContactForm = dynamic(() => import("@/components/ContactForm"), {

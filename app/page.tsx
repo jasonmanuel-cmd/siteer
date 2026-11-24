@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "SiteER – Free Website Audit for Local Businesses in Bakersfield",
   description:
     "Is your website costing you customers? Get a free website ER scan and find out what's broken. Serving Bakersfield, CA area businesses. $49 Deep ER Report or $497 Fix Pack.",
-  alternates: { canonical: "https://siteer.dev/" },
+  alternates: { canonical: "https://www.siteer.dev/" },
 };
 
 const jsonLd = {
@@ -14,10 +14,10 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://siteer.dev/#org",
+      "@id": "https://www.siteer.dev/#org",
       name: "SiteER",
-      url: "https://siteer.dev",
-      logo: "https://siteer.dev/siteer-logo.png",
+      url: "https://www.siteer.dev",
+      logo: "https://www.siteer.dev/siteer-logo.png",
       contactPoint: {
         "@type": "ContactPoint",
         telephone: "+1-661-569-4244",
@@ -27,11 +27,11 @@ const jsonLd = {
     },
     {
       "@type": "ProfessionalService",
-      "@id": "https://siteer.dev/#service",
+      "@id": "https://www.siteer.dev/#service",
       name: "COA I Bakersfield – SiteER Website Audits",
       description:
         "Professional website audit and repair service for local businesses in the Bakersfield, CA area.",
-      url: "https://siteer.dev",
+      url: "https://www.siteer.dev",
       telephone: "+1-661-569-4244",
       email: "chaoticallyorganizedai@gmail.com",
       areaServed: {
@@ -45,46 +45,10 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://siteer.dev/#website",
-      url: "https://siteer.dev",
+      "@id": "https://www.siteer.dev/#website",
+      url: "https://www.siteer.dev",
       name: "SiteER",
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "What is a SiteER free scan?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "SiteER manually reviews your public website and emails a summary of the issues worth addressing first.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How long does the free scan take?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Submit your website and email address. Jason will reply within one business day.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "What is included in the $49 Deep ER Report?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "The Deep ER Report is a full 20-point manual + automated audit. You get a detailed PDF report with prioritized recommendations, SEO analysis, speed analysis, mobile usability, trust signals, and a clear action plan.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "What is the $497 Fix Pack guarantee?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "We guarantee your site will score at least 20 points better on our audit scale after the Fix Pack is complete. If it doesn't, you get a full refund within 14 days.",
-          },
-        },
-      ],
+      publisher: { "@id": "https://www.siteer.dev/#org" },
     },
   ],
 };

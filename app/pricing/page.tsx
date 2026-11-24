@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Pricing – Simple, Transparent Plans",
   description:
     "Free website scan, $49 Deep ER Report, or $497 Fix Pack with a 20-point improvement guarantee. No hidden fees. Serving Bakersfield, CA area businesses.",
-  alternates: { canonical: "https://siteer.dev/pricing" },
+  alternates: { canonical: "https://www.siteer.dev/pricing" },
 };
 
 const plans = [

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "Most local business websites share the same five critical mistakes. Find out what they are and how to fix them to turn your site into a customer-generating machine.",
   alternates: {
     canonical:
-      "https://siteer.dev/blog/local-business-website-mistakes",
+      "https://www.siteer.dev/blog/local-business-website-mistakes",
   },
 };
 

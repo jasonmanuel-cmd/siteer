@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Blog – Website Tips for Local Business Owners",
   description:
     "Practical website advice for local business owners in Bakersfield, CA. Learn what's killing your site traffic, how to fix it, and how to get more calls from Google.",
-  alternates: { canonical: "https://siteer.dev/blog" },
+  alternates: { canonical: "https://www.siteer.dev/blog" },
 };
 
 const posts = [

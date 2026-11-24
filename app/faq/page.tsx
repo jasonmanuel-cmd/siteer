@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "FAQ – Common Questions About SiteER",
   description:
     "Answers to common questions about SiteER website audits. What is the ER Report? How does the scan work? What's covered in the Fix Pack? All answered here.",
-  alternates: { canonical: "https://siteer.dev/faq" },
+  alternates: { canonical: "https://www.siteer.dev/faq" },
 };
 
 const faqs = [
@@ -53,11 +53,26 @@ const faqs = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://www.siteer.dev/faq#questions",
+  mainEntity: faqs.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
+
 export default function FAQPage() {
   return (
     <>
       <SiteHeader />
       <main>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
+        />
         <section
           style={{
             padding: "72px 0 56px",

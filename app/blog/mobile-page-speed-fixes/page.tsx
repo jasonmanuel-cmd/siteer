@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Over 60% of local searches happen on phones. If your site loads slowly on mobile, you're losing customers to Google and to your competitors. Here's how to fix it.",
   alternates: {
-    canonical: "https://siteer.dev/blog/mobile-page-speed-fixes",
+    canonical: "https://www.siteer.dev/blog/mobile-page-speed-fixes",
   },
 };
 
