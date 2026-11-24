@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Sample ER Report – See What a Website Audit Looks Like",
   description:
     "See a real example of a SiteER Deep ER Report. 20-point audit with scored sections, screenshots, and a priority fix roadmap for local businesses.",
-  alternates: { canonical: "https://siteer.dev/reports" },
+  alternates: { canonical: "https://www.siteer.dev/reports" },
 };
 
 const auditSections = [

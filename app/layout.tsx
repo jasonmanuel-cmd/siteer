@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
   description:
     "Get a free website error report. Find out why your site isn't bringing in customers. $49 Deep ER Report or $497 Fix Pack for Bakersfield area businesses.",
-  metadataBase: new URL("https://siteer.dev"),
+  metadataBase: new URL("https://www.siteer.dev"),
 };
 
 export default function RootLayout({

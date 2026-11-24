@@ -5,7 +5,7 @@ import SiteFooter from "@/components/SiteFooter";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "SiteER Privacy Policy. How we collect, use, and protect your information.",
-  alternates: { canonical: "https://siteer.dev/privacy" },
+  alternates: { canonical: "https://www.siteer.dev/privacy" },
 };
 
 const sections = [

@@ -14,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/scan/", "/business-overview/", "/api/"],
       },
     ],
-    sitemap: "https://siteer.dev/sitemap.xml",
+    sitemap: "https://www.siteer.dev/sitemap.xml",
   };
 }

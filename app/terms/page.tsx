@@ -5,7 +5,7 @@ import SiteFooter from "@/components/SiteFooter";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "SiteER Terms of Service. Last updated May 1, 2026.",
-  alternates: { canonical: "https://siteer.dev/terms" },
+  alternates: { canonical: "https://www.siteer.dev/terms" },
 };
 
 const sections = [
