@@ -49,7 +49,7 @@ export async function POST(request: Request) {
   try {
     const { data, error } = await new Resend(apiKey).emails.send({
       from: process.env.SITEER_EMAIL_FROM?.trim() || "SiteER <noreply@callharbison.com>",
-      to: ["jasonm@coaibakersfield.com"],
+      to: ["chaoticallyorganizedai@gmail.com"],
       replyTo: email,
       subject,
       text,
