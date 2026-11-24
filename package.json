@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
+    "@vercel/analytics": "^2.0.1",
     "next": "15.5.29",
     "next-sitemap": "^4.2.3",
     "react": "^18",
